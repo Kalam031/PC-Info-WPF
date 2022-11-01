@@ -1,0 +1,180 @@
+﻿<UserControl x:Class="SidePanel_Navigation.Views.OperatingsystemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SidePanel_Navigation.Views"
+             xmlns:operatingsystem="clr-namespace:SidePanel_Navigation.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <operatingsystem:OsViewModel/>
+    </UserControl.DataContext>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Text="{Binding OperatingSystem}"
+                   FontSize="12"
+                   Margin="20,10,0,0"
+                   Foreground="{StaticResource titleColor2}"/>
+            <TextBlock Text="{Binding OperatingSystemVersion, StringFormat='Version:  {0}'}"
+                   Style="{StaticResource pcInfoTextBlock}"
+                   Foreground="{StaticResource titleColor2}"/>
+
+            <TextBlock Text="{Binding OperatingSystemBuild, StringFormat='Build:  {0}'}"
+                   Style="{StaticResource pcInfoTextBlock}"
+                   Foreground="{StaticResource titleColor2}"/>
+
+            <TextBlock Text="{Binding OperatingSystemInstallDate, StringFormat='Installation Date:  {0}'}"
+                   Style="{StaticResource pcInfoTextBlock}"
+                   Foreground="{StaticResource titleColor2}"/>
+
+            <TextBlock Text="{Binding OperatingSystemSerial, StringFormat='Product ID:  {0}'}"
+                   Style="{StaticResource pcInfoTextBlock}"
+                   Foreground="{StaticResource titleColor2}"/>
+
+            <Expander Header="Time Zone"
+                  IsExpanded="True"
+                  Style="{StaticResource pcInfoExpander}"
+                  Foreground="{StaticResource titleColor3}">
+                <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
+                    <Grid Margin="25,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="200"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Language"
+                                   Grid.Column="0"
+                                   Grid.Row="0"/>
+                        
+                        <TextBlock Text="{Binding OperatingSystemLanguage}"
+                                   Grid.Column="1"
+                                   Grid.Row="0"/>
+
+                        <TextBlock Text="Location"
+                                   Grid.Column="0"
+                                   Grid.Row="1"/>
+
+                        <TextBlock Text="{Binding OperatingSystemLocation}"
+                                   Grid.Column="1"
+                                   Grid.Row="1"/>
+
+                        <TextBlock Text="Time Zone"
+                                   Grid.Column="0"
+                                   Grid.Row="2"/>
+
+                        <TextBlock Text="{Binding OperatingSystemTimeZone}"
+                                   Grid.Column="1"
+                                   Grid.Row="2"/>
+
+                        <TextBlock Text="Date Format"
+                                   Grid.Column="0"
+                                   Grid.Row="3"/>
+
+                        <TextBlock Text="{Binding OperatingSystemDateFormat}"
+                                   Grid.Column="1"
+                                   Grid.Row="3"/>
+
+                        <TextBlock Text="Time Format"
+                                   Grid.Column="0"
+                                   Grid.Row="4"/>
+                        
+                        <TextBlock Text="{Binding OperatingSystemTimeFormat}"
+                                   Grid.Column="1"
+                                   Grid.Row="4"/>
+                        
+                    </Grid>
+                </StackPanel>
+            </Expander>
+
+            <Expander Header="Antivirus"
+                  IsExpanded="True"
+                  Style="{StaticResource pcInfoExpander}"
+                  Foreground="{StaticResource titleColor3}">
+                <StackPanel>
+                    <Grid Margin="25,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="200"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Display Name"
+                                   Grid.Column="0"
+                                   Grid.Row="0"/>
+
+                        <TextBlock Text="{Binding OperatingSystemAntivirus}"
+                                   Grid.Column="1"
+                                   Grid.Row="0"/>
+
+                    </Grid>
+
+                </StackPanel>
+            </Expander>
+
+            <Expander Header="Uptime"
+                  IsExpanded="True"
+                  Style="{StaticResource pcInfoExpander}"
+                  Foreground="{StaticResource titleColor3}">
+                <StackPanel>
+                    <Grid x:Name="uptimeGrid" Margin="25,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="200"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Current Time"
+                                   Grid.Column="0"
+                                   Grid.Row="0"/>
+
+                        <TextBlock x:Name="osCurrentTime"
+                                   Grid.Column="1"
+                                   Grid.Row="0"/>
+
+                        <TextBlock Text="Current Uptime"
+                                   Grid.Column="0"
+                                   Grid.Row="1"/>
+
+                        <TextBlock x:Name="osCurrentUptime"
+                                   Grid.Column="1"
+                                   Grid.Row="1"/>
+
+                        <TextBlock Text="Last Boot Time"
+                                   Grid.Column="0"
+                                   Grid.Row="2"/>
+
+                        <TextBlock Text="{Binding OperatingSystemLastBootTime}"
+                                   Grid.Column="1"
+                                   Grid.Row="2"/>
+
+                    </Grid>
+                </StackPanel>
+            </Expander>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>
