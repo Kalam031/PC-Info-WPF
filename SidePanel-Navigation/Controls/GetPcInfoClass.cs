@@ -104,7 +104,7 @@ namespace SidePanel_Navigation.Controls
                             PcInfoViewModel.OperatingSystemTimeFormat = sysTimeFormat;
                             PcInfoViewModel.OperatingSystemLocation = localtimeZone.Id.Split(' ')[0];
 
-                            using (mos = new ManagementObjectSearcher(@"\\" + Environment.MachineName + @"\root\SecurityCenter2","SELECT * FROM AntivirusProduct"))
+                            using (mos = new ManagementObjectSearcher(@"\\" + Environment.MachineName + @"\root\SecurityCenter2", "SELECT * FROM AntivirusProduct"))
                             {
                                 var searcherInstance = mos.Get();
                                 foreach (var instance in searcherInstance)
@@ -134,7 +134,45 @@ namespace SidePanel_Navigation.Controls
                             LogClass.LogWrite($"{exp.StackTrace}");
                             LogClass.LogWrite($"========== Get Operating System Name Exception ==========");
                         }
+                    }
+                    PcInfoViewModel.InternetExplorer = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Internet Explorer").GetValue("Version").ToString();
 
+                    PcInfoViewModel.PowerShell = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\PowerShell\3\PowerShellEngine").GetValue("PowerShellVersion").ToString();
+
+                    PcInfoViewModel.UserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                    PcInfoViewModel.SystemProfile = Environment.ExpandEnvironmentVariables("%windir%");
+
+                    //CPU
+
+                    mos = new ManagementObjectSearcher("select * from Win32_Processor");
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        try
+                        {
+                            if (wmi["Name"] != null)
+                            {
+                                PcInfoViewModel.CpuModel = wmi["Name"].ToString();
+                            }
+
+                            if (wmi["ProcessorID"] != null)
+                            {
+                                PcInfoViewModel.CpuId = wmi["ProcessorID"].ToString();
+                            }
+
+                            if (wmi["Manufacturer"] != null)
+                            {
+                                PcInfoViewModel.CpuManufacturer = wmi["Manufacturer"].ToString();
+                            }
+                        }
+                        catch (Exception exp)
+                        {
+                            Console.WriteLine(exp.Message);
+                            Console.WriteLine(exp.StackTrace);
+                            LogClass.LogWrite($"========== Get CPU Exception ==========");
+                            LogClass.LogWrite($"{exp.Message}");
+                            LogClass.LogWrite($"{exp.StackTrace}");
+                            LogClass.LogWrite($"========== Get CPU Exception ==========");
+                        }
                     }
                 }
                 catch (Exception ex)

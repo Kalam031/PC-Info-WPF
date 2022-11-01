@@ -6,18 +6,20 @@
              xmlns:local="clr-namespace:SidePanel_Navigation.Views"
              xmlns:operatingsystem="clr-namespace:SidePanel_Navigation.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="auto" Height="auto">
 
     <UserControl.DataContext>
         <operatingsystem:OsViewModel/>
     </UserControl.DataContext>
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                  VerticalScrollBarVisibility="Auto">
+                  VerticalScrollBarVisibility="Auto"
+                  >
         <StackPanel>
             <TextBlock Text="{Binding OperatingSystem}"
                    FontSize="12"
-                   Margin="20,10,0,0"
+                   Margin="20,10,0,15"
                    Foreground="{StaticResource titleColor2}"/>
             <TextBlock Text="{Binding OperatingSystemVersion, StringFormat='Version:  {0}'}"
                    Style="{StaticResource pcInfoTextBlock}"
@@ -34,6 +36,93 @@
             <TextBlock Text="{Binding OperatingSystemSerial, StringFormat='Product ID:  {0}'}"
                    Style="{StaticResource pcInfoTextBlock}"
                    Foreground="{StaticResource titleColor2}"/>
+
+            <Expander Header="Internet Explorer"
+                  IsExpanded="True"
+                  Style="{StaticResource pcInfoExpander}"
+                  Foreground="{StaticResource titleColor3}">
+                <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
+                    <Grid Margin="25,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Version"
+                                   Grid.Column="0"
+                                   Grid.Row="0"/>
+
+                        <TextBlock Text="{Binding InternetExplorer}"
+                                   Grid.Column="1"
+                                   Grid.Row="0"/>
+                    </Grid>
+                </StackPanel>
+            </Expander>
+
+            <Expander Header="Powershell"
+                  IsExpanded="True"
+                  Style="{StaticResource pcInfoExpander}"
+                  Foreground="{StaticResource titleColor3}">
+                <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
+                    <Grid Margin="25,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Version"
+                                   Grid.Column="0"
+                                   Grid.Row="0"/>
+
+                        <TextBlock Text="{Binding PowerShell}"
+                                   Grid.Column="1"
+                                   Grid.Row="0"/>
+                    </Grid>
+                </StackPanel>
+            </Expander>
+
+            <Expander Header="Environment Variables"
+                  IsExpanded="True"
+                  Style="{StaticResource pcInfoExpander}"
+                  Foreground="{StaticResource titleColor3}">
+                <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
+                    <Grid Margin="25,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="User Profile"
+                                   Grid.Column="0"
+                                   Grid.Row="0"/>
+
+                        <TextBlock Text="{Binding UserProfile}"
+                                   Grid.Column="1"
+                                   Grid.Row="0"/>
+
+                        <TextBlock Text="System Root"
+                                   Grid.Column="0"
+                                   Grid.Row="1"/>
+
+                        <TextBlock Text="{Binding SystemProfile}"
+                                   Grid.Column="1"
+                                   Grid.Row="1"/>
+                    </Grid>
+                </StackPanel>
+            </Expander>
 
             <Expander Header="Time Zone"
                   IsExpanded="True"

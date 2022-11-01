@@ -23,6 +23,10 @@ namespace SidePanel_Navigation.ViewModels
         string _operatingSystemLocation;
         string _operatingSystemAntivirus;
         string _operatingSystemLastBootTime;
+        string _internetExplorer;
+        string _powerShell;
+        string _userProfile;
+        string _systemProfile;
 
         public string OperatingSystem
         {
@@ -143,5 +147,46 @@ namespace SidePanel_Navigation.ViewModels
                 OnPropertyChanged(nameof(OperatingSystemLastBootTime));
             }
         }
+
+        public string InternetExplorer
+        {
+            get => PcInfoViewModel.InternetExplorer;
+            set
+            {
+                _internetExplorer = value;
+                OnPropertyChanged(nameof(InternetExplorer));
+            }
+        }
+
+        public string PowerShell
+        { 
+            get => PcInfoViewModel.PowerShell;
+            set
+            {
+                _powerShell = value;
+                OnPropertyChanged(nameof(PowerShell));
+            }
+        }
+
+        public string UserProfile
+        {
+            get => PcInfoViewModel.UserProfile;
+            set
+            {
+                _userProfile = value;
+                OnPropertyChanged(nameof(UserProfile));
+            }
+        }
+
+        public string SystemProfile
+        {
+            get => _systemProfile;
+            set
+            {
+                _systemProfile = value;
+                OnPropertyChanged(nameof(SystemProfile));
+            }
+        }
+
     }
 }

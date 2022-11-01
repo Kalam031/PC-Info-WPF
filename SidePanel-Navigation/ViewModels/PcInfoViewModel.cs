@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace SidePanel_Navigation.ViewModels
 {
     public class PcInfoViewModel : ViewModelBase
     {
+        //Operating System
+
         static string operatingSystemName;
         static string operatingSystemInstallDate;
         static string operatingSystemLanguage;
@@ -22,6 +25,17 @@ namespace SidePanel_Navigation.ViewModels
         static string operatingSystemCurrentUptime;
         static string operatingSystemCurrentTime;
         static string operatingSystemLastBootTime;
+        static string internetExplorer;
+        static string powerShell;
+        static string userProfile;
+        static string systemProfile;
+
+        //CPU
+
+        static string cpuModel;
+        static string cpuId;
+        static string cpuManufacturer;
+
 
         //static string computerType;
         //static string installationDate;
@@ -59,6 +73,10 @@ namespace SidePanel_Navigation.ViewModels
 
         //static string hardDiskManufacturer;
 
+        public static string CpuModel { get => cpuModel; set => cpuModel = value; }
+        public static string CpuId { get => cpuId; set => cpuId = value; }
+        public static string CpuManufacturer { get => cpuManufacturer; set => cpuManufacturer = value; }
+
         public static string OperatingSystemName { get => operatingSystemName; set => operatingSystemName = value; }
         public static string OperatingSystemInstallDate { get => operatingSystemInstallDate; set => operatingSystemInstallDate = value; }
         public static string OperatingSystemLanguage { get => operatingSystemLanguage; set => operatingSystemLanguage = value; }
@@ -73,5 +91,9 @@ namespace SidePanel_Navigation.ViewModels
         public static string OperatingSystemCurrentUptime { get => operatingSystemCurrentUptime; set => operatingSystemCurrentUptime = value; }
         public static string OperatingSystemCurrentTime { get => operatingSystemCurrentTime; set => operatingSystemCurrentTime = value; }
         public static string OperatingSystemLastBootTime { get => operatingSystemLastBootTime; set => operatingSystemLastBootTime = value; }
+        public static string InternetExplorer { get => internetExplorer; set => internetExplorer = value; }
+        public static string PowerShell { get => powerShell; set => powerShell = value; }
+        public static string UserProfile { get => userProfile; set => userProfile = value; }
+        public static string SystemProfile { get => systemProfile; set => systemProfile = value; }
     }
 }

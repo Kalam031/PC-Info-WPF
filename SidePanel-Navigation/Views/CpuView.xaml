@@ -4,11 +4,93 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SidePanel_Navigation.Views"
+             xmlns:cpu="clr-namespace:SidePanel_Navigation.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="CPU View" Foreground="White"/>
-    </Grid>
-    
+    <UserControl.DataContext>
+        <cpu:CpuViewModel/>
+    </UserControl.DataContext>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Text="{Binding CpuModel}"
+                   FontSize="12"
+                   Margin="20,10,0,15"
+                   Foreground="{StaticResource titleColor2}"/>
+            <TextBlock Text="{Binding CpuId, StringFormat='Id:  {0}'}"
+                   Style="{StaticResource pcInfoTextBlock}"
+                   Foreground="{StaticResource titleColor2}"/>
+            <TextBlock Text="{Binding CpuManufacturer, StringFormat='Manufacturer:  {0}'}"
+                   Style="{StaticResource pcInfoTextBlock}"
+                   Foreground="{StaticResource titleColor2}"/>
+
+            <Expander Header="CPU Features"
+                  IsExpanded="True"
+                  Style="{StaticResource pcInfoExpander}"
+                  Foreground="{StaticResource titleColor3}">
+                <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
+                    <Grid Margin="25,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="200"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Core"
+                                   Grid.Column="0"
+                                   Grid.Row="0"/>
+
+                        <TextBlock Text="{Binding OperatingSystemLanguage}"
+                                   Grid.Column="1"
+                                   Grid.Row="0"/>
+
+                        <TextBlock Text="Location"
+                                   Grid.Column="0"
+                                   Grid.Row="1"/>
+
+                        <TextBlock Text="{Binding OperatingSystemLocation}"
+                                   Grid.Column="1"
+                                   Grid.Row="1"/>
+
+                        <TextBlock Text="Time Zone"
+                                   Grid.Column="0"
+                                   Grid.Row="2"/>
+
+                        <TextBlock Text="{Binding OperatingSystemTimeZone}"
+                                   Grid.Column="1"
+                                   Grid.Row="2"/>
+
+                        <TextBlock Text="Date Format"
+                                   Grid.Column="0"
+                                   Grid.Row="3"/>
+
+                        <TextBlock Text="{Binding OperatingSystemDateFormat}"
+                                   Grid.Column="1"
+                                   Grid.Row="3"/>
+
+                        <TextBlock Text="Time Format"
+                                   Grid.Column="0"
+                                   Grid.Row="4"/>
+
+                        <TextBlock Text="{Binding OperatingSystemTimeFormat}"
+                                   Grid.Column="1"
+                                   Grid.Row="4"/>
+
+                    </Grid>
+                </StackPanel>
+            </Expander>
+            
+        </StackPanel>
+    </ScrollViewer>
+
 </UserControl>
