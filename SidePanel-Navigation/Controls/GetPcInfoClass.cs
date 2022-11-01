@@ -140,7 +140,7 @@ namespace SidePanel_Navigation.Controls
                     PcInfoViewModel.PowerShell = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\PowerShell\3\PowerShellEngine").GetValue("PowerShellVersion").ToString();
 
                     PcInfoViewModel.UserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                    PcInfoViewModel.SystemProfile = Environment.ExpandEnvironmentVariables("%windir%");
+                    PcInfoViewModel.SystemProfile = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 
                     //CPU
 

@@ -180,7 +180,7 @@ namespace SidePanel_Navigation.ViewModels
 
         public string SystemProfile
         {
-            get => _systemProfile;
+            get => PcInfoViewModel.SystemProfile;
             set
             {
                 _systemProfile = value;

@@ -372,12 +372,11 @@
                                        VerticalAlignment="Center"/>
                         </StackPanel>
 
-                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
-                                  Grid.Row="1">
+                        <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                  Grid.Row="1">-->
                             <ContentControl Content="{Binding CurrentChildView}"
-                                    Grid.Row="1"
-                                    Margin="20,0,25,15"/>
-                        </ScrollViewer>
+                                    Grid.Row="1"/>
+                        <!--</ScrollViewer>-->
                         
                     </Grid>
                 </Border>
