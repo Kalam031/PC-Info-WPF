@@ -31,10 +31,26 @@ namespace SidePanel_Navigation.ViewModels
         static string systemProfile;
 
         //CPU
-
-        static string cpuModel;
         static string cpuId;
         static string cpuManufacturer;
+        static string cpuName;
+        static string cpuCore;
+        static string cpuThread;
+        static string cpuFamily;
+        static string cpuModel;
+        static string cpuStepping;
+        static string cpuArchitecture;
+        static string cpuVersion;
+        static string cpuAddressWidth;
+        static string cpuSocketDesignation;
+        static string cpuStatus;
+        static string cpuType;
+        static string cpuMaxClockSpeed;
+        static string cpuBusSpeed;
+        static string cpuPowerManagementSupport;
+        static string cpuL1CacheSize;
+        static string cpuL2CacheSize;
+        static string cpuL3CacheSize;
 
 
         //static string computerType;
@@ -73,10 +89,7 @@ namespace SidePanel_Navigation.ViewModels
 
         //static string hardDiskManufacturer;
 
-        public static string CpuModel { get => cpuModel; set => cpuModel = value; }
-        public static string CpuId { get => cpuId; set => cpuId = value; }
-        public static string CpuManufacturer { get => cpuManufacturer; set => cpuManufacturer = value; }
-
+        //Operating System
         public static string OperatingSystemName { get => operatingSystemName; set => operatingSystemName = value; }
         public static string OperatingSystemInstallDate { get => operatingSystemInstallDate; set => operatingSystemInstallDate = value; }
         public static string OperatingSystemLanguage { get => operatingSystemLanguage; set => operatingSystemLanguage = value; }
@@ -95,5 +108,27 @@ namespace SidePanel_Navigation.ViewModels
         public static string PowerShell { get => powerShell; set => powerShell = value; }
         public static string UserProfile { get => userProfile; set => userProfile = value; }
         public static string SystemProfile { get => systemProfile; set => systemProfile = value; }
+
+        //CPU
+        public static string CpuId { get => cpuId; set => cpuId = value; }
+        public static string CpuManufacturer { get => cpuManufacturer; set => cpuManufacturer = value; }
+        public static string CpuName { get => cpuName; set => cpuName = value; }
+        public static string CpuCore { get => cpuCore; set => cpuCore = value; }
+        public static string CpuThread { get => cpuThread; set => cpuThread = value; }
+        public static string CpuFamily { get => cpuFamily; set => cpuFamily = value; }
+        public static string CpuModel { get => cpuModel; set => cpuModel = value; }
+        public static string CpuStepping { get => cpuStepping; set => cpuStepping = value; }
+        public static string CpuArchitecture { get => cpuArchitecture; set => cpuArchitecture = value; }
+        public static string CpuVersion { get => cpuVersion; set => cpuVersion = value; }
+        public static string CpuAddressWidth { get => cpuAddressWidth; set => cpuAddressWidth = value; }
+        public static string CpuSocketDesignation { get => cpuSocketDesignation; set => cpuSocketDesignation = value; }
+        public static string CpuStatus { get => cpuStatus; set => cpuStatus = value; }
+        public static string CpuType { get => cpuType; set => cpuType = value; }
+        public static string CpuMaxClockSpeed { get => cpuMaxClockSpeed; set => cpuMaxClockSpeed = value; }
+        public static string CpuPowerManagementSupport { get => cpuPowerManagementSupport; set => cpuPowerManagementSupport = value; }
+        public static string CpuBusSpeed { get => cpuBusSpeed; set => cpuBusSpeed = value; }
+        public static string CpuL2CacheSize { get => cpuL2CacheSize; set => cpuL2CacheSize = value; }
+        public static string CpuL3CacheSize { get => cpuL3CacheSize; set => cpuL3CacheSize = value; }
+        public static string CpuL1CacheSize { get => cpuL1CacheSize; set => cpuL1CacheSize = value; }
     }
 }

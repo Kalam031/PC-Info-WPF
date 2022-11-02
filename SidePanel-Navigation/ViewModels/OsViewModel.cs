@@ -187,6 +187,5 @@ namespace SidePanel_Navigation.ViewModels
                 OnPropertyChanged(nameof(SystemProfile));
             }
         }
-
     }
 }

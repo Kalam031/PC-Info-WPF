@@ -48,8 +48,8 @@
                 <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
                     <Grid Margin="25,5,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
@@ -74,8 +74,8 @@
                 <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
                     <Grid Margin="25,5,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
@@ -97,11 +97,12 @@
                   IsExpanded="True"
                   Style="{StaticResource pcInfoExpander}"
                   Foreground="{StaticResource titleColor3}">
+                
                 <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
                     <Grid Margin="25,5,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
@@ -125,7 +126,31 @@
                                    Grid.Column="1"
                                    Grid.Row="1"/>
                     </Grid>
+                    
+                    <!--<Expander Header="User Variables"
+                              IsExpanded="True"
+                              Style="{StaticResource pcInfoExpander}"
+                              Foreground="{StaticResource titleColor3}">
+                        <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
+                            <Grid Margin="25,5,0,0"
+                                  Width="200"
+                                  Height="50"
+                                  ShowGridLines="True">
+                                <DataGrid HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          AutoGenerateColumns="False"
+                                          ItemsSource="{Binding UserEnvVariable}">
+                                    <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Key" Width="auto" Binding="{Binding Key}" />
+                                    <DataGridTextColumn Header="Value" Width="auto" Binding="{Binding Value}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </StackPanel>
+                    </Expander>-->
+                    
                 </StackPanel>
+                
             </Expander>
 
             <Expander Header="Time Zone"
@@ -135,8 +160,8 @@
                 <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
                     <Grid Margin="25,5,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="150"/>
 
                         </Grid.ColumnDefinitions>
 
@@ -196,12 +221,11 @@
                   IsExpanded="True"
                   Style="{StaticResource pcInfoExpander}"
                   Foreground="{StaticResource titleColor3}">
-                <StackPanel>
+                <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
                     <Grid Margin="25,5,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="200"/>
-
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="150"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>

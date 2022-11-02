@@ -50,6 +50,8 @@
     <Reference Include="System.Data">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Management">
       <Private>True</Private>
     </Reference>
@@ -95,6 +97,7 @@
     </ApplicationDefinition>
     <Compile Include="Controls\GetPcInfoClass.cs" />
     <Compile Include="Log\LogClass.cs" />
+    <Compile Include="Models\EnvironmentVariableItem.cs" />
     <Compile Include="ViewModels\AudioViewModel.cs" />
     <Compile Include="ViewModels\CpuViewModel.cs" />
     <Compile Include="ViewModels\GraphicsViewModel.cs" />
@@ -290,7 +293,15 @@
     <Resource Include="Images\audio.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
+    <COMReference Include="TaskScheduler">
+      <Guid>{E34CB9F1-C7F7-424C-BE29-027DCC09363A}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Controls\OSversion dll\OSVersionExt.dll" />

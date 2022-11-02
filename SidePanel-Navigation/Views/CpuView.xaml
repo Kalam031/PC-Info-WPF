@@ -15,7 +15,7 @@
     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Auto">
         <StackPanel>
-            <TextBlock Text="{Binding CpuModel}"
+            <TextBlock Text="{Binding CpuName}"
                    FontSize="12"
                    Margin="20,10,0,15"
                    Foreground="{StaticResource titleColor2}"/>
@@ -30,11 +30,16 @@
                   IsExpanded="True"
                   Style="{StaticResource pcInfoExpander}"
                   Foreground="{StaticResource titleColor3}">
-                <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
+                
+                <StackPanel Width="auto"
+                            Height="auto"
+                            HorizontalAlignment="Left">
+                    
                     <Grid Margin="25,5,0,0">
+                        
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="100"/>
 
                         </Grid.ColumnDefinitions>
 
@@ -44,53 +49,160 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Core"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
-                        <TextBlock Text="{Binding OperatingSystemLanguage}"
+                        <TextBlock Text="{Binding CpuCore}"
                                    Grid.Column="1"
                                    Grid.Row="0"/>
 
-                        <TextBlock Text="Location"
+                        <TextBlock Text="Thread"
                                    Grid.Column="0"
                                    Grid.Row="1"/>
 
-                        <TextBlock Text="{Binding OperatingSystemLocation}"
+                        <TextBlock Text="{Binding CpuThread}"
                                    Grid.Column="1"
                                    Grid.Row="1"/>
 
-                        <TextBlock Text="Time Zone"
+                        <TextBlock Text="Family"
                                    Grid.Column="0"
                                    Grid.Row="2"/>
 
-                        <TextBlock Text="{Binding OperatingSystemTimeZone}"
+                        <TextBlock Text="{Binding CpuFamily}"
                                    Grid.Column="1"
                                    Grid.Row="2"/>
 
-                        <TextBlock Text="Date Format"
+                        <TextBlock Text="Stepping"
                                    Grid.Column="0"
                                    Grid.Row="3"/>
 
-                        <TextBlock Text="{Binding OperatingSystemDateFormat}"
+                        <TextBlock Text="{Binding CpuStepping}"
                                    Grid.Column="1"
                                    Grid.Row="3"/>
 
-                        <TextBlock Text="Time Format"
+                        <TextBlock Text="Architecture"
                                    Grid.Column="0"
                                    Grid.Row="4"/>
 
-                        <TextBlock Text="{Binding OperatingSystemTimeFormat}"
+                        <TextBlock Text="{Binding CpuArchitecture}"
                                    Grid.Column="1"
                                    Grid.Row="4"/>
+
+                        <TextBlock Text="Address Width"
+                                   Grid.Column="0"
+                                   Grid.Row="5"/>
+
+                        <TextBlock Text="{Binding CpuAddressWidth}"
+                                   Grid.Column="1"
+                                   Grid.Row="5"/>
+
+                        <TextBlock Text="Socket Designation"
+                                   Grid.Column="0"
+                                   Grid.Row="6"/>
+
+                        <TextBlock Text="{Binding CpuSocketDesignation}"
+                                   Grid.Column="1"
+                                   Grid.Row="6"/>
+
+                        <TextBlock Text="Status"
+                                   Grid.Column="0"
+                                   Grid.Row="7"/>
+
+                        <TextBlock Text="{Binding CpuStatus}"
+                                   Grid.Column="1"
+                                   Grid.Row="7"/>
+
+                        <TextBlock Text="Max Clock Speed"
+                                   Grid.Column="0"
+                                   Grid.Row="8"/>
+
+                        <TextBlock Text="{Binding CpuMaxClockSpeed}"
+                                   Grid.Column="1"
+                                   Grid.Row="8"/>
+
+                        <TextBlock Text="Stock Bus Speed"
+                                   Grid.Column="0"
+                                   Grid.Row="9"/>
+
+                        <TextBlock Text="{Binding CpuBusSpeed}"
+                                   Grid.Column="1"
+                                   Grid.Row="9"/>
+
+                        <TextBlock Text="Power Management Support"
+                                   Grid.Column="0"
+                                   Grid.Row="10"/>
+
+                        <TextBlock Text="{Binding CpuPowerManagementSupport}"
+                                   Grid.Column="1"
+                                   Grid.Row="10"/>
 
                     </Grid>
+
+                    <Expander Header="Caches"
+                              IsExpanded="True"
+                              Margin="25,0,0,0"
+                              Foreground="{StaticResource titleColor3}">
+                        <StackPanel Width="auto" Height="auto"
+                                    HorizontalAlignment="Left">
+                            
+                            <Grid Margin="25,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="L1 Cache Size"
+                                   Grid.Column="0"
+                                   Grid.Row="0"/>
+
+                                <TextBlock Text="{Binding CpuL1CacheSize}"
+                                   Grid.Column="1"
+                                   Grid.Row="0"/>
+
+                                <TextBlock Text="L2 Cache Size"
+                                   Grid.Column="0"
+                                   Grid.Row="1"/>
+
+                                <TextBlock Text="{Binding CpuL2CacheSize}"
+                                   Grid.Column="1"
+                                   Grid.Row="1"/>
+
+                                <TextBlock Text="L3 Cache Size"
+                                   Grid.Column="0"
+                                   Grid.Row="2"/>
+
+                                <TextBlock Text="{Binding CpuL3CacheSize}"
+                                   Grid.Column="1"
+                                   Grid.Row="2"/>
+
+                            </Grid>
+                            
+                        </StackPanel>
+                        
+                    </Expander>
+                    
                 </StackPanel>
+                
             </Expander>
             
         </StackPanel>
+        
     </ScrollViewer>
 
 </UserControl>

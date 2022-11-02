@@ -1,4 +1,5 @@
-﻿using SidePanel_Navigation.ViewModels;
+﻿using Microsoft.Win32;
+using SidePanel_Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using SidePanel_Navigation.Models;
+using System.Windows.Forms;
+using Binding = System.Windows.Data.Binding;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace SidePanel_Navigation.Views
 {
