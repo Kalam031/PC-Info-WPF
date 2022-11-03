@@ -28,6 +28,8 @@ namespace SidePanel_Navigation.ViewModels
         string _cpuL1CacheSize;
         string _cpuL2CacheSize;
         string _cpuL3CacheSize;
+        string _cpuUsed;
+        string _cpuUnused;
 
         public string CpuModel
         {
@@ -226,6 +228,26 @@ namespace SidePanel_Navigation.ViewModels
             {
                 _cpuL1CacheSize = value;
                 OnPropertyChanged(nameof(CpuL1CacheSize));
+            }
+        }
+
+        public string CpuUsed
+        {
+            get => _cpuUsed;
+            set
+            {
+                _cpuUsed = value;
+                OnPropertyChanged(nameof(CpuUsed));
+            }
+        }
+
+        public string CpuUnused
+        {
+            get => _cpuUnused;
+            set
+            {
+                _cpuUnused = value;
+                OnPropertyChanged(nameof(CpuUnused));
             }
         }
     }
