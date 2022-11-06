@@ -3,7 +3,8 @@
     
     <!--TextBlock Style-->
     <Style x:Key="pcInfoTextBlock" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource self}}"/>
+        <!--<Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource self}}"/>-->
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="Montserrat"/>
         <!--<Setter Property="FontWeight" Value="Medium"/>-->
         <Setter Property="FontSize" Value="12"/>

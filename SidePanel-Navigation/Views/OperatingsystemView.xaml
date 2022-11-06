@@ -26,20 +26,16 @@
                    Margin="20,10,0,15"
                    Foreground="{StaticResource titleColor2}"/>
             <TextBlock Text="{Binding OperatingSystemVersion, StringFormat='Version:  {0}'}"
-                   Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"/>
+                   Style="{StaticResource pcInfoTextBlock}"/>
 
             <TextBlock Text="{Binding OperatingSystemBuild, StringFormat='Build:  {0}'}"
-                   Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"/>
+                   Style="{StaticResource pcInfoTextBlock}"/>
 
             <TextBlock Text="{Binding OperatingSystemInstallDate, StringFormat='Installation Date:  {0}'}"
-                   Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"/>
+                   Style="{StaticResource pcInfoTextBlock}"/>
 
             <TextBlock Text="{Binding OperatingSystemSerial, StringFormat='Product ID:  {0}'}"
-                   Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"/>
+                   Style="{StaticResource pcInfoTextBlock}"/>
 
             <Expander Header="Internet Explorer"
                   IsExpanded="True"
@@ -62,7 +58,8 @@
 
                         <TextBlock Text="{Binding InternetExplorer}"
                                    Grid.Column="1"
-                                   Grid.Row="0"/>
+                                   Grid.Row="0"
+                                   Foreground="White"/>
                     </Grid>
                 </StackPanel>
             </Expander>
@@ -88,7 +85,8 @@
 
                         <TextBlock Text="{Binding PowerShell}"
                                    Grid.Column="1"
-                                   Grid.Row="0"/>
+                                   Grid.Row="0"
+                                   Foreground="White"/>
                     </Grid>
                 </StackPanel>
             </Expander>

@@ -207,6 +207,7 @@
                         <!--Menu Buttons-->
                         <RadioButton Style="{StaticResource menuButton}"
                                  IsChecked="True"
+                                 Foreground="white"
                                  Tag="{StaticResource color1}"
                                  Command="{Binding SummaryViewCommand}">
                             <StackPanel Orientation="Horizontal">
@@ -220,6 +221,7 @@
 
                         <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color2}"
+                                 Foreground="white"
                                  Command="{Binding OsViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage
@@ -232,6 +234,7 @@
 
                         <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color3}"
+                                 Foreground="white"
                                  Command="{Binding CpuViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage
@@ -244,6 +247,7 @@
 
                         <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color4}"
+                                 Foreground="white"
                                  Command="{Binding RamViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage
@@ -256,6 +260,7 @@
 
                         <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color5}"
+                                 Foreground="white"
                                  Command="{Binding MotherboardViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage
@@ -268,6 +273,7 @@
 
                         <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color6}"
+                                 Foreground="white"
                                  Command="{Binding GraphicsViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage
@@ -280,6 +286,7 @@
 
                         <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color7}"
+                                 Foreground="white"
                                  Command="{Binding StorageViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage
@@ -292,6 +299,7 @@
 
                         <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color7}"
+                                 Foreground="white"
                                  Command="{Binding OpticaldriveViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage
@@ -304,6 +312,7 @@
 
                         <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color7}"
+                                 Foreground="white"
                                  Command="{Binding AudioViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage
@@ -316,6 +325,7 @@
 
                         <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color7}"
+                                 Foreground="white"
                                  Command="{Binding PeripheralViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage
@@ -328,6 +338,7 @@
 
                         <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color7}"
+                                 Foreground="white"
                                  Command="{Binding NetworkViewCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage
