@@ -8,5 +8,15 @@ namespace SidePanel_Navigation.ViewModels
 {
     public class RamViewModel : ViewModelBase
     {
+        string _ramType;
+
+        public string RamType
+        {
+            get => PcInfoViewModel.MemoryType;
+            set
+            {
+                _ramType = value;
+            }
+        }
     }
 }

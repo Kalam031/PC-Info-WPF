@@ -233,7 +233,7 @@ namespace SidePanel_Navigation.ViewModels
 
         public string CpuUsed
         {
-            get => _cpuUsed;
+            get => PcInfoViewModel.CpuUsed;
             set
             {
                 _cpuUsed = value;
@@ -243,7 +243,7 @@ namespace SidePanel_Navigation.ViewModels
 
         public string CpuUnused
         {
-            get => _cpuUnused;
+            get => PcInfoViewModel.CpuUnused;
             set
             {
                 _cpuUnused = value;

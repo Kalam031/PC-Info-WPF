@@ -22,14 +22,17 @@
         </ScrollViewer.Resources>
 
         <StackPanel>
-            <Expander Header="Slot Info"
-                  IsExpanded="True"
-                  Style="{StaticResource pcInfoExpander}"
-                  Foreground="{StaticResource titleColor3}">
+            <Expander 
+                Header="Physical Memory"
+                IsExpanded="True"
+                Style="{StaticResource pcInfoExpander}"
+                Foreground="{StaticResource titleColor3}">
 
-                <StackPanel Width="auto"
-                            Height="auto"
-                            HorizontalAlignment="Left">
+                <StackPanel
+                    x:Name="mainMemoryPanel"
+                    Width="auto"
+                    Height="auto"
+                    HorizontalAlignment="Left">
 
                     <Grid Margin="25,5,0,0">
 
@@ -44,114 +47,56 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="20"/>
 
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Core"
+                        <TextBlock Text="Type"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
-                        <TextBlock Text="{Binding CpuCore}"
+                        <TextBlock Text="{Binding RamType}"
                                    Grid.Column="1"
                                    Grid.Row="0"/>
 
-                        <TextBlock Text="Thread"
+
+                        <TextBlock Text="Memory Usage"
                                    Grid.Column="0"
                                    Grid.Row="1"/>
 
-                        <TextBlock Text="{Binding CpuThread}"
+                        <TextBlock x:Name="memUsage"
                                    Grid.Column="1"
                                    Grid.Row="1"/>
 
-                        <TextBlock Text="Family"
+                        <TextBlock Text="Total Size"
                                    Grid.Column="0"
                                    Grid.Row="2"/>
 
-                        <TextBlock Text="{Binding CpuFamily}"
+                        <TextBlock x:Name="memSize"
                                    Grid.Column="1"
                                    Grid.Row="2"/>
 
-                        <TextBlock Text="Stepping"
+                        <TextBlock Text="Available"
                                    Grid.Column="0"
                                    Grid.Row="3"/>
 
-                        <TextBlock Text="{Binding CpuStepping}"
+                        <TextBlock x:Name="memAvailable"
                                    Grid.Column="1"
                                    Grid.Row="3"/>
-
-                        <TextBlock Text="Architecture"
-                                   Grid.Column="0"
-                                   Grid.Row="4"/>
-
-                        <TextBlock Text="{Binding CpuArchitecture}"
-                                   Grid.Column="1"
-                                   Grid.Row="4"/>
-
-                        <TextBlock Text="Address Width"
-                                   Grid.Column="0"
-                                   Grid.Row="5"/>
-
-                        <TextBlock Text="{Binding CpuAddressWidth}"
-                                   Grid.Column="1"
-                                   Grid.Row="5"/>
-
-                        <TextBlock Text="Socket Designation"
-                                   Grid.Column="0"
-                                   Grid.Row="6"/>
-
-                        <TextBlock Text="{Binding CpuSocketDesignation}"
-                                   Grid.Column="1"
-                                   Grid.Row="6"/>
-
-                        <TextBlock Text="Status"
-                                   Grid.Column="0"
-                                   Grid.Row="7"/>
-
-                        <TextBlock Text="{Binding CpuStatus}"
-                                   Grid.Column="1"
-                                   Grid.Row="7"/>
-
-                        <TextBlock Text="Max Clock Speed"
-                                   Grid.Column="0"
-                                   Grid.Row="8"/>
-
-                        <TextBlock Text="{Binding CpuMaxClockSpeed}"
-                                   Grid.Column="1"
-                                   Grid.Row="8"/>
-
-                        <TextBlock Text="Stock Bus Speed"
-                                   Grid.Column="0"
-                                   Grid.Row="9"/>
-
-                        <TextBlock Text="{Binding CpuBusSpeed}"
-                                   Grid.Column="1"
-                                   Grid.Row="9"/>
-
-                        <TextBlock Text="Power Management Support"
-                                   Grid.Column="0"
-                                   Grid.Row="10"/>
-
-                        <TextBlock Text="{Binding CpuPowerManagementSupport}"
-                                   Grid.Column="1"
-                                   Grid.Row="10"/>
 
                     </Grid>
 
-                    <Expander Header="Caches"
+                    <Expander Header="SPD"
                               IsExpanded="True"
                               Margin="25,0,0,0"
                               Foreground="{StaticResource titleColor3}">
-                        <StackPanel Width="auto" Height="auto"
-                                    HorizontalAlignment="Left">
+                        <StackPanel
+                            x:Name="stpanelMemSlotInto"
+                            Width="auto"
+                            Height="auto"
+                            HorizontalAlignment="Left">
 
-                            <Grid Margin="25,5,0,0">
+
+                            <!--<Grid Margin="25,5,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="100"/>
@@ -167,7 +112,7 @@
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
-                                <TextBlock Text="{Binding CpuL1CacheSize}"
+                                <TextBlock Text=""
                                    Grid.Column="1"
                                    Grid.Row="0"/>
 
@@ -175,7 +120,7 @@
                                    Grid.Column="0"
                                    Grid.Row="1"/>
 
-                                <TextBlock Text="{Binding CpuL2CacheSize}"
+                                <TextBlock Text=""
                                    Grid.Column="1"
                                    Grid.Row="1"/>
 
@@ -183,11 +128,11 @@
                                    Grid.Column="0"
                                    Grid.Row="2"/>
 
-                                <TextBlock Text="{Binding CpuL3CacheSize}"
+                                <TextBlock Text=""
                                    Grid.Column="1"
                                    Grid.Row="2"/>
 
-                            </Grid>
+                            </Grid>-->
 
                         </StackPanel>
 

@@ -98,6 +98,7 @@
     <Compile Include="Controls\GetPcInfoClass.cs" />
     <Compile Include="Log\LogClass.cs" />
     <Compile Include="Models\EnvironmentVariableItem.cs" />
+    <Compile Include="Models\MemInfoModel.cs" />
     <Compile Include="ViewModels\AudioViewModel.cs" />
     <Compile Include="ViewModels\CpuViewModel.cs" />
     <Compile Include="ViewModels\GraphicsViewModel.cs" />

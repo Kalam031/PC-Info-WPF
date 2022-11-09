@@ -16,21 +16,117 @@ using System.Globalization;
 using System.Windows.Controls;
 using TaskScheduler;
 using System.Runtime.InteropServices;
+using System.Windows.Threading;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using SidePanel_Navigation.Models;
+using System.Windows;
+using System.Drawing;
+using System.Windows.Forms;
+using Size = System.Windows.Size;
+using System.Management.Instrumentation;
 
 namespace SidePanel_Navigation.Controls
 {
     public class GetPcInfoClass
     {
+        DispatcherTimer dispatcherTimer;
         BackgroundWorker backgroundWorker = new BackgroundWorker();
+        BackgroundWorker backgroundWorker1 = new BackgroundWorker();
+        PerformanceCounter _cpuCounter = new PerformanceCounter();
+        PerformanceCounter _memoryCounter = new PerformanceCounter();
+        List<MemInfoModel> listMemInfo = new List<MemInfoModel>();
 
         SelectQuery Sq = new SelectQuery("Win32_DesktopMonitor");
 
         public GetPcInfoClass()
         {
             backgroundWorker.WorkerSupportsCancellation = true;
+            backgroundWorker1.WorkerSupportsCancellation = true;
             ManagementObjectSearcher objOSDetails = new ManagementObjectSearcher(Sq);
             ManagementObjectCollection osDetailsCollection = objOSDetails.Get();
         }
+
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            GetRealtimeInfo();
+        }
+
+        public void GetRealtimeInfo()
+        {
+            if (!backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.RunWorkerAsync();
+            }
+
+            backgroundWorker1.DoWork += BackgroundWorker1_DoWork;
+            backgroundWorker1.RunWorkerCompleted += BackgroundWorker1_RunWorkerCompleted;
+        }
+
+        private void BackgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!e.Cancelled && e.Error == null)
+            {
+            }
+            else if (e.Cancelled)
+            {
+            }
+            else if (e.Error != null)
+            {
+            }
+        }
+
+        private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //CPU
+            double used = GetProcessorData();
+            double unused = 100 - used;
+
+            PcInfoViewModel.CpuUsed = used.ToString("F") + " %";
+            PcInfoViewModel.CpuUnused = unused.ToString("F") + " %";
+
+            string formattedTimeSpan = string.Format("{0:D2} d, {1:D2} h, {2:D2} m , {3:D3} s", GetUpTime().Days, GetUpTime().Hours, GetUpTime().Minutes, GetUpTime().Seconds.ToString().Substring(0));
+            PcInfoViewModel.OperatingSystemCurrentUptime = formattedTimeSpan;
+
+            //Ram
+
+            string s = _QueryComputerSystem("totalphysicalmemory");
+            double totalphysicalmemory = Convert.ToDouble(s);
+            double d = _GetCounterValue(_memoryCounter, "Memory", "Available Bytes", null);
+
+            string trunctotal = Regex.Replace(FormatBytes(totalphysicalmemory), "[^0-9.]", "");
+            string truncused = Regex.Replace(FormatBytes(totalphysicalmemory - d), "[^0-9.]", "");
+
+            double mused = double.Parse(truncused) / double.Parse(trunctotal) * 100;
+
+            PcInfoViewModel.MemoryTotal = FormatBytes(totalphysicalmemory);
+            PcInfoViewModel.MemoryAvailable = FormatBytes(totalphysicalmemory - (totalphysicalmemory - d));
+
+            PcInfoViewModel.MemoryUsage = mused.ToString("F") + " %";
+        }
+
+        public double GetProcessorData()
+        {
+            return _GetCounterValue(_cpuCounter, "Processor", "% Processor Time", "_Total");
+        }
+
+        double _GetCounterValue(PerformanceCounter pc, string categoryName, string counterName, string instanceName)
+        {
+            pc.CategoryName = categoryName;
+            pc.CounterName = counterName;
+            pc.InstanceName = instanceName;
+            pc.NextValue();
+            System.Threading.Thread.Sleep(1000);
+            return pc.NextValue();
+        }
+
+        public TimeSpan GetUpTime()
+        {
+            return TimeSpan.FromMilliseconds(GetTickCount64());
+        }
+
+        [DllImport("kernel32")]
+        extern static UInt64 GetTickCount64();
 
         public void GetInfo()
         {
@@ -41,6 +137,11 @@ namespace SidePanel_Navigation.Controls
 
             backgroundWorker.DoWork += Bg_DoWork;
             backgroundWorker.RunWorkerCompleted += Bg_RunWorkerCompleted;
+
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
         }
 
         private void Bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -60,7 +161,8 @@ namespace SidePanel_Navigation.Controls
                 {
                     //Operating System
 
-                    ManagementObjectSearcher mos = new ManagementObjectSearcher("select * from Win32_OperatingSystem");
+                    ManagementObjectSearcher mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_OperatingSystem");
+
                     foreach (ManagementObject wmi in mos.Get())
                     {
                         try
@@ -115,17 +217,17 @@ namespace SidePanel_Navigation.Controls
                                 }
                             }
 
-                            Console.WriteLine(PcInfoViewModel.OperatingSystemName);
-                            Console.WriteLine(PcInfoViewModel.OperatingSystemInstallDate);
-                            Console.WriteLine(PcInfoViewModel.OperatingSystemLanguage);
-                            Console.WriteLine(PcInfoViewModel.OperatingSystemVersion);
-                            Console.WriteLine(PcInfoViewModel.OperatingSystembuild);
-                            Console.WriteLine(PcInfoViewModel.OperatingSystemSerial);
-                            Console.WriteLine(PcInfoViewModel.OperatingSystemTimeZone);
-                            Console.WriteLine(PcInfoViewModel.OperatingSystemDateFormat);
-                            Console.WriteLine(PcInfoViewModel.OperatingSystemTimeFormat);
-                            Console.WriteLine(PcInfoViewModel.OperatingSystemLocation);
-                            Console.WriteLine(PcInfoViewModel.OperatingSystemAntivirus);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystemName);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystemInstallDate);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystemLanguage);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystemVersion);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystembuild);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystemSerial);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystemTimeZone);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystemDateFormat);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystemTimeFormat);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystemLocation);
+                            //Console.WriteLine(PcInfoViewModel.OperatingSystemAntivirus);
                         }
                         catch (Exception exp)
                         {
@@ -146,7 +248,8 @@ namespace SidePanel_Navigation.Controls
 
                     //CPU
 
-                    mos = new ManagementObjectSearcher("select * from Win32_Processor");
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "select * from Win32_Processor");
+
                     foreach (ManagementObject wmi in mos.Get())
                     {
                         try
@@ -231,9 +334,9 @@ namespace SidePanel_Navigation.Controls
 
                             GetPerCoreCacheSizes(out l1, out l2, out l3);
 
-                            PcInfoViewModel.CpuL1CacheSize = $"{l1/1024} Kbytes";
-                            PcInfoViewModel.CpuL2CacheSize = $"{l2/1024} Kbytes";
-                            PcInfoViewModel.CpuL3CacheSize = $"{l3/1024} Kbytes";
+                            PcInfoViewModel.CpuL1CacheSize = $"{l1 / 1024} Kbytes";
+                            PcInfoViewModel.CpuL2CacheSize = $"{l2 / 1024} Kbytes";
+                            PcInfoViewModel.CpuL3CacheSize = $"{l3 / 1024} Kbytes";
 
                         }
                         catch (Exception exp)
@@ -246,6 +349,90 @@ namespace SidePanel_Navigation.Controls
                             LogClass.LogWrite($"========== Get CPU Exception ==========");
                         }
                     }
+
+                    //Physical Memory
+
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "select * from Win32_PhysicalMemory");
+
+                    string s = _QueryComputerSystem("totalphysicalmemory");
+                    double totalphysicalmemory = Convert.ToDouble(s);
+
+                    double trunctotal = double.Parse(Regex.Replace(FormatBytes(totalphysicalmemory), "[^0-9.]", ""));
+
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        PcInfoViewModel.MemoryType = GetMemoryType(int.Parse(wmi["MemoryType"].ToString()));
+
+                        MemInfoModel memoryInfoModel = new MemInfoModel();
+
+                        memoryInfoModel.Type = GetMemoryType(int.Parse(wmi["MemoryType"].ToString()));
+                        memoryInfoModel.Size = Math.Ceiling(trunctotal / 2.0) + " GB";
+                        memoryInfoModel.Manufacturer = wmi["Manufacturer"].ToString();
+                        memoryInfoModel.SerialNo = wmi["SerialNumber"].ToString();
+                        memoryInfoModel.Speed = wmi["Speed"].ToString() + " MHz";
+
+                        //Console.WriteLine(memoryInfoModel.Type);
+                        //Console.WriteLine(memoryInfoModel.Size);
+                        //Console.WriteLine(memoryInfoModel.Manufacturer);
+                        //Console.WriteLine(memoryInfoModel.SerialNo);
+                        //Console.WriteLine(memoryInfoModel.Speed);
+
+                        listMemInfo.Add(memoryInfoModel);
+                    }
+
+                    PcInfoViewModel.ListMemInfo = listMemInfo;
+
+                    //Mother board
+
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_BaseBoard");
+
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        PcInfoViewModel.MotherboardManufacturer = wmi["Manufacturer"].ToString();
+                        PcInfoViewModel.MotherboardSerial = wmi["SerialNumber"].ToString();
+                        PcInfoViewModel.MotherboardModel = wmi["Product"].ToString();
+                        PcInfoViewModel.MotherboardVersion = wmi["Version"].ToString();
+                    }
+
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_BIOS");
+
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        PcInfoViewModel.BiosDate = ManagementDateTimeConverter.ToDateTime(wmi["ReleaseDate"].ToString()).ToString("dd-MMM-yyyy");
+                        PcInfoViewModel.BiosVersion = wmi["SMBIOSBIOSVersion"].ToString();
+                        PcInfoViewModel.BiosSerialNumber = wmi["SerialNumber"].ToString();
+                    }
+
+                    //Graphics
+
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_VideoController");
+
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        PcInfoViewModel.MonitorWidth = wmi["CurrentHorizontalResolution"].ToString();
+                        PcInfoViewModel.MonitorHeight = wmi["CurrentVerticalResolution"].ToString();
+                        PcInfoViewModel.MonitorResolution = $"{PcInfoViewModel.MonitorWidth} x {PcInfoViewModel.MonitorHeight}";
+                        PcInfoViewModel.MonitorCurrentFrequency = wmi["CurrentRefreshRate"].ToString() + " MHz";
+                        PcInfoViewModel.MonitorFrequency = wmi["MaxRefreshRate"].ToString() + " MHz";
+                        PcInfoViewModel.MonitorBitsPerPixel = wmi["CurrentBitsPerPixel"].ToString() + " bits per pixel" ;
+
+                        PcInfoViewModel.InternalGraphicsName = wmi["Name"].ToString();
+                        PcInfoViewModel.InternalGraphicsDriverVersion = wmi["DriverVersion"].ToString();
+                        PcInfoViewModel.InternalGraphicsDate = ManagementDateTimeConverter.ToDateTime(wmi["DriverDate"].ToString()).ToString("dd-MMM-yyyy");
+
+                        string[] val = wmi["Name"].ToString().Split(' ');
+                        string manufac = val[0];
+                        string modelName = "";
+
+                        for(int i = 1; i<val.Count(); i++)
+                        {
+                            modelName += $"{(val[i])} ";
+                        }
+
+                        PcInfoViewModel.InternalGraphicsManufacturer = manufac;
+                        PcInfoViewModel.InternalGraphicsModel = modelName;
+                    }
+
                 }
                 catch (Exception ex)
                 {
@@ -255,6 +442,46 @@ namespace SidePanel_Navigation.Controls
                     LogClass.LogWrite($"========== Background Worker Exception ==========");
                 }
             }
+        }
+
+        public string GetMemoryType(int MemoryType)
+        {
+            switch (MemoryType)
+            {
+                case 20:
+                    return "DDR";
+                case 21:
+                    return "DDR-2";
+                default:
+                    if (MemoryType == 0 || MemoryType > 22)
+                        return "DDR-3";
+                    else
+                        return "Other";
+            }
+        }
+
+        string _QueryComputerSystem(string type)
+        {
+            string str = null;
+            ManagementObjectSearcher objCS = new ManagementObjectSearcher("SELECT * FROM Win32_ComputerSystem");
+            foreach (ManagementObject objMgmt in objCS.Get())
+            {
+                str = objMgmt[type].ToString();
+            }
+            return str;
+        }
+
+        enum Unit { B, KB, MB, GB, TB, ER }
+        string FormatBytes(double bytes)
+        {
+            int unit = 0;
+            while (bytes > 1024)
+            {
+                bytes /= 1024;
+                ++unit;
+            }
+
+            return bytes.ToString("F") + " " + ((Unit)unit).ToString();
         }
 
         public static void GetPerCoreCacheSizes(out Int64 L1, out Int64 L2, out Int64 L3)

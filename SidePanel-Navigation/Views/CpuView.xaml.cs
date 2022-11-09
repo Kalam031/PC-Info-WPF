@@ -26,19 +26,20 @@ namespace SidePanel_Navigation.Views
     {
         DispatcherTimer dispatcherTimer;
         CpuViewModel cpuViewModel = new CpuViewModel();
-        PerformanceCounter _cpuCounter = new PerformanceCounter();
-        BackgroundWorker backgroundWorker = new BackgroundWorker();
+        //PerformanceCounter _cpuCounter = new PerformanceCounter();
+        //BackgroundWorker backgroundWorker = new BackgroundWorker();
 
         public CpuView()
         {
             InitializeComponent();
-            backgroundWorker.WorkerSupportsCancellation = true;
+            //backgroundWorker.WorkerSupportsCancellation = true;
 
             cpuUsedRate.Text = "Processing..";
             cpuUnusedRate.Text = "Processing..";
+            //cpuUnusedRate.Text = "Processing..";
 
-            backgroundWorker.DoWork += BackgroundWorker_DoWork;
-            backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+            //backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            //backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
 
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += DispatcherTimer_Tick; ;
@@ -46,65 +47,74 @@ namespace SidePanel_Navigation.Views
             dispatcherTimer.Start();
         }
 
-        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (!e.Cancelled && e.Error == null)
-            {
-            }
-            else if (e.Cancelled)
-            {
-            }
-            else if (e.Error != null)
-            {
-            }
-        }
+        //private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+        //    if (!e.Cancelled && e.Error == null)
+        //    {
+        //    }
+        //    else if (e.Cancelled)
+        //    {
+        //    }
+        //    else if (e.Error != null)
+        //    {
+        //    }
+        //}
 
-        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            if (!backgroundWorker.CancellationPending)
-            {
-                double tempval = GetProcessorData();
-                string used = tempval.ToString("F") + "%";
-                string unused = (100.0 - tempval).ToString("F") + "%";
+        //private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    if (!backgroundWorker.CancellationPending)
+        //    {
+        //        double tempval = GetProcessorData();
+        //        string used = tempval.ToString("F") + "%";
+        //        string unused = (100.0 - tempval).ToString("F") + "%";
 
-                cpuUsedRate.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-                {
-                    cpuUsedRate.Text = used;
-                }));
+        //        cpuUsedRate.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+        //        {
+        //            cpuUsedRate.Text = used;
+        //        }));
 
-                cpuUnusedRate.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-                {
-                    cpuUnusedRate.Text = unused;
-                }));
-            }
-        }
+        //        cpuUnusedRate.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+        //        {
+        //            cpuUnusedRate.Text = unused;
+        //        }));
+        //    }
+        //}
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            RunBackgroundTask();
-        }
 
-        public void RunBackgroundTask()
-        {
-            if (!backgroundWorker.IsBusy)
+            cpuUsedRate.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
-                backgroundWorker.RunWorkerAsync();
-            }
+                cpuUsedRate.Text = PcInfoViewModel.CpuUsed;
+            }));
+
+            cpuUnusedRate.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                cpuUnusedRate.Text = PcInfoViewModel.CpuUnused;
+            }));
         }
 
-        public double GetProcessorData()
-        {
-            return _GetCounterValue(_cpuCounter, "Processor", "% Processor Time", "_Total");
-        }
+        //public void RunBackgroundTask()
+        //{
+        //    if (!backgroundWorker.IsBusy)
+        //    {
+        //        backgroundWorker.RunWorkerAsync();
+        //    }
+        //}
 
-        double _GetCounterValue(PerformanceCounter pc, string categoryName, string counterName, string instanceName)
-        {
-            pc.CategoryName = categoryName;
-            pc.CounterName = counterName;
-            pc.InstanceName = instanceName;
-            pc.NextValue();
-            System.Threading.Thread.Sleep(1000);
-            return pc.NextValue();
-        }
+        //public double GetProcessorData()
+        //{
+        //    return _GetCounterValue(_cpuCounter, "Processor", "% Processor Time", "_Total");
+        //}
+
+        //double _GetCounterValue(PerformanceCounter pc, string categoryName, string counterName, string instanceName)
+        //{
+        //    pc.CategoryName = categoryName;
+        //    pc.CounterName = counterName;
+        //    pc.InstanceName = instanceName;
+        //    pc.NextValue();
+        //    System.Threading.Thread.Sleep(1000);
+        //    return pc.NextValue();
+        //}
     }
 }

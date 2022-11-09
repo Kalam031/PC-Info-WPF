@@ -4,11 +4,225 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SidePanel_Navigation.Views"
+             xmlns:graphics="clr-namespace:SidePanel_Navigation.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="Graphics View" Foreground="White"/>
-    </Grid>
+    <UserControl.DataContext>
+        <graphics:GraphicsViewModel/>
+    </UserControl.DataContext>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+
+        <ScrollViewer.Resources>
+            <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+            <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">5</sys:Double>
+        </ScrollViewer.Resources>
+
+        <StackPanel Width="auto"
+                    Height="auto"
+                    HorizontalAlignment="Left">
+
+            <Expander Header="Monitor"
+                  IsExpanded="True"
+                  Style="{StaticResource pcInfoExpander}"
+                  Foreground="{StaticResource titleColor3}">
+
+                <StackPanel Width="auto"
+                            Height="auto"
+                            HorizontalAlignment="Left">
+
+                    <Grid Margin="25,0,0,0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="170"/>
+                            <ColumnDefinition Width="200"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Monitor Width"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="0"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding MonitorWidth}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="0"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Monitor Height"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="1"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding MonitorHeight}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="1"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Work Resolution"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="2"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding MonitorResolution}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="2"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Current Resolution"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="3"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding MonitorResolution}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="3"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Monitor BPP"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="4"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding MonitorBitsPerPixel}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="4"
+                                Grid.Column="1"/>
+
+
+                        <TextBlock Text="Monitor Max Frequency"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="5"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding MonitorFrequency}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="5"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Monitor Current Frequency"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="6"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding MonitorCurrentFrequency}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="6"
+                                Grid.Column="1"/>
+
+                    </Grid>
+                    
+                </StackPanel>
+                
+            </Expander>
+
+            <Expander Header="{Binding InternalGraphicsName}"
+                  IsExpanded="True"
+                  Style="{StaticResource pcInfoExpander}"
+                  Foreground="{StaticResource titleColor3}">
+
+                <StackPanel Width="auto"
+                            Height="auto"
+                            HorizontalAlignment="Left">
+
+                    <Grid Margin="25,0,0,0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="200"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Manufacturer"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="0"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding InternalGraphicsManufacturer}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="0"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Model"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="1"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding InternalGraphicsModel}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="1"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Driver version"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="2"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding InternalGraphicsDriverVersion}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="2"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Date"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="3"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding InternalGraphicsDate}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="3"
+                                Grid.Column="1"/>
+
+                    </Grid>
+
+                </StackPanel>
+
+            </Expander>
+
+        </StackPanel>
+        
+    </ScrollViewer>
 
 </UserControl>

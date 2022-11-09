@@ -30,15 +30,10 @@ namespace SidePanel_Navigation.Views
     public partial class OperatingsystemView : UserControl
     {
         DispatcherTimer dispatcherTimer;
-        BackgroundWorker backgroundWorker = new BackgroundWorker();
 
         public OperatingsystemView()
         {
             InitializeComponent();
-            backgroundWorker.WorkerSupportsCancellation = true;
-
-            backgroundWorker.DoWork += BackgroundWorker_DoWork;
-            backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
 
             osCurrentTime.Text = $"Current Time:    processing....";
             osCurrentUptime.Text = $"Current Uptime:    processing....";
@@ -49,57 +44,18 @@ namespace SidePanel_Navigation.Views
             dispatcherTimer.Start();
         }
 
-        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (!e.Cancelled && e.Error == null)
-            {
-                //Console.WriteLine("Os background worker running");
-            }
-            else if (e.Cancelled)
-            {
-            }
-            else if (e.Error != null)
-            {
-            }
-        }
-
-        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            if (!backgroundWorker.CancellationPending)
-            {
-                osCurrentTime.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-                {
-                    osCurrentTime.Text = $"{DateTime.Now.ToString("dd-MMM-yyyy HH:mm:ss")}";
-                }));
-
-                string formattedTimeSpan = string.Format("{0:D2} d, {1:D2} h, {2:D2} m , {3:D3} s", GetUpTime().Days, GetUpTime().Hours, GetUpTime().Minutes, GetUpTime().Seconds.ToString().Substring(0));
-
-                osCurrentUptime.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-                {
-                    osCurrentUptime.Text = $"{formattedTimeSpan}";
-                }));
-            }
-        }
-
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            RunBackgroundTask();
-        }
-
-        public void RunBackgroundTask()
-        {
-            if (!backgroundWorker.IsBusy)
+            osCurrentTime.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
             {
-                backgroundWorker.RunWorkerAsync();
-            }
+                osCurrentTime.Text = $"{DateTime.Now.ToString("dd-MMM-yyyy HH:mm:ss")}";
+            }));
+
+            osCurrentUptime.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                osCurrentUptime.Text = PcInfoViewModel.OperatingSystemCurrentUptime;
+            }));
         }
 
-        public TimeSpan GetUpTime()
-        {
-            return TimeSpan.FromMilliseconds(GetTickCount64());
-        }
-
-        [DllImport("kernel32")]
-        extern static UInt64 GetTickCount64();
     }
 }

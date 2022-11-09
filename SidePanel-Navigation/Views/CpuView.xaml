@@ -22,16 +22,48 @@
         </ScrollViewer.Resources>
         
         <StackPanel>
+
             <TextBlock Text="{Binding CpuName}"
                    FontSize="12"
-                   Margin="20,10,0,15"
+                   Margin="20,10,0,5"
                    Foreground="{StaticResource titleColor2}"/>
-            <TextBlock Text="{Binding CpuId, StringFormat='Id:  {0}'}"
+
+            <Grid Margin="20,10,0,15">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="ID"
+                   FontSize="12"
+                   Foreground="{StaticResource titleColor2}"
+                   Grid.Column="0"
+                   Grid.Row="0"/>
+
+                <TextBlock Text="{Binding CpuId}"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"/>
-            <TextBlock Text="{Binding CpuManufacturer, StringFormat='Manufacturer:  {0}'}"
+                   Foreground="{StaticResource titleColor2}"
+                   Grid.Column="1"
+                   Grid.Row="0"/>
+
+                <TextBlock Text="Manufacturer"
+                   FontSize="12"
+                   Foreground="{StaticResource titleColor2}"
+                   Grid.Column="0"
+                   Grid.Row="1"/>
+
+                <TextBlock Text="{Binding CpuManufacturer}"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"/>
+                   Foreground="{StaticResource titleColor2}"
+                   Grid.Column="1"
+                   Grid.Row="1"/>
+            </Grid>
 
             <Expander Header="CPU Features"
                   IsExpanded="True"
@@ -268,8 +300,7 @@
                                    Grid.Column="1"
                                    Grid.Row="1"
                                    HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding CpuUnused}"/>
+                                   VerticalAlignment="Center"/>
 
                     </Grid>
 

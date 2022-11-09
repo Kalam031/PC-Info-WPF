@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SidePanel_Navigation.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,7 +52,50 @@ namespace SidePanel_Navigation.ViewModels
         static string cpuL1CacheSize;
         static string cpuL2CacheSize;
         static string cpuL3CacheSize;
+        static string cpuUsed;
+        static string cpuUnused;
 
+
+        //Ram
+        static string memorySlots;
+        static string memoryType;
+        static string memoryUsage;
+        static string memoryTotal;
+        static string memoryAvailable;
+        static List<MemInfoModel> listMemInfo;
+
+        //Motherboard
+        static string motherboardManufacturer;
+        static string motherboardSerial;
+        static string motherboardModel;
+        static string motherboardVersion;
+        static string biosVersion;
+        static string biosDate;
+        static string biosSerialNumber;
+
+        //Graphics
+        static string monitorWidth;
+        static string monitorHeight;
+        static string monitorResolution;
+        static string monitorBitsPerPixel;
+        static string monitorFrequency;
+        static string monitorCurrentFrequency;
+
+        static string internalGraphicsName;
+        static string internalGraphicsDriverVersion;
+        static string internalGraphicsDate;
+        static string internalGraphicsManufacturer;
+        static string internalGraphicsModel;
+
+        //Storage
+
+        //Optical Drives
+
+        //Audio
+
+        //Peripherals
+
+        //Network
 
         //static string computerType;
         //static string installationDate;
@@ -66,17 +110,9 @@ namespace SidePanel_Navigation.ViewModels
         //static string antivirusStatus;
         //static string antivirusName;
 
-        //static string cpumodel;
-        //static string threads;
         //static string virtualization;
         //static string hyperthreading;
 
-        //static string memorySlots;
-        //static string memoryType;
-        //static string memorySize;
-        //static string memoryChannel;
-
-        //static string motherboardManufacturer;
         //static string motherboardModel;
         //static string biosBrand;
 
@@ -110,6 +146,7 @@ namespace SidePanel_Navigation.ViewModels
         public static string SystemProfile { get => systemProfile; set => systemProfile = value; }
 
         //CPU
+
         public static string CpuId { get => cpuId; set => cpuId = value; }
         public static string CpuManufacturer { get => cpuManufacturer; set => cpuManufacturer = value; }
         public static string CpuName { get => cpuName; set => cpuName = value; }
@@ -130,5 +167,38 @@ namespace SidePanel_Navigation.ViewModels
         public static string CpuL2CacheSize { get => cpuL2CacheSize; set => cpuL2CacheSize = value; }
         public static string CpuL3CacheSize { get => cpuL3CacheSize; set => cpuL3CacheSize = value; }
         public static string CpuL1CacheSize { get => cpuL1CacheSize; set => cpuL1CacheSize = value; }
+        public static string CpuUsed { get => cpuUsed; set => cpuUsed = value; }
+        public static string CpuUnused { get => cpuUnused; set => cpuUnused = value; }
+
+        //Ram
+
+        public static string MemorySlots { get => memorySlots; set => memorySlots = value; }
+        public static string MemoryType { get => memoryType; set => memoryType = value; }
+        public static string MemoryUsage { get => memoryUsage; set => memoryUsage = value; }
+        public static string MemoryTotal { get => memoryTotal; set => memoryTotal = value; }
+        public static string MemoryAvailable { get => memoryAvailable; set => memoryAvailable = value; }
+        public static List<MemInfoModel> ListMemInfo { get => listMemInfo; set => listMemInfo = value; }
+
+
+        //Motherboard
+
+        public static string MotherboardManufacturer { get => motherboardManufacturer; set => motherboardManufacturer = value; }
+        public static string MotherboardSerial { get => motherboardSerial; set => motherboardSerial = value; }
+        public static string MotherboardModel { get => motherboardModel; set => motherboardModel = value; }
+        public static string MotherboardVersion { get => motherboardVersion; set => motherboardVersion = value; }
+        public static string BiosVersion { get => biosVersion; set => biosVersion = value; }
+        public static string BiosDate { get => biosDate; set => biosDate = value; }
+        public static string BiosSerialNumber { get => biosSerialNumber; set => biosSerialNumber = value; }
+        public static string MonitorWidth { get => monitorWidth; set => monitorWidth = value; }
+        public static string MonitorHeight { get => monitorHeight; set => monitorHeight = value; }
+        public static string MonitorResolution { get => monitorResolution; set => monitorResolution = value; }
+        public static string MonitorBitsPerPixel { get => monitorBitsPerPixel; set => monitorBitsPerPixel = value; }
+        public static string MonitorFrequency { get => monitorFrequency; set => monitorFrequency = value; }
+        public static string MonitorCurrentFrequency { get => monitorCurrentFrequency; set => monitorCurrentFrequency = value; }
+        public static string InternalGraphicsName { get => internalGraphicsName; set => internalGraphicsName = value; }
+        public static string InternalGraphicsDriverVersion { get => internalGraphicsDriverVersion; set => internalGraphicsDriverVersion = value; }
+        public static string InternalGraphicsDate { get => internalGraphicsDate; set => internalGraphicsDate = value; }
+        public static string InternalGraphicsManufacturer { get => internalGraphicsManufacturer; set => internalGraphicsManufacturer = value; }
+        public static string InternalGraphicsModel { get => internalGraphicsModel; set => internalGraphicsModel = value; }
     }
 }
