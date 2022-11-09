@@ -4,9 +4,201 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SidePanel_Navigation.Views"
+             xmlns:opticalDrive="clr-namespace:SidePanel_Navigation.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="Opticaldrive View" Foreground="White"/>
-    </Grid>
+    
+    <UserControl.DataContext>
+        <opticalDrive:OpticaldriveViewModel/>
+    </UserControl.DataContext>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+
+        <ScrollViewer.Resources>
+            <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+            <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">5</sys:Double>
+        </ScrollViewer.Resources>
+
+        <StackPanel Width="auto"
+                    Height="auto"
+                    HorizontalAlignment="Left">
+
+            <Expander Header="{Binding OpticalDriveName}"
+                  IsExpanded="True"
+                  Style="{StaticResource pcInfoExpander}"
+                  Foreground="{StaticResource titleColor3}">
+
+                <StackPanel Width="auto"
+                            Height="auto"
+                            HorizontalAlignment="Left">
+
+                    <Grid Margin="3,0,0,0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="175"/>
+                            <ColumnDefinition Width="200"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Media Type"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="0"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="DVD Writer"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="0"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Name"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="1"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding OpticalDriveName}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="1"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Config Manager Error Code"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="2"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding OpticalDriveConfigManErrCode}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="2"
+                                Grid.Column="1"/>
+
+
+                        <TextBlock Text="Config Manager User Config"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="3"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding OpticalDriveConfigManErrCode}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="3"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Drive"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="4"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding OpticalDriveVolume}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="4"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Media Loaded"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="5"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding OpticalDriveMediaLoaded}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="5"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="SCSI Bus"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="6"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding OpticalDriveSCSIbus}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="6"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="SCSI Logical Unit"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="7"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding OpticalDriveSCSILogicalUnit}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="7"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="SCSI Port"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="8"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding OpticalDriveSCSIport}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="8"
+                                Grid.Column="1"/>
+
+
+                        <TextBlock Text="SCSI Target Id"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="9"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding OpticalDriveSCSItargetId}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="9"
+                                Grid.Column="1"/>
+
+                        <TextBlock Text="Status"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="10"
+                                Grid.Column="0"/>
+
+                        <TextBlock Text="{Binding OpticalDriveStatus}"
+                                Style="{StaticResource pcInfoTextBlock}"
+                                Foreground="{StaticResource titleColor2}"
+                                Grid.Row="10"
+                                Grid.Column="1"/>
+
+                    </Grid>
+                    
+                </StackPanel>
+                
+            </Expander>
+            
+        </StackPanel>
+        
+    </ScrollViewer>
+    
 </UserControl>

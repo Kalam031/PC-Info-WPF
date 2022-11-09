@@ -90,6 +90,16 @@ namespace SidePanel_Navigation.ViewModels
         //Storage
 
         //Optical Drives
+        static string opticalDriveName;
+        static string opticalDriveConfigManUserConfig;
+        static string opticalDriveConfigManErrCode;
+        static string opticalDriveVolume;
+        static string opticalDriveMediaLoaded;
+        static string opticalDriveSCSIbus; 
+        static string opticalDriveSCSILogicalUnit;  
+        static string opticalDriveSCSIport;
+        static string opticalDriveSCSItargetId;
+        static string opticalDriveStatus;
 
         //Audio
 
@@ -179,7 +189,6 @@ namespace SidePanel_Navigation.ViewModels
         public static string MemoryAvailable { get => memoryAvailable; set => memoryAvailable = value; }
         public static List<MemInfoModel> ListMemInfo { get => listMemInfo; set => listMemInfo = value; }
 
-
         //Motherboard
 
         public static string MotherboardManufacturer { get => motherboardManufacturer; set => motherboardManufacturer = value; }
@@ -189,6 +198,9 @@ namespace SidePanel_Navigation.ViewModels
         public static string BiosVersion { get => biosVersion; set => biosVersion = value; }
         public static string BiosDate { get => biosDate; set => biosDate = value; }
         public static string BiosSerialNumber { get => biosSerialNumber; set => biosSerialNumber = value; }
+
+        //Graphics
+
         public static string MonitorWidth { get => monitorWidth; set => monitorWidth = value; }
         public static string MonitorHeight { get => monitorHeight; set => monitorHeight = value; }
         public static string MonitorResolution { get => monitorResolution; set => monitorResolution = value; }
@@ -200,5 +212,19 @@ namespace SidePanel_Navigation.ViewModels
         public static string InternalGraphicsDate { get => internalGraphicsDate; set => internalGraphicsDate = value; }
         public static string InternalGraphicsManufacturer { get => internalGraphicsManufacturer; set => internalGraphicsManufacturer = value; }
         public static string InternalGraphicsModel { get => internalGraphicsModel; set => internalGraphicsModel = value; }
+
+        //Optical Drive
+
+        public static string OpticalDriveName { get => opticalDriveName; set => opticalDriveName = value; }
+        public static string OpticalDriveConfigManUserConfig { get => opticalDriveConfigManUserConfig; set => opticalDriveConfigManUserConfig = value; }
+        public static string OpticalDriveConfigManErrCode { get => opticalDriveConfigManErrCode; set => opticalDriveConfigManErrCode = value; }
+        public static string OpticalDriveVolume { get => opticalDriveVolume; set => opticalDriveVolume = value; }
+        public static string OpticalDriveMediaLoaded { get => opticalDriveMediaLoaded; set => opticalDriveMediaLoaded = value; }
+        public static string OpticalDriveSCSIbus { get => opticalDriveSCSIbus; set => opticalDriveSCSIbus = value; }
+        public static string OpticalDriveSCSILogicalUnit { get => opticalDriveSCSILogicalUnit; set => opticalDriveSCSILogicalUnit = value; }
+        public static string OpticalDriveSCSIport { get => opticalDriveSCSIport; set => opticalDriveSCSIport = value; }
+        public static string OpticalDriveSCSItargetId { get => opticalDriveSCSItargetId; set => opticalDriveSCSItargetId = value; }
+        public static string OpticalDriveStatus { get => opticalDriveStatus; set => opticalDriveStatus = value; }
+
     }
 }

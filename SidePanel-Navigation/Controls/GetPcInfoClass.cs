@@ -414,7 +414,7 @@ namespace SidePanel_Navigation.Controls
                         PcInfoViewModel.MonitorResolution = $"{PcInfoViewModel.MonitorWidth} x {PcInfoViewModel.MonitorHeight}";
                         PcInfoViewModel.MonitorCurrentFrequency = wmi["CurrentRefreshRate"].ToString() + " MHz";
                         PcInfoViewModel.MonitorFrequency = wmi["MaxRefreshRate"].ToString() + " MHz";
-                        PcInfoViewModel.MonitorBitsPerPixel = wmi["CurrentBitsPerPixel"].ToString() + " bits per pixel" ;
+                        PcInfoViewModel.MonitorBitsPerPixel = wmi["CurrentBitsPerPixel"].ToString() + " bits per pixel";
 
                         PcInfoViewModel.InternalGraphicsName = wmi["Name"].ToString();
                         PcInfoViewModel.InternalGraphicsDriverVersion = wmi["DriverVersion"].ToString();
@@ -424,7 +424,7 @@ namespace SidePanel_Navigation.Controls
                         string manufac = val[0];
                         string modelName = "";
 
-                        for(int i = 1; i<val.Count(); i++)
+                        for (int i = 1; i < val.Count(); i++)
                         {
                             modelName += $"{(val[i])} ";
                         }
@@ -433,6 +433,21 @@ namespace SidePanel_Navigation.Controls
                         PcInfoViewModel.InternalGraphicsModel = modelName;
                     }
 
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_CDROMDrive");
+
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        PcInfoViewModel.OpticalDriveName = wmi["Name"].ToString();
+                        PcInfoViewModel.OpticalDriveConfigManErrCode = wmi["ConfigManagerErrorCode"].ToString();
+                        PcInfoViewModel.OpticalDriveConfigManUserConfig = wmi["ConfigManagerUserConfig"].ToString() == "False" ? "False" : "True";
+                        PcInfoViewModel.OpticalDriveVolume = wmi["Drive"].ToString();
+                        PcInfoViewModel.OpticalDriveMediaLoaded = wmi["MediaLoaded"].ToString();
+                        PcInfoViewModel.OpticalDriveSCSIbus = wmi["SCSIBus"].ToString();
+                        PcInfoViewModel.OpticalDriveSCSILogicalUnit = wmi["SCSILogicalUnit"].ToString();
+                        PcInfoViewModel.OpticalDriveSCSIport = wmi["SCSIPort"].ToString();
+                        PcInfoViewModel.OpticalDriveSCSItargetId = wmi["SCSITargetId"].ToString();
+                        PcInfoViewModel.OpticalDriveStatus = wmi["Status"].ToString();
+                    }
                 }
                 catch (Exception ex)
                 {
