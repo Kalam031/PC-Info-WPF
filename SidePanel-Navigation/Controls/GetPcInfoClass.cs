@@ -25,6 +25,10 @@ using System.Drawing;
 using System.Windows.Forms;
 using Size = System.Windows.Size;
 using System.Management.Instrumentation;
+using System.Net.NetworkInformation;
+using System.Net;
+using System.Net.Sockets;
+using System.Reflection.Emit;
 
 namespace SidePanel_Navigation.Controls
 {
@@ -36,6 +40,7 @@ namespace SidePanel_Navigation.Controls
         PerformanceCounter _cpuCounter = new PerformanceCounter();
         PerformanceCounter _memoryCounter = new PerformanceCounter();
         List<MemInfoModel> listMemInfo = new List<MemInfoModel>();
+        List<DiskDriveModel> listDiskInfo = new List<DiskDriveModel>();
 
         SelectQuery Sq = new SelectQuery("Win32_DesktopMonitor");
 
@@ -433,6 +438,8 @@ namespace SidePanel_Navigation.Controls
                         PcInfoViewModel.InternalGraphicsModel = modelName;
                     }
 
+                    //Optical Drive
+
                     mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_CDROMDrive");
 
                     foreach (ManagementObject wmi in mos.Get())
@@ -448,6 +455,114 @@ namespace SidePanel_Navigation.Controls
                         PcInfoViewModel.OpticalDriveSCSItargetId = wmi["SCSITargetId"].ToString();
                         PcInfoViewModel.OpticalDriveStatus = wmi["Status"].ToString();
                     }
+
+                    //Storage
+
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_DiskDrive");
+
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        DiskDriveModel diskDriveModel = new DiskDriveModel();
+
+                        diskDriveModel.DiskName = wmi["Caption"].ToString();
+                        diskDriveModel.DiskManufacturer = wmi["Caption"].ToString().Split(' ')[0];
+                        diskDriveModel.Heads = wmi["TotalHeads"].ToString();
+                        diskDriveModel.Cylinders = wmi["TotalCylinders"].ToString();
+                        diskDriveModel.Tracks = wmi["TotalTracks"].ToString();
+                        diskDriveModel.Sectors = wmi["TotalSectors"].ToString();
+                        diskDriveModel.Serial = wmi["SerialNumber"].ToString().Trim();
+                        diskDriveModel.Capacity = FormatBytes(double.Parse(wmi["Size"].ToString()));
+                        diskDriveModel.RealSize = wmi["Size"].ToString();
+                        diskDriveModel.Status = wmi["Status"].ToString();
+
+                        listDiskInfo.Add(diskDriveModel);
+                    }
+                    PcInfoViewModel.ListDiskDriveInfo = listDiskInfo;
+
+
+                    String DiskName = "";
+                    String PartState = "";
+                    String PartName = "";
+                    String PartFree = "";
+                    Int16 ObjCount = 0;
+
+                    ManagementObjectSearcher hdd = new ManagementObjectSearcher("Select * from Win32_DiskDrive");
+                    foreach (ManagementObject objhdd in hdd.Get())
+                    {
+                        PartState = "";
+                        DiskName = "Disk " + objhdd["Index"].ToString() + " : " + objhdd["Caption"].ToString().Replace(" ATA Device", "") +
+                            " (" + Math.Round(Convert.ToDouble(objhdd["Size"]) / 1073741824, 1) + " GB)";
+
+                        ObjCount = Convert.ToInt16(objhdd["Partitions"]);
+                        ManagementObjectSearcher partitions = new ManagementObjectSearcher(
+                            "Select * From Win32_DiskPartition Where DiskIndex='" + objhdd["Index"].ToString() + "'");
+                        foreach (ManagementObject part in partitions.Get())
+                        {
+                            PartName = part["DeviceID"].ToString();
+                            if (part["Bootable"].ToString() == "True" && part["BootPartition"].ToString() == "True")
+                                PartState = "Recovery";
+                            else
+                            {
+                                //ManagementObjectSearcher getdisks = new ManagementObjectSearcher
+                                //    ("Select * From Win32_LogicalDiskToPartition Where  ");
+                                PartState = GetPartName(PartName);
+                                PartFree = GetUsedSpace(PartState);
+                                PartState = "Local Disk (" + PartState + ")";
+                            }
+
+                            Console.WriteLine($"Partition {part["Index"]}\n {PartState}\n {PartFree}\n {Math.Round(Convert.ToDouble(part["Size"].ToString()) / 1073741824, 1)}");
+                        }
+                    }
+
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_SoundDevice");
+
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        //Console.WriteLine(wmi["Caption"]);
+                    }
+
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_NetworkAdapter WHERE NetEnabled = True");
+
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        //Console.WriteLine(wmi["Name"]);
+
+                    }
+
+                    //foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+                    //{
+                    //    if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                    //    {
+                    //        foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+                    //        {
+                    //            if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    //            {
+                    //                Console.WriteLine(ni.Name);
+                    //                Console.WriteLine(ni.GetPhysicalAddress());
+                    //                Console.WriteLine(ip.Address.ToString());
+                    //                Console.WriteLine(ip.IPv4Mask.ToString());
+                    //                foreach (GatewayIPAddressInformation d in ni.GetIPProperties().GatewayAddresses)
+                    //                {
+                    //                    Console.WriteLine(d.Address);
+                    //                }
+
+                    //                foreach (IPAddress d in ni.GetIPProperties().DnsAddresses)
+                    //                {
+                    //                    Console.WriteLine(d);
+                    //                }
+                    //                Console.WriteLine("=====\n");
+                    //            }
+                    //        }
+                    //    }
+                    //}
+
+                    //foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+                    //{
+                    //    if (ni.OperationalStatus == OperationalStatus.Up)
+                    //    {
+                    //        Console.WriteLine(ni.NetworkInterfaceType.ToString());
+                    //    }
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -457,6 +572,81 @@ namespace SidePanel_Navigation.Controls
                     LogClass.LogWrite($"========== Background Worker Exception ==========");
                 }
             }
+        }
+
+        private String GetUsedSpace(String inp)
+        {
+            String totalspace = "", freespace = "", freepercent1 = "", freepercent2 = "", freepercent = "";
+            Double sFree = 0, sTotal = 0, sEq1 = 0, sEq2 = 0, sUsed = 0;
+            ManagementObjectSearcher getspace = new ManagementObjectSearcher("Select * from Win32_LogicalDisk Where DeviceID='" + inp + "'");
+            foreach (ManagementObject drive in getspace.Get())
+            {
+                if (drive["DeviceID"].ToString() == inp)
+                {
+                    freespace = drive["FreeSpace"].ToString();
+                    totalspace = drive["Size"].ToString();
+                    sFree = Convert.ToDouble(freespace);
+                    sTotal = Convert.ToDouble(totalspace);
+                    sUsed = sTotal - sFree;
+                    sEq1 = sFree * 100 / sTotal;
+                    sEq2 = sUsed * 100 / sTotal;
+                    freepercent1 = (Math.Round((sTotal - sFree) / 1073741824, 2)).ToString() + " (" + Math.Round(sEq2, 0).ToString() + " %)";
+                    freepercent2 = (Math.Round((sTotal - sUsed) / 1073741824, 2)).ToString() + " (" + Math.Round(sEq1, 0).ToString() + " %)";
+                    freepercent = $"{freepercent1}*{freepercent2}";
+                    return freepercent;
+                }
+            }
+            return "";
+        }
+        private String GetPartName(String inp)
+        {
+            //MessageBox.Show(inp);
+            String Dependent = "", ret = "";
+            ManagementObjectSearcher LogicalDisk = new ManagementObjectSearcher("Select * from Win32_LogicalDiskToPartition");
+            foreach (ManagementObject drive in LogicalDisk.Get())
+            {
+                if (drive["Antecedent"].ToString().Contains(inp))
+                {
+                    Dependent = drive["Dependent"].ToString();
+                    ret = Dependent.Substring(Dependent.Length - 3, 2);
+                    break;
+                }
+
+            }
+            return ret;
+
+        }
+
+        public static IPAddress GetSubnetMask(IPAddress address)
+        {
+            foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                foreach (UnicastIPAddressInformation unicastIPAddressInformation in adapter.GetIPProperties().UnicastAddresses)
+                {
+                    if (unicastIPAddressInformation.Address.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        if (address.Equals(unicastIPAddressInformation.Address))
+                        {
+                            return unicastIPAddressInformation.IPv4Mask;
+                        }
+                    }
+                }
+            }
+            throw new ArgumentException(string.Format("Can't find subnetmask for IP address '{0}'", address));
+        }
+
+        public static IPAddress GetDefaultGateway()
+        {
+            return NetworkInterface
+                .GetAllNetworkInterfaces()
+                .Where(n => n.OperationalStatus == OperationalStatus.Up)
+                .Where(n => n.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                .SelectMany(n => n.GetIPProperties()?.GatewayAddresses)
+                .Select(g => g?.Address)
+                .Where(a => a != null)
+                // .Where(a => a.AddressFamily == AddressFamily.InterNetwork)
+                // .Where(a => Array.FindIndex(a.GetAddressBytes(), b => b != 0) >= 0)
+                .FirstOrDefault();
         }
 
         public string GetMemoryType(int MemoryType)

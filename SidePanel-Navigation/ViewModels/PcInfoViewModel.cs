@@ -88,6 +88,8 @@ namespace SidePanel_Navigation.ViewModels
         static string internalGraphicsModel;
 
         //Storage
+        static List<DiskDriveModel> listDiskDriveInfo;
+
 
         //Optical Drives
         static string opticalDriveName;
@@ -102,6 +104,11 @@ namespace SidePanel_Navigation.ViewModels
         static string opticalDriveStatus;
 
         //Audio
+        static string soundDeviceName;
+        static string soundDeviceManufacturer;
+        static string soundPlaybackDevices;
+        static string soundConfigManUserConfig;
+        static string soundDriveConfigManErrCode;
 
         //Peripherals
 
@@ -123,15 +130,7 @@ namespace SidePanel_Navigation.ViewModels
         //static string virtualization;
         //static string hyperthreading;
 
-        //static string motherboardModel;
-        //static string biosBrand;
-
         //static string monitorName;
-        //static string currentResolution;
-        //static string monitorFrequency;
-        //static string graphicsManufacturer;
-        //static string graphicsModel;
-        //static string graphicId;
 
         //static string hardDiskManufacturer;
 
@@ -226,5 +225,8 @@ namespace SidePanel_Navigation.ViewModels
         public static string OpticalDriveSCSItargetId { get => opticalDriveSCSItargetId; set => opticalDriveSCSItargetId = value; }
         public static string OpticalDriveStatus { get => opticalDriveStatus; set => opticalDriveStatus = value; }
 
+        //Storage
+
+        public static List<DiskDriveModel> ListDiskDriveInfo { get => listDiskDriveInfo; set => listDiskDriveInfo = value; }
     }
 }

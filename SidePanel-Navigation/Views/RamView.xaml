@@ -95,45 +95,6 @@
                             Height="auto"
                             HorizontalAlignment="Left">
 
-
-                            <!--<Grid Margin="25,5,0,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition Width="100"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="20"/>
-                                    <RowDefinition Height="20"/>
-                                    <RowDefinition Height="20"/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock Text="L1 Cache Size"
-                                   Grid.Column="0"
-                                   Grid.Row="0"/>
-
-                                <TextBlock Text=""
-                                   Grid.Column="1"
-                                   Grid.Row="0"/>
-
-                                <TextBlock Text="L2 Cache Size"
-                                   Grid.Column="0"
-                                   Grid.Row="1"/>
-
-                                <TextBlock Text=""
-                                   Grid.Column="1"
-                                   Grid.Row="1"/>
-
-                                <TextBlock Text="L3 Cache Size"
-                                   Grid.Column="0"
-                                   Grid.Row="2"/>
-
-                                <TextBlock Text=""
-                                   Grid.Column="1"
-                                   Grid.Row="2"/>
-
-                            </Grid>-->
-
                         </StackPanel>
 
                     </Expander>

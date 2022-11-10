@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SidePanel_Navigation.ViewModels
+namespace SidePanel_Navigation.Models
 {
-    public class StorageViewModel : ViewModelBase
+    public class DiskDrivePartitionModel
     {
 
     }
