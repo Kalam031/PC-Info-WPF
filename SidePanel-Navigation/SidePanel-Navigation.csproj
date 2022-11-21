@@ -97,6 +97,7 @@
     </ApplicationDefinition>
     <Compile Include="Controls\GetPcInfoClass.cs" />
     <Compile Include="Controls\ScreenInfo.cs" />
+    <Compile Include="Controls\VendorClass.cs" />
     <Compile Include="Log\LogClass.cs" />
     <Compile Include="Models\AudioModel.cs" />
     <Compile Include="Models\DiskDriveModel.cs" />

@@ -1,34 +1,22 @@
-﻿using SidePanel_Navigation.Log;
+﻿using Microsoft.Win32;
+using OSVersionExtension;
+using SidePanel_Navigation.Log;
+using SidePanel_Navigation.Models;
+using SidePanel_Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Management;
-using System.Text;
-using System.Threading.Tasks;
-using SidePanel_Navigation.ViewModels;
-using Microsoft.Win32;
-using System.Collections;
-using OSVersionExt;
-using OSVersionExtension;
-using System.Globalization;
-using System.Windows.Controls;
-using TaskScheduler;
-using System.Runtime.InteropServices;
-using System.Windows.Threading;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using SidePanel_Navigation.Models;
-using System.Windows;
-using System.Drawing;
-using System.Windows.Forms;
-using Size = System.Windows.Size;
-using System.Management.Instrumentation;
-using System.Net.NetworkInformation;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Reflection.Emit;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace SidePanel_Navigation.Controls
 {
@@ -172,6 +160,8 @@ namespace SidePanel_Navigation.Controls
             {
                 try
                 {
+                    VendorClass.vendorData();
+
                     //Ram
 
                     string s = _QueryComputerSystem("totalphysicalmemory");
@@ -565,7 +555,7 @@ namespace SidePanel_Navigation.Controls
                             else
                             {
                                 diskDrivePartitionModel.PartitionName = part["Index"].ToString();
-                                diskDrivePartitionModel.TotalStorage= PartState;
+                                diskDrivePartitionModel.TotalStorage = PartState;
                             }
 
                             listDiskPartitionInfo.Add(diskDrivePartitionModel);
@@ -599,9 +589,10 @@ namespace SidePanel_Navigation.Controls
 
                         inputDeviceModel.DeviceType = "Mouse";
                         inputDeviceModel.DeviceName = wmi["Name"].ToString();
+                        inputDeviceModel.DeviceVendor = VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]];
 
                         //Console.WriteLine("Type: Mouse");
-                        //Console.WriteLine(wmi["Name"]);
+                        Console.WriteLine(VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]]);
                         //Console.WriteLine(wmi["Manufacturer"]);
                         listMouse.Add(inputDeviceModel);
                     }
@@ -615,9 +606,11 @@ namespace SidePanel_Navigation.Controls
 
                         inputDeviceModel.DeviceType = "Keyboard";
                         inputDeviceModel.DeviceName = wmi["Name"].ToString();
+                        inputDeviceModel.DeviceVendor = VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]];
 
                         //Console.WriteLine("Type: Mouse");
                         //Console.WriteLine(wmi["Name"]);
+                        Console.WriteLine(VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]]);
                         //Console.WriteLine(wmi["Manufacturer"]);
                         listKeyboard.Add(inputDeviceModel);
                     }
@@ -877,51 +870,51 @@ namespace SidePanel_Navigation.Controls
                         break;
                 }
             }
-
-            //private Dictionary<string,string> UserEnvVariable()
-            //{
-            //    Dictionary<string, string> userVariable = new Dictionary<string, string>();
-            //    using (RegistryKey root = Registry.CurrentUser)
-            //    {
-            //        string myKey = "Environment";
-            //        userVariable = SearchSubKeys(root, myKey);
-            //    }
-            //    return userVariable;
-            //}
-
-            //private Dictionary<string,string> SearchSubKeys(RegistryKey root, String searchKey)
-            //{
-            //    Dictionary<string,string> uservaribale = new Dictionary<string,string>();
-            //    foreach (string keyname in root.GetSubKeyNames())
-            //    {
-            //        try
-            //        {
-            //            using (RegistryKey key = root.OpenSubKey(keyname))
-            //            {
-            //                if (keyname == searchKey)
-            //                {
-            //                    foreach (string valuename in key.GetValueNames())
-            //                    {
-            //                        if (key.GetValue(valuename) is String)
-            //                        {
-            //                            uservaribale.Add(valuename, (string)key.GetValue(valuename));
-            //                            //Console.WriteLine("{0} = {1}",
-            //                            //    valuename, key.GetValue(valuename));
-            //                        }
-            //                    }
-            //                }
-            //                SearchSubKeys(key, searchKey);
-            //            }
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Console.WriteLine(ex.Message);
-            //            Console.WriteLine(ex.StackTrace);
-            //        }
-            //    }
-            //    return uservaribale;
-            //}
         }
+
+        //private Dictionary<string,string> UserEnvVariable()
+        //{
+        //    Dictionary<string, string> userVariable = new Dictionary<string, string>();
+        //    using (RegistryKey root = Registry.CurrentUser)
+        //    {
+        //        string myKey = "Environment";
+        //        userVariable = SearchSubKeys(root, myKey);
+        //    }
+        //    return userVariable;
+        //}
+
+        //private Dictionary<string,string> SearchSubKeys(RegistryKey root, String searchKey)
+        //{
+        //    Dictionary<string,string> uservaribale = new Dictionary<string,string>();
+        //    foreach (string keyname in root.GetSubKeyNames())
+        //    {
+        //        try
+        //        {
+        //            using (RegistryKey key = root.OpenSubKey(keyname))
+        //            {
+        //                if (keyname == searchKey)
+        //                {
+        //                    foreach (string valuename in key.GetValueNames())
+        //                    {
+        //                        if (key.GetValue(valuename) is String)
+        //                        {
+        //                            uservaribale.Add(valuename, (string)key.GetValue(valuename));
+        //                            //Console.WriteLine("{0} = {1}",
+        //                            //    valuename, key.GetValue(valuename));
+        //                        }
+        //                    }
+        //                }
+        //                SearchSubKeys(key, searchKey);
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine(ex.Message);
+        //            Console.WriteLine(ex.StackTrace);
+        //        }
+        //    }
+        //    return uservaribale;
+        //}
 
         class Processor
         {

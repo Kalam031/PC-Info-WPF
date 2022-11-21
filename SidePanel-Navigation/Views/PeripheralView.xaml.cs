@@ -57,9 +57,12 @@ namespace SidePanel_Navigation.Views
                     rowDefm1.Height = new GridLength(20);
                     RowDefinition rowDefm2 = new RowDefinition();
                     rowDefm2.Height = new GridLength(20);
+                    RowDefinition rowDefm3 = new RowDefinition();
+                    rowDefm3.Height = new GridLength(20);
 
                     gridmouse.RowDefinitions.Add(rowDefm1);
                     gridmouse.RowDefinitions.Add(rowDefm2);
+                    gridmouse.RowDefinitions.Add(rowDefm3);
 
                     TextBlock textblockmtype = new TextBlock();
                     textblockmtype.Text = "Device Type";
@@ -81,10 +84,22 @@ namespace SidePanel_Navigation.Views
                     Grid.SetColumn(textblockmnameval, 1);
                     Grid.SetRow(textblockmnameval, 1);
 
+                    TextBlock textblockmvvendor = new TextBlock();
+                    textblockmvvendor.Text = "Vendor Name";
+                    Grid.SetColumn(textblockmvvendor, 0);
+                    Grid.SetRow(textblockmvvendor, 2);
+
+                    TextBlock textblockmvvendorval = new TextBlock();
+                    textblockmvvendorval.Text = v.DeviceVendor;
+                    Grid.SetColumn(textblockmvvendorval, 1);
+                    Grid.SetRow(textblockmvvendorval, 2);
+
                     gridmouse.Children.Add(textblockmtype);
                     gridmouse.Children.Add(textblockmtypeval);
                     gridmouse.Children.Add(textblockmname);
                     gridmouse.Children.Add(textblockmnameval);
+                    gridmouse.Children.Add(textblockmvvendor);
+                    gridmouse.Children.Add(textblockmvvendorval);
                 }
             }
 
@@ -116,9 +131,12 @@ namespace SidePanel_Navigation.Views
                     rowDefm1.Height = new GridLength(20);
                     RowDefinition rowDefm2 = new RowDefinition();
                     rowDefm2.Height = new GridLength(20);
+                    RowDefinition rowDefm3 = new RowDefinition();
+                    rowDefm3.Height = new GridLength(20);
 
                     gridkeyboard.RowDefinitions.Add(rowDefm1);
                     gridkeyboard.RowDefinitions.Add(rowDefm2);
+                    gridkeyboard.RowDefinitions.Add(rowDefm3);
 
                     TextBlock textblockmtype = new TextBlock();
                     textblockmtype.Text = "Device Type";
@@ -140,10 +158,23 @@ namespace SidePanel_Navigation.Views
                     Grid.SetColumn(textblockmnameval, 1);
                     Grid.SetRow(textblockmnameval, 1);
 
+
+                    TextBlock textblockmvendor = new TextBlock();
+                    textblockmvendor.Text = "Vendor Name";
+                    Grid.SetColumn(textblockmvendor, 0);
+                    Grid.SetRow(textblockmvendor, 2);
+
+                    TextBlock textblockmvendorval = new TextBlock();
+                    textblockmvendorval.Text = v.DeviceVendor;
+                    Grid.SetColumn(textblockmvendorval, 1);
+                    Grid.SetRow(textblockmvendorval, 2);
+
                     gridkeyboard.Children.Add(textblockmtype);
                     gridkeyboard.Children.Add(textblockmtypeval);
                     gridkeyboard.Children.Add(textblockmname);
                     gridkeyboard.Children.Add(textblockmnameval);
+                    gridkeyboard.Children.Add(textblockmvendor);
+                    gridkeyboard.Children.Add(textblockmvendorval);
                 }
             }
 

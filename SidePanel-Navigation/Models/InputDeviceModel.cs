@@ -10,5 +10,6 @@ namespace SidePanel_Navigation.Models
     {
         public string DeviceName { get; set; }
         public string DeviceType { get; set; }
+        public string DeviceVendor { get; set; }
     }
 }
