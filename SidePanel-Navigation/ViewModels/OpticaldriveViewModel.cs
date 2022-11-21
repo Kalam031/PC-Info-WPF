@@ -25,6 +25,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _opticalDriveName = value;
+                OnPropertyChanged(nameof(OpticalDriveName));
             }
         }
 
@@ -34,6 +35,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _opticalDriveConfigManUserConfig = value;
+                OnPropertyChanged(nameof(OpticalDriveConfigManUserConfig));
             }
         }
 
@@ -43,6 +45,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _opticalDriveConfigManErrCode = value;
+                OnPropertyChanged(nameof(OpticalDriveConfigManErrCode));
             }
         }
 
@@ -52,6 +55,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _opticalDriveVolume = value;
+                OnPropertyChanged(nameof(OpticalDriveVolume));
             }
         }
 
@@ -61,6 +65,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _opticalDriveMediaLoaded = value;
+                OnPropertyChanged(nameof(OpticalDriveMediaLoaded));
             }
         }
 
@@ -70,6 +75,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _opticalDriveSCSIbus = value;
+                OnPropertyChanged(nameof(OpticalDriveSCSIbus));
             }
         }
 
@@ -79,6 +85,7 @@ namespace SidePanel_Navigation.ViewModels
             set 
             {
                 _opticalDriveSCSILogicalUnit = value;
+                OnPropertyChanged(nameof(OpticalDriveSCSILogicalUnit));
             }
         }
 
@@ -88,6 +95,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _opticalDriveSCSIport = value;
+                OnPropertyChanged(nameof(OpticalDriveSCSIport));
             }
         }
 
@@ -97,6 +105,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _opticalDriveSCSItargetId = value;
+                OnPropertyChanged(nameof(OpticalDriveSCSItargetId));
             }
         }
 
@@ -106,6 +115,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _opticalDriveStatus = value;
+                OnPropertyChanged(nameof(OpticalDriveStatus));
             }
         }
     }

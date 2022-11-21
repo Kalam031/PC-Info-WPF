@@ -41,6 +41,14 @@ namespace SidePanel_Navigation.Controls
         PerformanceCounter _memoryCounter = new PerformanceCounter();
         List<MemInfoModel> listMemInfo = new List<MemInfoModel>();
         List<DiskDriveModel> listDiskInfo = new List<DiskDriveModel>();
+        List<DiskDrivePartitionModel> listDiskPartitionInfo = new List<DiskDrivePartitionModel>();
+        List<NetworkAdapterModel> listNetWorkInfo = new List<NetworkAdapterModel>();
+        List<string> listconnecteddns = new List<string>();
+        List<string> listdnsserver = new List<string>();
+        List<InputDeviceModel> listMouse = new List<InputDeviceModel>();
+        List<InputDeviceModel> listKeyboard = new List<InputDeviceModel>();
+        List<PrinterModel> listPrinter = new List<PrinterModel>();
+        List<AudioModel> listAudioDevice = new List<AudioModel>();
 
         SelectQuery Sq = new SelectQuery("Win32_DesktopMonitor");
 
@@ -50,6 +58,12 @@ namespace SidePanel_Navigation.Controls
             backgroundWorker1.WorkerSupportsCancellation = true;
             ManagementObjectSearcher objOSDetails = new ManagementObjectSearcher(Sq);
             ManagementObjectCollection osDetailsCollection = objOSDetails.Get();
+
+            backgroundWorker.DoWork += Bg_DoWork;
+            backgroundWorker.RunWorkerCompleted += Bg_RunWorkerCompleted;
+
+            backgroundWorker1.DoWork += BackgroundWorker1_DoWork;
+            backgroundWorker1.RunWorkerCompleted += BackgroundWorker1_RunWorkerCompleted;
         }
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -63,9 +77,6 @@ namespace SidePanel_Navigation.Controls
             {
                 backgroundWorker1.RunWorkerAsync();
             }
-
-            backgroundWorker1.DoWork += BackgroundWorker1_DoWork;
-            backgroundWorker1.RunWorkerCompleted += BackgroundWorker1_RunWorkerCompleted;
         }
 
         private void BackgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -140,9 +151,6 @@ namespace SidePanel_Navigation.Controls
                 backgroundWorker.RunWorkerAsync();
             }
 
-            backgroundWorker.DoWork += Bg_DoWork;
-            backgroundWorker.RunWorkerCompleted += Bg_RunWorkerCompleted;
-
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += DispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
@@ -164,6 +172,20 @@ namespace SidePanel_Navigation.Controls
             {
                 try
                 {
+                    //Ram
+
+                    string s = _QueryComputerSystem("totalphysicalmemory");
+                    double totalphysicalmemory = Convert.ToDouble(s);
+
+                    int unit = 0;
+                    while (totalphysicalmemory > 1024)
+                    {
+                        totalphysicalmemory /= 1024;
+                        ++unit;
+                    }
+
+                    PcInfoViewModel.SummaryMemoryTotal = Math.Ceiling(totalphysicalmemory).ToString("F") + " " + ((Unit)unit).ToString();
+
                     //Operating System
 
                     ManagementObjectSearcher mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_OperatingSystem");
@@ -359,10 +381,10 @@ namespace SidePanel_Navigation.Controls
 
                     mos = new ManagementObjectSearcher("root\\CIMV2", "select * from Win32_PhysicalMemory");
 
-                    string s = _QueryComputerSystem("totalphysicalmemory");
-                    double totalphysicalmemory = Convert.ToDouble(s);
+                    string s1 = _QueryComputerSystem("totalphysicalmemory");
+                    double totalphysicalmemory1 = Convert.ToDouble(s1);
 
-                    double trunctotal = double.Parse(Regex.Replace(FormatBytes(totalphysicalmemory), "[^0-9.]", ""));
+                    double trunctotal = double.Parse(Regex.Replace(FormatBytes(totalphysicalmemory1), "[^0-9.]", ""));
 
                     foreach (ManagementObject wmi in mos.Get())
                     {
@@ -410,6 +432,15 @@ namespace SidePanel_Navigation.Controls
 
                     //Graphics
 
+                    PcInfoViewModel.MonitorName = Screen.PrimaryScreen.DeviceFriendlyName();
+
+                    //mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM DisplayMonitor");
+
+                    //foreach (ManagementObject wmi in mos.Get())
+                    //{
+                    //    Console.WriteLine(wmi["DeviceId"]);
+                    //}
+
                     mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_VideoController");
 
                     foreach (ManagementObject wmi in mos.Get())
@@ -417,8 +448,8 @@ namespace SidePanel_Navigation.Controls
                         PcInfoViewModel.MonitorWidth = wmi["CurrentHorizontalResolution"].ToString();
                         PcInfoViewModel.MonitorHeight = wmi["CurrentVerticalResolution"].ToString();
                         PcInfoViewModel.MonitorResolution = $"{PcInfoViewModel.MonitorWidth} x {PcInfoViewModel.MonitorHeight}";
-                        PcInfoViewModel.MonitorCurrentFrequency = wmi["CurrentRefreshRate"].ToString() + " MHz";
-                        PcInfoViewModel.MonitorFrequency = wmi["MaxRefreshRate"].ToString() + " MHz";
+                        PcInfoViewModel.MonitorCurrentFrequency = wmi["CurrentRefreshRate"].ToString() + " Hz";
+                        PcInfoViewModel.MonitorFrequency = wmi["MaxRefreshRate"].ToString() + " Hz";
                         PcInfoViewModel.MonitorBitsPerPixel = wmi["CurrentBitsPerPixel"].ToString() + " bits per pixel";
 
                         PcInfoViewModel.InternalGraphicsName = wmi["Name"].ToString();
@@ -490,17 +521,21 @@ namespace SidePanel_Navigation.Controls
                     foreach (ManagementObject objhdd in hdd.Get())
                     {
                         PartState = "";
-                        DiskName = "Disk " + objhdd["Index"].ToString() + " : " + objhdd["Caption"].ToString().Replace(" ATA Device", "") +
-                            " (" + Math.Round(Convert.ToDouble(objhdd["Size"]) / 1073741824, 1) + " GB)";
+                        //DiskName = "Disk " + objhdd["Index"].ToString() + " : " + objhdd["Caption"].ToString().Replace(" ATA Device", "") +
+                        //    " (" + Math.Round(Convert.ToDouble(objhdd["Size"]) / 1073741824, 1) + " GB)";
 
                         ObjCount = Convert.ToInt16(objhdd["Partitions"]);
                         ManagementObjectSearcher partitions = new ManagementObjectSearcher(
                             "Select * From Win32_DiskPartition Where DiskIndex='" + objhdd["Index"].ToString() + "'");
                         foreach (ManagementObject part in partitions.Get())
                         {
+                            DiskDrivePartitionModel diskDrivePartitionModel = new DiskDrivePartitionModel();
+
                             PartName = part["DeviceID"].ToString();
                             if (part["Bootable"].ToString() == "True" && part["BootPartition"].ToString() == "True")
-                                PartState = "Recovery";
+                            {
+                                PartState = FormatBytes(Convert.ToDouble(part["Size"].ToString()));
+                            }
                             else
                             {
                                 //ManagementObjectSearcher getdisks = new ManagementObjectSearcher
@@ -510,59 +545,188 @@ namespace SidePanel_Navigation.Controls
                                 PartState = "Local Disk (" + PartState + ")";
                             }
 
-                            Console.WriteLine($"Partition {part["Index"]}\n {PartState}\n {PartFree}\n {Math.Round(Convert.ToDouble(part["Size"].ToString()) / 1073741824, 1)}");
+                            if (!string.IsNullOrEmpty(PartState))
+                            {
+                                diskDrivePartitionModel.PartitionName = part["Index"].ToString();
+                                diskDrivePartitionModel.DriveName = PartState;
+                                diskDrivePartitionModel.TotalStorage = FormatBytes(Convert.ToDouble(part["Size"].ToString()));
+                                string[] val = PartFree.Split('*');
+
+                                if (!string.IsNullOrEmpty(val[0]))
+                                {
+                                    diskDrivePartitionModel.UsedSpace = val[0];
+                                }
+
+                                if (!string.IsNullOrEmpty(val[0]))
+                                {
+                                    diskDrivePartitionModel.FreeSpace = val[1];
+                                }
+                            }
+                            else
+                            {
+                                diskDrivePartitionModel.PartitionName = part["Index"].ToString();
+                                diskDrivePartitionModel.TotalStorage= PartState;
+                            }
+
+                            listDiskPartitionInfo.Add(diskDrivePartitionModel);
                         }
+
+                        PcInfoViewModel.ListDiskDrivePartitionInfo = listDiskPartitionInfo;
                     }
+
+                    //Audio
 
                     mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_SoundDevice");
 
                     foreach (ManagementObject wmi in mos.Get())
                     {
+                        AudioModel audioModel = new AudioModel();
+
+                        audioModel.DeviceName = wmi["Caption"].ToString();
+
+                        listAudioDevice.Add(audioModel);
                         //Console.WriteLine(wmi["Caption"]);
                     }
+                    PcInfoViewModel.ListsoundDeviceInfo = listAudioDevice;
 
-                    mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_NetworkAdapter WHERE NetEnabled = True");
+                    //Peripherals
+
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "select * from win32_pnpentity where PNPClass = 'Mouse'");
 
                     foreach (ManagementObject wmi in mos.Get())
                     {
-                        //Console.WriteLine(wmi["Name"]);
+                        InputDeviceModel inputDeviceModel = new InputDeviceModel();
 
+                        inputDeviceModel.DeviceType = "Mouse";
+                        inputDeviceModel.DeviceName = wmi["Name"].ToString();
+
+                        //Console.WriteLine("Type: Mouse");
+                        //Console.WriteLine(wmi["Name"]);
+                        //Console.WriteLine(wmi["Manufacturer"]);
+                        listMouse.Add(inputDeviceModel);
+                    }
+                    PcInfoViewModel.Mouse = listMouse;
+
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "select * from win32_pnpentity where PNPClass = 'Keyboard'");
+
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        InputDeviceModel inputDeviceModel = new InputDeviceModel();
+
+                        inputDeviceModel.DeviceType = "Keyboard";
+                        inputDeviceModel.DeviceName = wmi["Name"].ToString();
+
+                        //Console.WriteLine("Type: Mouse");
+                        //Console.WriteLine(wmi["Name"]);
+                        //Console.WriteLine(wmi["Manufacturer"]);
+                        listKeyboard.Add(inputDeviceModel);
+                    }
+                    PcInfoViewModel.Keyboard = listKeyboard;
+
+                    mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_Printer");
+
+                    foreach (ManagementObject wmi in mos.Get())
+                    {
+                        PrinterModel printerModel = new PrinterModel();
+
+                        printerModel.PrinterName = wmi["Name"].ToString();
+                        printerModel.PrinterPort = wmi["PortName"].ToString();
+                        printerModel.PrintProcessor = wmi["PrintProcessor"].ToString();
+                        printerModel.Priority = wmi["Priority"].ToString();
+                        printerModel.PrintQuality = $"{wmi["HorizontalResolution"]} * {wmi["VerticalResolution"]}";
+                        printerModel.Status = wmi["Status"].ToString();
+                        printerModel.DriverName = wmi["DriverName"].ToString();
+                        printerModel.SpoolEnabled = wmi["SpoolEnabled"].ToString();
+                        printerModel.WorkOffline = wmi["WorkOffline"].ToString();
+
+                        //Console.WriteLine(wmi["Name"]);
+                        //Console.WriteLine(wmi["PortName"]);
+                        //Console.WriteLine(wmi["PrintProcessor"]);
+                        //Console.WriteLine(wmi["Priority"]);
+                        //Console.WriteLine(wmi["HorizontalResolution"]);
+                        //Console.WriteLine(wmi["VerticalResolution"]);
+                        //Console.WriteLine(wmi["Status"]);
+                        //Console.WriteLine(wmi["DriverName"]);
+                        //Console.WriteLine(wmi["SpoolEnabled"]);
+                        //Console.WriteLine(wmi["WorkOffline"]);
+
+                        listPrinter.Add(printerModel);
+                    }
+                    //foreach (var v in listPrinter)
+                    //{
+                    //    Console.WriteLine(v.PrinterName);
+                    //}
+
+                    PcInfoViewModel.Printer = listPrinter;
+
+                    //Network
+
+                    //mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_NetworkAdapter WHERE NetEnabled = True");
+
+                    //foreach (ManagementObject wmi in mos.Get())
+                    //{
+                    //    Console.WriteLine(wmi["Name"]);
+
+                    //}
+
+                    string localIP = "";
+                    IPAddress dnsip = null;
+                    try
+                    {
+                        using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+                        {
+                            socket.Connect("8.8.8.8", 65530);
+                            IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                            localIP = endPoint.Address.ToString();
+                            PcInfoViewModel.Userip = localIP;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        localIP = Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString();
+                        PcInfoViewModel.Userip = localIP;
                     }
 
-                    //foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
-                    //{
-                    //    if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
-                    //    {
-                    //        foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
-                    //        {
-                    //            if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                    //            {
-                    //                Console.WriteLine(ni.Name);
-                    //                Console.WriteLine(ni.GetPhysicalAddress());
-                    //                Console.WriteLine(ip.Address.ToString());
-                    //                Console.WriteLine(ip.IPv4Mask.ToString());
-                    //                foreach (GatewayIPAddressInformation d in ni.GetIPProperties().GatewayAddresses)
-                    //                {
-                    //                    Console.WriteLine(d.Address);
-                    //                }
+                    PcInfoViewModel.Usersubnetmask = GetSubnetMask(IPAddress.Parse(localIP)).ToString();
+                    PcInfoViewModel.Usergateway = GetDefaultGateway().ToString();
 
-                    //                foreach (IPAddress d in ni.GetIPProperties().DnsAddresses)
-                    //                {
-                    //                    Console.WriteLine(d);
-                    //                }
-                    //                Console.WriteLine("=====\n");
-                    //            }
-                    //        }
-                    //    }
-                    //}
+                    foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+                    {
+                        if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                        {
+                            foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+                            {
+                                if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                                {
+                                    NetworkAdapterModel networkAdapterModel = new NetworkAdapterModel();
+                                    networkAdapterModel.nicName = ni.Name;
+                                    networkAdapterModel.ip = ip.Address.ToString();
+                                    networkAdapterModel.macAddress = ni.GetPhysicalAddress().ToString();
+                                    networkAdapterModel.subnetmask = ip.IPv4Mask.ToString();
+                                    networkAdapterModel.gateway = GetDefaultGateway().ToString();
 
-                    //foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
-                    //{
-                    //    if (ni.OperationalStatus == OperationalStatus.Up)
-                    //    {
-                    //        Console.WriteLine(ni.NetworkInterfaceType.ToString());
-                    //    }
-                    //}
+                                    //foreach (GatewayIPAddressInformation d in ni.GetIPProperties().GatewayAddresses)
+                                    //{
+                                    //    Console.WriteLine(d.Address);
+                                    //}
+
+                                    foreach (IPAddress d in ni.GetIPProperties().DnsAddresses)
+                                    {
+                                        listdnsserver.Add(d.ToString());
+
+                                        if (!d.ToString().Contains("::"))
+                                        {
+                                            listconnecteddns.Add(d.ToString());
+                                        }
+                                    }
+                                    PcInfoViewModel.Userdnsserver = listconnecteddns;
+                                    networkAdapterModel.listdnsserver = listconnecteddns;
+                                    listNetWorkInfo.Add(networkAdapterModel);
+                                }
+                                PcInfoViewModel.ListNetworkInformation = listNetWorkInfo;
+                            }
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {

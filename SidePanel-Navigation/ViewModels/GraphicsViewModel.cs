@@ -8,6 +8,7 @@ namespace SidePanel_Navigation.ViewModels
 {
     public class GraphicsViewModel : ViewModelBase
     {
+        string _monitorName;
         string _monitorWidth;
         string _monitorHeight;
         string _monitorResolution;
@@ -27,6 +28,7 @@ namespace SidePanel_Navigation.ViewModels
             set 
             {
                 _monitorWidth = value;
+                OnPropertyChanged(nameof(MonitorWidth));
             }
         }
 
@@ -36,6 +38,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _monitorHeight = value;
+                OnPropertyChanged(nameof(MonitorHeight));
             }
         }
 
@@ -45,6 +48,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _monitorResolution = value;
+                OnPropertyChanged(nameof(MonitorResolution));
             }
         }
 
@@ -54,6 +58,7 @@ namespace SidePanel_Navigation.ViewModels
             set 
             {
                 _monitorBitsPerPixel = value;
+                OnPropertyChanged(nameof(MonitorBitsPerPixel));
             }
         }
 
@@ -63,6 +68,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _monitorFrequency = value;
+                OnPropertyChanged(nameof(MonitorFrequency));
             }
         }
 
@@ -72,6 +78,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _monitorCurrentFrequency = value;
+                OnPropertyChanged(nameof(MonitorCurrentFrequency));
             }
         }
 
@@ -81,6 +88,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _internalGraphicsName = value;
+                OnPropertyChanged(nameof(InternalGraphicsName));
             }
         }
 
@@ -90,6 +98,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _internalGraphicsDriverVersion = value;
+                OnPropertyChanged(nameof(InternalGraphicsDriverVersion));
             }
         }
 
@@ -99,6 +108,7 @@ namespace SidePanel_Navigation.ViewModels
             set 
             {
                 _internalGraphicsDate = value;
+                OnPropertyChanged(nameof(InternalGraphicsDate));
             }
         }
 
@@ -108,6 +118,7 @@ namespace SidePanel_Navigation.ViewModels
             set 
             {
                 _internalGraphicsManufacturer = value;
+                OnPropertyChanged(nameof(InternalGraphicsManufacturer));
             }
         }
 
@@ -117,6 +128,17 @@ namespace SidePanel_Navigation.ViewModels
             set 
             {
                 _internalGraphicsModel = value;
+                OnPropertyChanged(nameof(InternalGraphicsModel));
+            }
+        }
+
+        public string MonitorName
+        {
+            get => PcInfoViewModel.MonitorName;
+            set
+            {
+                _monitorName = value;
+                OnPropertyChanged(nameof(MonitorName));
             }
         }
     }

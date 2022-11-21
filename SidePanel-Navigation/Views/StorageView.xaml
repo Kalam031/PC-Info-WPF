@@ -34,9 +34,6 @@
                     Width="auto"
                     Height="auto"
                     HorizontalAlignment="Left">
-                    
-                    
-                    
                 </StackPanel>
                 
             </Expander>

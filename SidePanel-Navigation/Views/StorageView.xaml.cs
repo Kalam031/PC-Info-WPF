@@ -21,29 +21,44 @@ namespace SidePanel_Navigation.Views
     /// </summary>
     public partial class StorageView : UserControl
     {
+        StorageViewModel storageViewModel = new StorageViewModel();
         public StorageView()
         {
             InitializeComponent();
 
-            foreach (var v in PcInfoViewModel.ListDiskDriveInfo)
+            if (storageViewModel.ListDiskDriveInfo != null)
             {
-                CreateControl(v.DiskName, v.DiskManufacturer, v.Heads, v.Cylinders, v.Tracks, v.Sectors, v.Serial, v.Capacity, v.RealSize, v.Status);
+                foreach (var v in storageViewModel.ListDiskDriveInfo)
+                {
+                    CreateControl(v.DiskName, v.DiskManufacturer, v.Heads, v.Cylinders, v.Tracks, v.Sectors, v.Serial, v.Capacity, v.RealSize, v.Status);
+                }
+            }
+            else
+            {
+                CreateControl("Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..");
             }
         }
 
         private void CreateControl(string title, string manufacturer, string heads, string cylinders, string tracks, string sectors, string serial, string capacity,  string realSize, string status)
         {
-            Expander memExpander = new Expander();
-            memExpander.Name = "memExpand";
-            memExpander.Margin = new Thickness(25, 0, 0, 0);
-            memExpander.IsExpanded = true;
-            memExpander.Foreground = Brushes.White;
-            memExpander.Header = title;
-            mainStoragePanel.Children.Add(memExpander);
+            Expander hardExpander = new Expander();
+            hardExpander.Name = "hardExpand";
+            hardExpander.Margin = new Thickness(25, 0, 0, 0);
+            hardExpander.IsExpanded = true;
+            hardExpander.Foreground = Brushes.White;
+            hardExpander.Header = title;
+            mainStoragePanel.Children.Add(hardExpander);
+
+            StackPanel stackPanel = new StackPanel();
+            stackPanel.Name = "inExpandPanel";
+            stackPanel.Width = double.NaN;
+            stackPanel.Height = double.NaN;
+            stackPanel.HorizontalAlignment = HorizontalAlignment.Left;
+            hardExpander.Content = stackPanel;
 
             Grid grid = new Grid();
             grid.Margin = new Thickness(25, 0, 0, 0);
-            memExpander.Content = grid;
+            stackPanel.Children.Add(grid);
 
             ColumnDefinition colDef1 = new ColumnDefinition();
             colDef1.Width = new GridLength(160);
@@ -157,7 +172,7 @@ namespace SidePanel_Navigation.Views
             Grid.SetRow(textblockrealsize, 7);
 
             TextBlock textblockrealsizeval = new TextBlock();
-            textblockrealsizeval.Text = realSize + "bytes";
+            textblockrealsizeval.Text = realSize + " bytes";
             Grid.SetColumn(textblockrealsizeval, 1);
             Grid.SetRow(textblockrealsizeval, 7);
 
@@ -189,6 +204,153 @@ namespace SidePanel_Navigation.Views
             grid.Children.Add(textblockrealsizeval);
             grid.Children.Add(textblockstatus);
             grid.Children.Add(textblockstatusval);
+
+            Expander hardSubExpander = new Expander();
+            hardSubExpander.Name = "hardSubExpand";
+            hardSubExpander.Margin = new Thickness(25, 0, 0, 0);
+            hardSubExpander.IsExpanded = true;
+            hardSubExpander.Foreground = Brushes.White;
+            hardSubExpander.Header = "Partition";
+            stackPanel.Children.Add(hardSubExpander);
+
+            StackPanel stackPanel2 = new StackPanel();
+            stackPanel2.Name = "insubExpandPanel";
+            stackPanel2.Width = double.NaN;
+            stackPanel2.Height = double.NaN;
+            stackPanel2.HorizontalAlignment = HorizontalAlignment.Left;
+            hardSubExpander.Content = stackPanel2;
+
+            if (storageViewModel.ListDiskPartionInfo != null)
+            {
+                foreach (var v in storageViewModel.ListDiskPartionInfo)
+                {
+                    if (v.PartitionName.Contains("0"))
+                    {
+                        Expander hardSubExpander1 = new Expander();
+                        hardSubExpander1.Name = "hardSubExpand";
+                        hardSubExpander1.Margin = new Thickness(25, 0, 0, 0);
+                        hardSubExpander1.IsExpanded = true;
+                        hardSubExpander1.Foreground = Brushes.White;
+                        hardSubExpander1.Header = $"Partition {v.PartitionName}";
+                        stackPanel2.Children.Add(hardSubExpander1);
+
+                        Grid grid1 = new Grid();
+                        grid1.Margin = new Thickness(25, 0, 0, 0);
+                        hardSubExpander1.Content = grid1;
+
+                        ColumnDefinition colDef201 = new ColumnDefinition();
+                        colDef201.Width = new GridLength(160);
+                        ColumnDefinition colDef202 = new ColumnDefinition();
+                        colDef202.Width = new GridLength(200);
+
+                        grid1.ColumnDefinitions.Add(colDef201);
+                        grid1.ColumnDefinitions.Add(colDef202);
+
+                        RowDefinition rowDef201 = new RowDefinition();
+                        rowDef201.Height = new GridLength(20);
+
+                        grid1.RowDefinitions.Add(rowDef201);
+
+                        TextBlock textblockbootPartitionName = new TextBlock();
+                        textblockbootPartitionName.Text = "Size";
+                        Grid.SetColumn(textblockbootPartitionName, 0);
+                        Grid.SetRow(textblockbootPartitionName, 0);
+
+                        TextBlock textblockbootPartitionNameval = new TextBlock();
+                        textblockbootPartitionNameval.Text = v.TotalStorage;
+                        Grid.SetColumn(textblockbootPartitionNameval, 1);
+                        Grid.SetRow(textblockbootPartitionNameval, 0);
+
+                        grid1.Children.Add(textblockbootPartitionName);
+                        grid1.Children.Add(textblockbootPartitionNameval);
+                    }
+                    else
+                    {
+                        Expander hardSubExpander2 = new Expander();
+                        hardSubExpander2.Name = "hardSubExpand";
+                        hardSubExpander2.Margin = new Thickness(25, 0, 0, 0);
+                        hardSubExpander2.IsExpanded = true;
+                        hardSubExpander2.Foreground = Brushes.White;
+                        hardSubExpander2.Header = $"Partition {v.PartitionName}";
+                        stackPanel2.Children.Add(hardSubExpander2);
+
+                        Grid grid2 = new Grid();
+                        grid2.Margin = new Thickness(25, 0, 0, 0);
+                        hardSubExpander2.Content = grid2;
+
+                        ColumnDefinition colDef301 = new ColumnDefinition();
+                        colDef301.Width = new GridLength(160);
+                        ColumnDefinition colDef302 = new ColumnDefinition();
+                        colDef302.Width = new GridLength(200);
+
+                        grid2.ColumnDefinitions.Add(colDef301);
+                        grid2.ColumnDefinitions.Add(colDef302);
+
+                        RowDefinition rowDef301 = new RowDefinition();
+                        rowDef301.Height = new GridLength(20);
+                        RowDefinition rowDef302 = new RowDefinition();
+                        rowDef302.Height = new GridLength(20);
+                        RowDefinition rowDef303 = new RowDefinition();
+                        rowDef303.Height = new GridLength(20);
+                        RowDefinition rowDef304 = new RowDefinition();
+                        rowDef304.Height = new GridLength(20);
+
+                        grid2.RowDefinitions.Add(rowDef301);
+                        grid2.RowDefinitions.Add(rowDef302);
+                        grid2.RowDefinitions.Add(rowDef303);
+                        grid2.RowDefinitions.Add(rowDef304);
+
+                        TextBlock textblockbootPartitionDriveName = new TextBlock();
+                        textblockbootPartitionDriveName.Text = "Drive";
+                        Grid.SetColumn(textblockbootPartitionDriveName, 0);
+                        Grid.SetRow(textblockbootPartitionDriveName, 0);
+
+                        TextBlock textblockbootPartitionDriveval = new TextBlock();
+                        textblockbootPartitionDriveval.Text = v.DriveName;
+                        Grid.SetColumn(textblockbootPartitionDriveval, 1);
+                        Grid.SetRow(textblockbootPartitionDriveval, 0);
+
+                        TextBlock textblockbootPartitionSize = new TextBlock();
+                        textblockbootPartitionSize.Text = "Size";
+                        Grid.SetColumn(textblockbootPartitionSize, 0);
+                        Grid.SetRow(textblockbootPartitionSize, 1);
+
+                        TextBlock textblockbootPartitionSizeval = new TextBlock();
+                        textblockbootPartitionSizeval.Text = v.TotalStorage;
+                        Grid.SetColumn(textblockbootPartitionSizeval, 1);
+                        Grid.SetRow(textblockbootPartitionSizeval, 1);
+
+                        TextBlock textblockbootPartitionUsedSpace = new TextBlock();
+                        textblockbootPartitionUsedSpace.Text = "Used Space";
+                        Grid.SetColumn(textblockbootPartitionUsedSpace, 0);
+                        Grid.SetRow(textblockbootPartitionUsedSpace, 2);
+
+                        TextBlock textblockbootPartitionUsedSpaceval = new TextBlock();
+                        textblockbootPartitionUsedSpaceval.Text = v.UsedSpace;
+                        Grid.SetColumn(textblockbootPartitionUsedSpaceval, 1);
+                        Grid.SetRow(textblockbootPartitionUsedSpaceval, 2);
+
+                        TextBlock textblockbootPartitionFreeSpace = new TextBlock();
+                        textblockbootPartitionFreeSpace.Text = "Free Space";
+                        Grid.SetColumn(textblockbootPartitionFreeSpace, 0);
+                        Grid.SetRow(textblockbootPartitionFreeSpace, 3);
+
+                        TextBlock textblockbootPartitionFreeSpaceval = new TextBlock();
+                        textblockbootPartitionFreeSpaceval.Text = v.FreeSpace;
+                        Grid.SetColumn(textblockbootPartitionFreeSpaceval, 1);
+                        Grid.SetRow(textblockbootPartitionFreeSpaceval, 3);
+
+                        grid2.Children.Add(textblockbootPartitionDriveName);
+                        grid2.Children.Add(textblockbootPartitionDriveval);
+                        grid2.Children.Add(textblockbootPartitionSize);
+                        grid2.Children.Add(textblockbootPartitionSizeval);
+                        grid2.Children.Add(textblockbootPartitionUsedSpace);
+                        grid2.Children.Add(textblockbootPartitionUsedSpaceval);
+                        grid2.Children.Add(textblockbootPartitionFreeSpace);
+                        grid2.Children.Add(textblockbootPartitionFreeSpaceval);
+                    }
+                }
+            }
         }
     }
 }

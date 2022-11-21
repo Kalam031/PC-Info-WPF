@@ -42,6 +42,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _motherboardModel = value;
+                OnPropertyChanged(nameof(MotherboardModel));
             }
         }
 
@@ -51,6 +52,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _motherbaordVersion = value;
+                OnPropertyChanged(nameof(MotherbaordVersion));
             }
         }
 
@@ -60,6 +62,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _biosVersion = value;
+                OnPropertyChanged(nameof(BiosVersion));
             }
         }
 
@@ -69,6 +72,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _biosDate = value;
+                OnPropertyChanged(nameof(BiosDate));
             }
         }
 
@@ -78,6 +82,7 @@ namespace SidePanel_Navigation.ViewModels
             set
             {
                 _biosSerial = value;
+                OnPropertyChanged(nameof(BiosSerial));
             }
         }
     }

@@ -57,6 +57,7 @@ namespace SidePanel_Navigation.ViewModels
 
 
         //Ram
+        static string summaryMemoryTotal;
         static string memorySlots;
         static string memoryType;
         static string memoryUsage;
@@ -74,6 +75,7 @@ namespace SidePanel_Navigation.ViewModels
         static string biosSerialNumber;
 
         //Graphics
+        static string monitorName;
         static string monitorWidth;
         static string monitorHeight;
         static string monitorResolution;
@@ -89,6 +91,7 @@ namespace SidePanel_Navigation.ViewModels
 
         //Storage
         static List<DiskDriveModel> listDiskDriveInfo;
+        static List<DiskDrivePartitionModel> listDiskDrivePartitionInfo;
 
 
         //Optical Drives
@@ -104,35 +107,23 @@ namespace SidePanel_Navigation.ViewModels
         static string opticalDriveStatus;
 
         //Audio
-        static string soundDeviceName;
-        static string soundDeviceManufacturer;
-        static string soundPlaybackDevices;
-        static string soundConfigManUserConfig;
-        static string soundDriveConfigManErrCode;
+        static List<AudioModel> listsoundDeviceInfo;
+        //static string soundDeviceManufacturer;
+        //static string soundPlaybackDevices;
+        //static string soundConfigManUserConfig;
+        //static string soundDriveConfigManErrCode;
 
         //Peripherals
+        static List<InputDeviceModel> mouse;
+        static List<InputDeviceModel> keyboard;
+        static List<PrinterModel> printer;
 
         //Network
-
-        //static string computerType;
-        //static string installationDate;
-        //static string osSerialNo;
-
-        //static string userAccountControl;
-        //static string notifyLevel;
-        //static string firewallStatus;
-
-        //static string windowsDefenderStatus;
-
-        //static string antivirusStatus;
-        //static string antivirusName;
-
-        //static string virtualization;
-        //static string hyperthreading;
-
-        //static string monitorName;
-
-        //static string hardDiskManufacturer;
+        static string userip;
+        static string usersubnetmask;
+        static string usergateway;
+        static List<string> userdnsserver;
+        static List<NetworkAdapterModel> listNetworkInformation;
 
         //Operating System
         public static string OperatingSystemName { get => operatingSystemName; set => operatingSystemName = value; }
@@ -180,7 +171,7 @@ namespace SidePanel_Navigation.ViewModels
         public static string CpuUnused { get => cpuUnused; set => cpuUnused = value; }
 
         //Ram
-
+        public static string SummaryMemoryTotal { get => summaryMemoryTotal; set => summaryMemoryTotal = value; }
         public static string MemorySlots { get => memorySlots; set => memorySlots = value; }
         public static string MemoryType { get => memoryType; set => memoryType = value; }
         public static string MemoryUsage { get => memoryUsage; set => memoryUsage = value; }
@@ -200,6 +191,7 @@ namespace SidePanel_Navigation.ViewModels
 
         //Graphics
 
+        public static string MonitorName { get => monitorName; set => monitorName = value; }
         public static string MonitorWidth { get => monitorWidth; set => monitorWidth = value; }
         public static string MonitorHeight { get => monitorHeight; set => monitorHeight = value; }
         public static string MonitorResolution { get => monitorResolution; set => monitorResolution = value; }
@@ -228,5 +220,24 @@ namespace SidePanel_Navigation.ViewModels
         //Storage
 
         public static List<DiskDriveModel> ListDiskDriveInfo { get => listDiskDriveInfo; set => listDiskDriveInfo = value; }
+        public static List<DiskDrivePartitionModel> ListDiskDrivePartitionInfo { get => listDiskDrivePartitionInfo; set => listDiskDrivePartitionInfo = value; }
+
+        //Network
+
+        public static string Userip { get => userip; set => userip = value; }
+        public static string Usersubnetmask { get => usersubnetmask; set => usersubnetmask = value; }
+        public static string Usergateway { get => usergateway; set => usergateway = value; }
+        public static List<string> Userdnsserver { get => userdnsserver; set => userdnsserver = value; }
+        public static List<NetworkAdapterModel> ListNetworkInformation { get => listNetworkInformation; set => listNetworkInformation = value; }
+
+        //Peripherals
+
+        public static List<InputDeviceModel> Mouse { get => mouse; set => mouse = value; }
+        public static List<InputDeviceModel> Keyboard { get => keyboard; set => keyboard = value; }
+        public static List<PrinterModel> Printer { get => printer; set => printer = value; }
+
+        //Audio
+
+        public static List<AudioModel> ListsoundDeviceInfo { get => listsoundDeviceInfo; set => listsoundDeviceInfo = value; }
     }
 }

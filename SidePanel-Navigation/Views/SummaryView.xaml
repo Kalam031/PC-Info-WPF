@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:SidePanel_Navigation.Views"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:summary="clr-namespace:SidePanel_Navigation.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -17,11 +18,17 @@
         <Grid>
             <ScrollViewer VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Auto">
+
+                <ScrollViewer.Resources>
+                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</sys:Double>
+                    <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">5</sys:Double>
+                </ScrollViewer.Resources>
+                
                 <DockPanel>
                     
                     <StackPanel DockPanel.Dock="Top"
-                                Height="50"
-                                Margin="15,15,10,10"
+                                Height="37"
+                                Margin="15,15,10,5"
                                 VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
@@ -33,90 +40,147 @@
                                        Style="{StaticResource cpaneliconBtnText}"/>
                         </StackPanel>
                         
-                        <TextBlock Text="{Binding OperatingSystem}"
-                                   Margin="80,10,0,0"
+                        <TextBlock Text="{Binding OperatingSystem, UpdateSourceTrigger=PropertyChanged}"
+                                   Margin="80,2,0,0"
                                    Foreground="{StaticResource titleColor2}"/>
                     </StackPanel>
 
                     <StackPanel DockPanel.Dock="Top"
-                                Height="60"
-                                Margin="15,0,10,10"
+                                Height="37"
+                                Margin="15,0,10,5"
                                 VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
-                                Icon="Windows"
+                                Icon="Microchip"
                                 Foreground="{StaticResource color1}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
-                            <TextBlock Text="Operating System"
+                            <TextBlock Text="CPU"
                                        Foreground="{StaticResource color1}"
                                        Style="{StaticResource cpaneliconBtnText}"/>
                         </StackPanel>
 
-                        <TextBlock Text="{Binding OperatingSystem}"
-                                   Margin="80,10,0,0"
+                        <TextBlock Text="{Binding CpuName}"
+                                   Margin="80,2,0,0"
                                    Foreground="{StaticResource titleColor2}"/>
                     </StackPanel>
 
                     <StackPanel DockPanel.Dock="Top"
-                                Height="60"
-                                Margin="15,0,10,10"
+                                Height="37"
+                                Margin="15,0,10,5"
                                 VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
-                                Icon="Windows"
+                                Icon="Memory"
                                 Foreground="{StaticResource color1}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
-                            <TextBlock Text="Operating System"
+                            <TextBlock Text="RAM"
                                        Foreground="{StaticResource color1}"
                                        Style="{StaticResource cpaneliconBtnText}"/>
                         </StackPanel>
 
-                        <TextBlock Text="{Binding OperatingSystem}"
-                                   Margin="80,10,0,0"
+                        <TextBlock Text="{Binding RamInfo, UpdateSourceTrigger=PropertyChanged}"
+                                   Margin="80,2,0,0"
                                    Foreground="{StaticResource titleColor2}"/>
                     </StackPanel>
 
                     <StackPanel DockPanel.Dock="Top"
-                                Height="60"
-                                Margin="15,0,10,10"
+                                Height="37"
+                                Margin="15,0,10,5"
                                 VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
-                                Icon="Windows"
+                                Icon="Keyboard"
                                 Foreground="{StaticResource color1}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
-                            <TextBlock Text="Operating System"
+                            <TextBlock Text="Motherboard"
                                        Foreground="{StaticResource color1}"
                                        Style="{StaticResource cpaneliconBtnText}"/>
                         </StackPanel>
 
-                        <TextBlock Text="{Binding OperatingSystem}"
-                                   Margin="80,10,0,0"
+                        <TextBlock Text="{Binding MotherboardInfo}"
+                                   Margin="80,2,0,0"
                                    Foreground="{StaticResource titleColor2}"/>
                     </StackPanel>
 
-                    <StackPanel DockPanel.Dock="Top"
-                                Height="60"
-                                Margin="15,0,10,10"
+                    <StackPanel
+                        x:Name="graphicsStackPanel"
+                        DockPanel.Dock="Top"
+                                Height="37"
+                                Margin="15,0,10,5"
                                 VerticalAlignment="Top">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
-                                Icon="Windows"
+                                Icon="Desktop"
                                 Foreground="{StaticResource color1}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
-                            <TextBlock Text="Operating System"
+                            <TextBlock Text="Graphics"
                                        Foreground="{StaticResource color1}"
                                        Style="{StaticResource cpaneliconBtnText}"/>
                         </StackPanel>
 
-                        <TextBlock Text="{Binding OperatingSystem}"
-                                   Margin="80,10,0,0"
+                    </StackPanel>
+
+                    <StackPanel
+                        x:Name="storageStackPanel"
+                        DockPanel.Dock="Top"
+                        Height="37"
+                        Margin="15,0,10,5"
+                        VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage
+                                Icon="HardDrive"
+                                Foreground="{StaticResource color1}"
+                                Style="{StaticResource cpaneliconBtnIcon}"/>
+                            <TextBlock Text="Storage"
+                                       Foreground="{StaticResource color1}"
+                                       Style="{StaticResource cpaneliconBtnText}"/>
+                        </StackPanel>
+                        
+                    </StackPanel>
+
+                    <StackPanel DockPanel.Dock="Top"
+                                Height="37"
+                                Margin="15,0,10,5"
+                                VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage
+                                Icon="CompactDisc"
+                                Foreground="{StaticResource color1}"
+                                Style="{StaticResource cpaneliconBtnIcon}"/>
+                            <TextBlock Text="Optical drive"
+                                       Foreground="{StaticResource color1}"
+                                       Style="{StaticResource cpaneliconBtnText}"/>
+                        </StackPanel>
+
+                        <TextBlock Text="{Binding OpticalDrive}"
+                                   Margin="80,2,0,0"
                                    Foreground="{StaticResource titleColor2}"/>
+                    </StackPanel>
+
+                    <StackPanel
+                        x:Name="audioStackPanel"
+                        DockPanel.Dock="Top"
+                        Height="37"
+                        Margin="15,0,10,5"
+                        VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage
+                                Icon="VolumeHigh"
+                                Foreground="{StaticResource color1}"
+                                Style="{StaticResource cpaneliconBtnIcon}"/>
+                            <TextBlock Text="Audio"
+                                       Foreground="{StaticResource color1}"
+                                       Style="{StaticResource cpaneliconBtnText}"/>
+                        </StackPanel>
+                        
                     </StackPanel>
 
                 </DockPanel>
+                
             </ScrollViewer>
+            
         </Grid>
+        
     </Border>
     
 </UserControl>
