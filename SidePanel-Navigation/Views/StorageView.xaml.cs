@@ -45,7 +45,7 @@ namespace SidePanel_Navigation.Views
             hardExpander.Name = "hardExpand";
             hardExpander.Margin = new Thickness(25, 0, 0, 0);
             hardExpander.IsExpanded = true;
-            hardExpander.Foreground = Brushes.White;
+            hardExpander.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
             hardExpander.Header = title;
             mainStoragePanel.Children.Add(hardExpander);
 
@@ -61,7 +61,7 @@ namespace SidePanel_Navigation.Views
             stackPanel.Children.Add(grid);
 
             ColumnDefinition colDef1 = new ColumnDefinition();
-            colDef1.Width = new GridLength(160);
+            colDef1.Width = new GridLength(100);
             ColumnDefinition colDef2 = new ColumnDefinition();
             colDef2.Width = new GridLength(200);
             grid.ColumnDefinitions.Add(colDef1);
@@ -97,91 +97,109 @@ namespace SidePanel_Navigation.Views
             grid.RowDefinitions.Add(rowDef9);
 
             TextBlock textblockmanufacturer = new TextBlock();
+            textblockmanufacturer.Foreground = new SolidColorBrush(Colors.White);
             textblockmanufacturer.Text = "Manufacuter";
             Grid.SetColumn(textblockmanufacturer, 0);
             Grid.SetRow(textblockmanufacturer, 0);
 
             TextBlock textblockmanufacturerval = new TextBlock();
+            textblockmanufacturerval.Foreground = new SolidColorBrush(Colors.White);
             textblockmanufacturerval.Text = manufacturer;
             Grid.SetColumn(textblockmanufacturerval, 1);
             Grid.SetRow(textblockmanufacturerval, 0);
 
             TextBlock textblockheads = new TextBlock();
+            textblockheads.Foreground = new SolidColorBrush(Colors.White);
             textblockheads.Text = "Heads";
             Grid.SetColumn(textblockheads, 0);
             Grid.SetRow(textblockheads, 1);
 
             TextBlock textblockheadsval = new TextBlock();
+            textblockheadsval.Foreground = new SolidColorBrush(Colors.White);
             textblockheadsval.Text = heads;
             Grid.SetColumn(textblockheadsval, 1);
             Grid.SetRow(textblockheadsval, 1);
 
             TextBlock textblockcylinders = new TextBlock();
+            textblockcylinders.Foreground = new SolidColorBrush(Colors.White);
             textblockcylinders.Text = "Cylinders";
             Grid.SetColumn(textblockcylinders, 0);
             Grid.SetRow(textblockcylinders, 2);
 
             TextBlock textblockcylindersval = new TextBlock();
+            textblockcylindersval.Foreground = new SolidColorBrush(Colors.White);
             textblockcylindersval.Text = cylinders;
             Grid.SetColumn(textblockcylindersval, 1);
             Grid.SetRow(textblockcylindersval, 2);
 
             TextBlock textblocktracks = new TextBlock();
+            textblocktracks.Foreground = new SolidColorBrush(Colors.White);
             textblocktracks.Text = "Tracks";
             Grid.SetColumn(textblocktracks, 0);
             Grid.SetRow(textblocktracks, 3);
 
             TextBlock textblocktracksval = new TextBlock();
+            textblocktracksval.Foreground = new SolidColorBrush(Colors.White);
             textblocktracksval.Text = tracks;
             Grid.SetColumn(textblocktracksval, 1);
             Grid.SetRow(textblocktracksval, 3);
 
             TextBlock textblocksectors = new TextBlock();
+            textblocksectors.Foreground = new SolidColorBrush(Colors.White);
             textblocksectors.Text = "Sectors";
             Grid.SetColumn(textblocksectors, 0);
             Grid.SetRow(textblocksectors, 4);
 
             TextBlock textblocksectorsval = new TextBlock();
+            textblocksectorsval.Foreground = new SolidColorBrush(Colors.White);
             textblocksectorsval.Text = sectors;
             Grid.SetColumn(textblocksectorsval, 1);
             Grid.SetRow(textblocksectorsval, 4);
 
             TextBlock textblockserial = new TextBlock();
+            textblockserial.Foreground = new SolidColorBrush(Colors.White);
             textblockserial.Text = "Serial";
             Grid.SetColumn(textblockserial, 0);
             Grid.SetRow(textblockserial, 5);
 
             TextBlock textblockserialval = new TextBlock();
+            textblockserialval.Foreground = new SolidColorBrush(Colors.White);
             textblockserialval.Text = serial;
             Grid.SetColumn(textblockserialval, 1);
             Grid.SetRow(textblockserialval, 5);
 
             TextBlock textblockcapacity = new TextBlock();
+            textblockcapacity.Foreground = new SolidColorBrush(Colors.White);
             textblockcapacity.Text = "Capacity";
             Grid.SetColumn(textblockcapacity, 0);
             Grid.SetRow(textblockcapacity, 6);
 
             TextBlock textblockcapacityval = new TextBlock();
+            textblockcapacityval.Foreground = new SolidColorBrush(Colors.White);
             textblockcapacityval.Text = capacity;
             Grid.SetColumn(textblockcapacityval, 1);
             Grid.SetRow(textblockcapacityval, 6);
 
             TextBlock textblockrealsize = new TextBlock();
+            textblockrealsize.Foreground = new SolidColorBrush(Colors.White);
             textblockrealsize.Text = "Real Size";
             Grid.SetColumn(textblockrealsize, 0);
             Grid.SetRow(textblockrealsize, 7);
 
             TextBlock textblockrealsizeval = new TextBlock();
+            textblockrealsizeval.Foreground = new SolidColorBrush(Colors.White);
             textblockrealsizeval.Text = realSize + " bytes";
             Grid.SetColumn(textblockrealsizeval, 1);
             Grid.SetRow(textblockrealsizeval, 7);
 
             TextBlock textblockstatus = new TextBlock();
+            textblockstatus.Foreground = new SolidColorBrush(Colors.White);
             textblockstatus.Text = "Status";
             Grid.SetColumn(textblockstatus, 0);
             Grid.SetRow(textblockstatus, 8);
 
             TextBlock textblockstatusval = new TextBlock();
+            textblockstatusval.Foreground = new SolidColorBrush(Colors.White);
             textblockstatusval.Text = status;
             Grid.SetColumn(textblockstatusval, 1);
             Grid.SetRow(textblockstatusval, 8);
@@ -209,7 +227,7 @@ namespace SidePanel_Navigation.Views
             hardSubExpander.Name = "hardSubExpand";
             hardSubExpander.Margin = new Thickness(25, 0, 0, 0);
             hardSubExpander.IsExpanded = true;
-            hardSubExpander.Foreground = Brushes.White;
+            hardSubExpander.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
             hardSubExpander.Header = "Partition";
             stackPanel.Children.Add(hardSubExpander);
 
@@ -230,7 +248,7 @@ namespace SidePanel_Navigation.Views
                         hardSubExpander1.Name = "hardSubExpand";
                         hardSubExpander1.Margin = new Thickness(25, 0, 0, 0);
                         hardSubExpander1.IsExpanded = true;
-                        hardSubExpander1.Foreground = Brushes.White;
+                        hardSubExpander1.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
                         hardSubExpander1.Header = $"Partition {v.PartitionName}";
                         stackPanel2.Children.Add(hardSubExpander1);
 
@@ -239,7 +257,7 @@ namespace SidePanel_Navigation.Views
                         hardSubExpander1.Content = grid1;
 
                         ColumnDefinition colDef201 = new ColumnDefinition();
-                        colDef201.Width = new GridLength(160);
+                        colDef201.Width = new GridLength(90);
                         ColumnDefinition colDef202 = new ColumnDefinition();
                         colDef202.Width = new GridLength(200);
 
@@ -252,11 +270,13 @@ namespace SidePanel_Navigation.Views
                         grid1.RowDefinitions.Add(rowDef201);
 
                         TextBlock textblockbootPartitionName = new TextBlock();
+                        textblockbootPartitionName.Foreground = new SolidColorBrush(Colors.White);
                         textblockbootPartitionName.Text = "Size";
                         Grid.SetColumn(textblockbootPartitionName, 0);
                         Grid.SetRow(textblockbootPartitionName, 0);
 
                         TextBlock textblockbootPartitionNameval = new TextBlock();
+                        textblockbootPartitionNameval.Foreground = new SolidColorBrush(Colors.White);
                         textblockbootPartitionNameval.Text = v.TotalStorage;
                         Grid.SetColumn(textblockbootPartitionNameval, 1);
                         Grid.SetRow(textblockbootPartitionNameval, 0);
@@ -270,7 +290,7 @@ namespace SidePanel_Navigation.Views
                         hardSubExpander2.Name = "hardSubExpand";
                         hardSubExpander2.Margin = new Thickness(25, 0, 0, 0);
                         hardSubExpander2.IsExpanded = true;
-                        hardSubExpander2.Foreground = Brushes.White;
+                        hardSubExpander2.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
                         hardSubExpander2.Header = $"Partition {v.PartitionName}";
                         stackPanel2.Children.Add(hardSubExpander2);
 
@@ -279,7 +299,7 @@ namespace SidePanel_Navigation.Views
                         hardSubExpander2.Content = grid2;
 
                         ColumnDefinition colDef301 = new ColumnDefinition();
-                        colDef301.Width = new GridLength(160);
+                        colDef301.Width = new GridLength(90);
                         ColumnDefinition colDef302 = new ColumnDefinition();
                         colDef302.Width = new GridLength(200);
 
@@ -301,41 +321,49 @@ namespace SidePanel_Navigation.Views
                         grid2.RowDefinitions.Add(rowDef304);
 
                         TextBlock textblockbootPartitionDriveName = new TextBlock();
+                        textblockbootPartitionDriveName.Foreground = new SolidColorBrush(Colors.White);
                         textblockbootPartitionDriveName.Text = "Drive";
                         Grid.SetColumn(textblockbootPartitionDriveName, 0);
                         Grid.SetRow(textblockbootPartitionDriveName, 0);
 
                         TextBlock textblockbootPartitionDriveval = new TextBlock();
+                        textblockbootPartitionDriveval.Foreground = new SolidColorBrush(Colors.White);
                         textblockbootPartitionDriveval.Text = v.DriveName;
                         Grid.SetColumn(textblockbootPartitionDriveval, 1);
                         Grid.SetRow(textblockbootPartitionDriveval, 0);
 
                         TextBlock textblockbootPartitionSize = new TextBlock();
+                        textblockbootPartitionSize.Foreground = new SolidColorBrush(Colors.White);
                         textblockbootPartitionSize.Text = "Size";
                         Grid.SetColumn(textblockbootPartitionSize, 0);
                         Grid.SetRow(textblockbootPartitionSize, 1);
 
                         TextBlock textblockbootPartitionSizeval = new TextBlock();
+                        textblockbootPartitionSizeval.Foreground = new SolidColorBrush(Colors.White);
                         textblockbootPartitionSizeval.Text = v.TotalStorage;
                         Grid.SetColumn(textblockbootPartitionSizeval, 1);
                         Grid.SetRow(textblockbootPartitionSizeval, 1);
 
                         TextBlock textblockbootPartitionUsedSpace = new TextBlock();
+                        textblockbootPartitionUsedSpace.Foreground = new SolidColorBrush(Colors.White);
                         textblockbootPartitionUsedSpace.Text = "Used Space";
                         Grid.SetColumn(textblockbootPartitionUsedSpace, 0);
                         Grid.SetRow(textblockbootPartitionUsedSpace, 2);
 
                         TextBlock textblockbootPartitionUsedSpaceval = new TextBlock();
+                        textblockbootPartitionUsedSpaceval.Foreground = new SolidColorBrush(Colors.White);
                         textblockbootPartitionUsedSpaceval.Text = v.UsedSpace;
                         Grid.SetColumn(textblockbootPartitionUsedSpaceval, 1);
                         Grid.SetRow(textblockbootPartitionUsedSpaceval, 2);
 
                         TextBlock textblockbootPartitionFreeSpace = new TextBlock();
+                        textblockbootPartitionFreeSpace.Foreground = new SolidColorBrush(Colors.White);
                         textblockbootPartitionFreeSpace.Text = "Free Space";
                         Grid.SetColumn(textblockbootPartitionFreeSpace, 0);
                         Grid.SetRow(textblockbootPartitionFreeSpace, 3);
 
                         TextBlock textblockbootPartitionFreeSpaceval = new TextBlock();
+                        textblockbootPartitionFreeSpaceval.Foreground = new SolidColorBrush(Colors.White);
                         textblockbootPartitionFreeSpaceval.Text = v.FreeSpace;
                         Grid.SetColumn(textblockbootPartitionFreeSpaceval, 1);
                         Grid.SetRow(textblockbootPartitionFreeSpaceval, 3);

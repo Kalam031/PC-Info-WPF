@@ -35,7 +35,7 @@
                     HorizontalAlignment="Left">
 
                     <Grid x:Name="mainnetpanelfirstgrid"
-                          Margin="25,5,0,0">
+                          Margin="3,0,0,0">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150"/>
@@ -51,26 +51,32 @@
 
 
                         <TextBlock Text="IP Address"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="{Binding Userip}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="Subnet Mask"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="1"/>
 
                         <TextBlock Text="{Binding Usersubnetmask}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="1"/>
 
                         <TextBlock Text="Gateway Server"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="2"/>
 
                         <TextBlock Text="{Binding Usergateway}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="2"/>
 

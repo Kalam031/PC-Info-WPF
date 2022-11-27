@@ -36,8 +36,8 @@ namespace SidePanel_Navigation.Views
                     Expander newExpander = new Expander();
                     newExpander.Name = "newExpand1";
                     newExpander.Margin = new Thickness(25, 0, 0, 0);
+                    newExpander.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
                     newExpander.IsExpanded = true;
-                    newExpander.Foreground = Brushes.White;
                     newExpander.Header = v.DeviceName;
                     mainPeripheralPanel.Children.Add(newExpander);
 
@@ -65,31 +65,37 @@ namespace SidePanel_Navigation.Views
                     gridmouse.RowDefinitions.Add(rowDefm3);
 
                     TextBlock textblockmtype = new TextBlock();
+                    textblockmtype.Foreground = new SolidColorBrush(Colors.White);
                     textblockmtype.Text = "Device Type";
                     Grid.SetColumn(textblockmtype, 0);
                     Grid.SetRow(textblockmtype, 0);
 
                     TextBlock textblockmtypeval = new TextBlock();
+                    textblockmtypeval.Foreground = new SolidColorBrush(Colors.White);
                     textblockmtypeval.Text = v.DeviceType;
                     Grid.SetColumn(textblockmtypeval, 1);
                     Grid.SetRow(textblockmtypeval, 0);
 
                     TextBlock textblockmname = new TextBlock();
+                    textblockmname.Foreground = new SolidColorBrush(Colors.White);
                     textblockmname.Text = "Device Name";
                     Grid.SetColumn(textblockmname, 0);
                     Grid.SetRow(textblockmname, 1);
 
                     TextBlock textblockmnameval = new TextBlock();
+                    textblockmnameval.Foreground = new SolidColorBrush(Colors.White);
                     textblockmnameval.Text = v.DeviceName;
                     Grid.SetColumn(textblockmnameval, 1);
                     Grid.SetRow(textblockmnameval, 1);
 
                     TextBlock textblockmvvendor = new TextBlock();
+                    textblockmvvendor.Foreground = new SolidColorBrush(Colors.White);
                     textblockmvvendor.Text = "Vendor Name";
                     Grid.SetColumn(textblockmvvendor, 0);
                     Grid.SetRow(textblockmvvendor, 2);
 
                     TextBlock textblockmvvendorval = new TextBlock();
+                    textblockmvvendorval.Foreground = new SolidColorBrush(Colors.White);
                     textblockmvvendorval.Text = v.DeviceVendor;
                     Grid.SetColumn(textblockmvvendorval, 1);
                     Grid.SetRow(textblockmvvendorval, 2);
@@ -111,7 +117,7 @@ namespace SidePanel_Navigation.Views
                     newExpander.Name = "newExpand2";
                     newExpander.Margin = new Thickness(25, 0, 0, 0);
                     newExpander.IsExpanded = true;
-                    newExpander.Foreground = Brushes.White;
+                    newExpander.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
                     newExpander.Header = v.DeviceName;
                     mainPeripheralPanel.Children.Add(newExpander);
 
@@ -139,32 +145,38 @@ namespace SidePanel_Navigation.Views
                     gridkeyboard.RowDefinitions.Add(rowDefm3);
 
                     TextBlock textblockmtype = new TextBlock();
+                    textblockmtype.Foreground = new SolidColorBrush(Colors.White);
                     textblockmtype.Text = "Device Type";
                     Grid.SetColumn(textblockmtype, 0);
                     Grid.SetRow(textblockmtype, 0);
 
                     TextBlock textblockmtypeval = new TextBlock();
+                    textblockmtypeval.Foreground = new SolidColorBrush(Colors.White);
                     textblockmtypeval.Text = v.DeviceType;
                     Grid.SetColumn(textblockmtypeval, 1);
                     Grid.SetRow(textblockmtypeval, 0);
 
                     TextBlock textblockmname = new TextBlock();
+                    textblockmname.Foreground = new SolidColorBrush(Colors.White);
                     textblockmname.Text = "Device Name";
                     Grid.SetColumn(textblockmname, 0);
                     Grid.SetRow(textblockmname, 1);
 
                     TextBlock textblockmnameval = new TextBlock();
+                    textblockmnameval.Foreground = new SolidColorBrush(Colors.White);
                     textblockmnameval.Text = v.DeviceName;
                     Grid.SetColumn(textblockmnameval, 1);
                     Grid.SetRow(textblockmnameval, 1);
 
 
                     TextBlock textblockmvendor = new TextBlock();
+                    textblockmvendor.Foreground = new SolidColorBrush(Colors.White);
                     textblockmvendor.Text = "Vendor Name";
                     Grid.SetColumn(textblockmvendor, 0);
                     Grid.SetRow(textblockmvendor, 2);
 
                     TextBlock textblockmvendorval = new TextBlock();
+                    textblockmvendorval.Foreground = new SolidColorBrush(Colors.White);
                     textblockmvendorval.Text = v.DeviceVendor;
                     Grid.SetColumn(textblockmvendorval, 1);
                     Grid.SetRow(textblockmvendorval, 2);
@@ -184,7 +196,7 @@ namespace SidePanel_Navigation.Views
                 newExpander.Name = "newExpand3";
                 newExpander.Margin = new Thickness(25, 0, 0, 0);
                 newExpander.IsExpanded = true;
-                newExpander.Foreground = Brushes.White;
+                newExpander.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
                 newExpander.Header = "Printers";
                 mainPeripheralPanel.Children.Add(newExpander);
 
@@ -201,7 +213,7 @@ namespace SidePanel_Navigation.Views
                     newExpandersub.Name = "newExpand4";
                     newExpandersub.Margin = new Thickness(25, 0, 0, 0);
                     newExpandersub.IsExpanded = true;
-                    newExpandersub.Foreground = Brushes.White;
+                    newExpandersub.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
                     newExpandersub.Header = v.PrinterName;
                     stackPanel.Children.Add(newExpandersub);
 
@@ -220,7 +232,7 @@ namespace SidePanel_Navigation.Views
                     newExpandergridsub.Name = "newExpand5";
                     newExpandergridsub.Margin = new Thickness(25, 0, 0, 0);
                     newExpandergridsub.IsExpanded = true;
-                    newExpandergridsub.Foreground = Brushes.White;
+                    newExpandergridsub.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
                     newExpandergridsub.Header = "Driver";
                     stackPanel1.Children.Add(newExpandergridsub);
 
@@ -250,51 +262,61 @@ namespace SidePanel_Navigation.Views
                     grid.RowDefinitions.Add(rowDef5);
 
                     TextBlock textblockprinterport = new TextBlock();
+                    textblockprinterport.Foreground = new SolidColorBrush(Colors.White);
                     textblockprinterport.Text = "Printer Port";
                     Grid.SetColumn(textblockprinterport, 0);
                     Grid.SetRow(textblockprinterport, 0);
 
                     TextBlock textblockprinterportval = new TextBlock();
+                    textblockprinterportval.Foreground = new SolidColorBrush(Colors.White);
                     textblockprinterportval.Text = v.PrinterPort;
                     Grid.SetColumn(textblockprinterportval, 1);
                     Grid.SetRow(textblockprinterportval, 0);
 
                     TextBlock textblockprintprocessor = new TextBlock();
+                    textblockprintprocessor.Foreground = new SolidColorBrush(Colors.White);
                     textblockprintprocessor.Text = "Print Processor";
                     Grid.SetColumn(textblockprintprocessor, 0);
                     Grid.SetRow(textblockprintprocessor, 1);
 
                     TextBlock textblockprintprocessorval = new TextBlock();
+                    textblockprintprocessorval.Foreground = new SolidColorBrush(Colors.White);
                     textblockprintprocessorval.Text = v.PrintProcessor;
                     Grid.SetColumn(textblockprintprocessorval, 1);
                     Grid.SetRow(textblockprintprocessorval, 1);
 
                     TextBlock textblockpriority = new TextBlock();
+                    textblockpriority.Foreground = new SolidColorBrush(Colors.White);
                     textblockpriority.Text = "Priority";
                     Grid.SetColumn(textblockpriority, 0);
                     Grid.SetRow(textblockpriority, 2);
 
                     TextBlock textblockpriorityval = new TextBlock();
+                    textblockpriorityval.Foreground = new SolidColorBrush(Colors.White);
                     textblockpriorityval.Text = v.Priority;
                     Grid.SetColumn(textblockpriorityval, 1);
                     Grid.SetRow(textblockpriorityval, 2);
 
                     TextBlock textblockprintquality = new TextBlock();
+                    textblockprintquality.Foreground = new SolidColorBrush(Colors.White);
                     textblockprintquality.Text = "Print Quality";
                     Grid.SetColumn(textblockprintquality, 0);
                     Grid.SetRow(textblockprintquality, 3);
 
                     TextBlock textblockprintqualityval = new TextBlock();
+                    textblockprintqualityval.Foreground = new SolidColorBrush(Colors.White);
                     textblockprintqualityval.Text = v.PrintQuality;
                     Grid.SetColumn(textblockprintqualityval, 1);
                     Grid.SetRow(textblockprintqualityval, 3);
 
                     TextBlock textblockstatus = new TextBlock();
+                    textblockstatus.Foreground = new SolidColorBrush(Colors.White);
                     textblockstatus.Text = "Status";
                     Grid.SetColumn(textblockstatus, 0);
                     Grid.SetRow(textblockstatus, 4);
 
                     TextBlock textblockstatusval = new TextBlock();
+                    textblockstatusval.Foreground = new SolidColorBrush(Colors.White);
                     textblockstatusval.Text = v.Status;
                     Grid.SetColumn(textblockstatusval, 1);
                     Grid.SetRow(textblockstatusval, 4);
@@ -328,11 +350,13 @@ namespace SidePanel_Navigation.Views
                     grid1.RowDefinitions.Add(rowDef101);
 
                     TextBlock textblockprintdrivername = new TextBlock();
+                    textblockprintdrivername.Foreground = new SolidColorBrush(Colors.White);
                     textblockprintdrivername.Text = "Driver Name";
                     Grid.SetColumn(textblockprintdrivername, 0);
                     Grid.SetRow(textblockprintdrivername, 0);
 
                     TextBlock textblockprintdrivernameval = new TextBlock();
+                    textblockprintdrivernameval.Foreground = new SolidColorBrush(Colors.White);
                     textblockprintdrivernameval.Text = v.DriverName;
                     Grid.SetColumn(textblockprintdrivernameval, 1);
                     Grid.SetRow(textblockprintdrivernameval, 0);

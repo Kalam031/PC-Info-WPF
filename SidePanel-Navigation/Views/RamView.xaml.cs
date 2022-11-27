@@ -38,9 +38,12 @@ namespace SidePanel_Navigation.Views
             dispatcherTimer.Start();
 
             int count = 0;
-            foreach (var v in PcInfoViewModel.ListMemInfo)
+            if (PcInfoViewModel.ListMemInfo != null)
             {
-                CreateControl($"slot-{++count}", v.Type, v.Size, v.Manufacturer, v.SerialNo, v.Speed);
+                foreach (var v in PcInfoViewModel.ListMemInfo)
+                {
+                    CreateControl($"slot-{++count}", v.Type, v.Size, v.Manufacturer, v.SerialNo, v.Speed);
+                }
             }
         }
 
@@ -50,7 +53,7 @@ namespace SidePanel_Navigation.Views
             memExpander.Name = "memExpand";
             memExpander.Margin = new Thickness(25,0,0,0);
             memExpander.IsExpanded = true;
-            memExpander.Foreground = Brushes.White;
+            memExpander.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
             memExpander.Header = $"{title}";
             stpanelMemSlotInto.Children.Add(memExpander);
 
@@ -59,7 +62,7 @@ namespace SidePanel_Navigation.Views
             memExpander.Content = grid;
 
             ColumnDefinition colDef1 = new ColumnDefinition();
-            colDef1.Width = new GridLength(160);
+            colDef1.Width = new GridLength(100);
             ColumnDefinition colDef2 = new ColumnDefinition();
             colDef2.Width = new GridLength(200);
             grid.ColumnDefinitions.Add(colDef1);
@@ -83,51 +86,61 @@ namespace SidePanel_Navigation.Views
             grid.RowDefinitions.Add(rowDef5);
 
             TextBlock textblocktype = new TextBlock();
+            textblocktype.Foreground = new SolidColorBrush(Colors.White);
             textblocktype.Text = "Type";
             Grid.SetColumn(textblocktype, 0);
             Grid.SetRow(textblocktype, 0);
 
             TextBlock textblocktypeval = new TextBlock();
+            textblocktypeval.Foreground = new SolidColorBrush(Colors.White);
             textblocktypeval.Text = type;
             Grid.SetColumn(textblocktypeval, 1);
             Grid.SetRow(textblocktypeval, 0);
 
             TextBlock textblocksize = new TextBlock();
+            textblocksize.Foreground = new SolidColorBrush(Colors.White);
             textblocksize.Text = "Size";
             Grid.SetColumn(textblocksize, 0);
             Grid.SetRow(textblocksize, 1);
 
             TextBlock textblocksizeval = new TextBlock();
+            textblocksizeval.Foreground = new SolidColorBrush(Colors.White);
             textblocksizeval.Text = size;
             Grid.SetColumn(textblocksizeval, 1);
             Grid.SetRow(textblocksizeval, 1);
 
             TextBlock textblockmanufacturer = new TextBlock();
+            textblockmanufacturer.Foreground = new SolidColorBrush(Colors.White);
             textblockmanufacturer.Text = "Manufacturer";
             Grid.SetColumn(textblockmanufacturer, 0);
             Grid.SetRow(textblockmanufacturer, 2);
 
             TextBlock textblockmanufacturerval = new TextBlock();
+            textblockmanufacturerval.Foreground = new SolidColorBrush(Colors.White);
             textblockmanufacturerval.Text = manufacturer;
             Grid.SetColumn(textblockmanufacturerval, 1);
             Grid.SetRow(textblockmanufacturerval, 2);
 
             TextBlock textblockSerial = new TextBlock();
+            textblockSerial.Foreground = new SolidColorBrush(Colors.White);
             textblockSerial.Text = "Serial";
             Grid.SetColumn(textblockSerial, 0);
             Grid.SetRow(textblockSerial, 3);
 
             TextBlock textblockSerialval = new TextBlock();
+            textblockSerialval.Foreground = new SolidColorBrush(Colors.White);
             textblockSerialval.Text = serialNo;
             Grid.SetColumn(textblockSerialval, 1);
             Grid.SetRow(textblockSerialval, 3);
 
             TextBlock textblockSpeed = new TextBlock();
+            textblockSpeed.Foreground = new SolidColorBrush(Colors.White);
             textblockSpeed.Text = "Speed";
             Grid.SetColumn(textblockSpeed, 0);
             Grid.SetRow(textblockSpeed, 4);
 
             TextBlock textblockSpeedval = new TextBlock();
+            textblockSpeedval.Foreground = new SolidColorBrush(Colors.White);
             textblockSpeedval.Text = speed;
             Grid.SetColumn(textblockSpeedval, 1);
             Grid.SetRow(textblockSpeedval, 4);

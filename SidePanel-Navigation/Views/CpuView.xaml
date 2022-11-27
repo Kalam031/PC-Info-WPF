@@ -24,9 +24,9 @@
         <StackPanel>
 
             <TextBlock Text="{Binding CpuName}"
+                   Style="{StaticResource pcInfoTextBlock}"
                    FontSize="12"
-                   Margin="20,10,0,5"
-                   Foreground="{StaticResource titleColor2}"/>
+                   Margin="20,10,0,5"/>
 
             <Grid Margin="20,10,0,15">
 
@@ -42,25 +42,25 @@
 
                 <TextBlock Text="ID"
                    FontSize="12"
-                   Foreground="{StaticResource titleColor2}"
+                   Foreground="{StaticResource color11}"
                    Grid.Column="0"
                    Grid.Row="0"/>
 
                 <TextBlock Text="{Binding CpuId}"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"
+                   Foreground="{StaticResource color11}"
                    Grid.Column="1"
                    Grid.Row="0"/>
 
                 <TextBlock Text="Manufacturer"
                    FontSize="12"
-                   Foreground="{StaticResource titleColor2}"
+                   Foreground="{StaticResource color11}"
                    Grid.Column="0"
                    Grid.Row="1"/>
 
                 <TextBlock Text="{Binding CpuManufacturer}"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"
+                   Foreground="{StaticResource color11}"
                    Grid.Column="1"
                    Grid.Row="1"/>
             </Grid>
@@ -74,11 +74,10 @@
                             Height="auto"
                             HorizontalAlignment="Left">
 
-                    <Grid Margin="25,5,0,0">
+                    <Grid Margin="3,0,0,0">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="43"/>
-                            <ColumnDefinition Width="117"/>
+                            <ColumnDefinition Width="180"/>
                             <ColumnDefinition Width="100"/>
 
                         </Grid.ColumnDefinitions>
@@ -99,90 +98,112 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Core"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="0" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuCore}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="Thread"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="1" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuThread}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="1"/>
 
                         <TextBlock Text="Family"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="2" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuFamily}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="2"/>
 
                         <TextBlock Text="Stepping"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="3" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuStepping}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="3"/>
 
                         <TextBlock Text="Architecture"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="4" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuArchitecture}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="4"/>
 
                         <TextBlock Text="Address Width"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="5" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuAddressWidth}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="5"/>
 
                         <TextBlock Text="Socket Designation"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="6" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuSocketDesignation}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="6"/>
 
                         <TextBlock Text="Status"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="7" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuStatus}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="7"/>
 
                         <TextBlock Text="Max Clock Speed"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="8" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuMaxClockSpeed}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="8"/>
 
                         <TextBlock Text="Stock Bus Speed"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="9" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuBusSpeed}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="9"/>
 
                         <TextBlock Text="Power Management Support"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="10" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="{Binding CpuPowerManagementSupport}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="2"
                                    Grid.Row="10"/>
 
@@ -196,7 +217,7 @@
                         <StackPanel Width="auto" Height="auto"
                                     HorizontalAlignment="Left">
 
-                            <Grid Margin="25,5,0,0">
+                            <Grid Margin="3,0,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="100"/>
@@ -209,26 +230,32 @@
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Text="L1 Cache Size"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
                                 <TextBlock Text="{Binding CpuL1CacheSize}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="0"/>
 
                                 <TextBlock Text="L2 Cache Size"
-                                   Grid.Column="0"
-                                   Grid.Row="1"/>
+                                           Style="{StaticResource pcInfoTextBlock}"
+                                           Grid.Column="0"
+                                           Grid.Row="1"/>
 
                                 <TextBlock Text="{Binding CpuL2CacheSize}"
-                                   Grid.Column="1"
-                                   Grid.Row="1"/>
+                                           Style="{StaticResource pcInfoTextBlock}"
+                                           Grid.Column="1"
+                                           Grid.Row="1"/>
 
                                 <TextBlock Text="L3 Cache Size"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="2"/>
 
                                 <TextBlock Text="{Binding CpuL3CacheSize}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="2"/>
 
@@ -251,7 +278,7 @@
                             Height="auto"
                             HorizontalAlignment="Left">
 
-                    <Grid Margin="25,5,0,0">
+                    <Grid Margin="25,3,0,0">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
@@ -281,24 +308,28 @@
                                 BorderThickness="0,0,1,1"/>
 
                         <TextBlock Grid.Column="0"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Row="0"
                                    Text="Used"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
 
                         <TextBlock Grid.Column="1"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Row="0"
                                    Text="Unused"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
 
                         <TextBlock x:Name="cpuUsedRate"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="1"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
 
                         <TextBlock x:Name="cpuUnusedRate"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="1"
                                    HorizontalAlignment="Center"

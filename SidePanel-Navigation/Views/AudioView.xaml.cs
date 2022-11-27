@@ -35,7 +35,7 @@ namespace SidePanel_Navigation.Views
                     newExpander.Name = "newExpand3";
                     newExpander.Margin = new Thickness(25, 0, 0, 0);
                     newExpander.IsExpanded = true;
-                    newExpander.Foreground = Brushes.White;
+                    newExpander.Foreground = new SolidColorBrush(Color.FromRgb(188,190,224));
                     newExpander.Header = "Sound Card";
                     mainAudioPanel.Children.Add(newExpander);
 
@@ -54,6 +54,7 @@ namespace SidePanel_Navigation.Views
                     grid.RowDefinitions.Add(rowDef1);
 
                     TextBlock textblockprinterport = new TextBlock();
+                    textblockprinterport.Foreground = Brushes.White;
                     textblockprinterport.Text = v.DeviceName;
                     Grid.SetColumn(textblockprinterport, 0);
                     Grid.SetRow(textblockprinterport, 0);

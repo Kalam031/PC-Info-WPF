@@ -90,6 +90,7 @@ namespace SidePanel_Navigation.Controls
             vendorInfo.Add("09DF","Addonics Technologies Corp.");
             vendorInfo.Add("0BF6","Addonics Technologies, Inc.");
             vendorInfo.Add("087C","Adesso/Kbtek America, Inc.");
+            vendorInfo.Add("0420","A-Data Technology");
             vendorInfo.Add("0422","ADI Systems, Inc.");
             vendorInfo.Add("0976","Adirondack Wire & Cable");
             vendorInfo.Add("0B63","ADLink Technology, Inc.");
@@ -553,7 +554,7 @@ namespace SidePanel_Navigation.Controls
             vendorInfo.Add("11A0","Chipcon AS");
             vendorInfo.Add("1230","Chipidea-Microelectronica, S.A.");
             vendorInfo.Add("0B9F","Chippo Technologies");
-            vendorInfo.Add("0420","Chips and Technologies");
+            //vendorInfo.Add("0420","Chips and Technologies");
             vendorInfo.Add("1E3D","Chipsbank Microelectronics Co., Ltd");
             vendorInfo.Add("0204","Chipsbank Microelectronics Co., Ltd");
             vendorInfo.Add("1976","Chipsbrand Microelectronics (HK) Co., Ltd.");

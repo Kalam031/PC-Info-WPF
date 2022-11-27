@@ -87,7 +87,7 @@
                   Style="{StaticResource pcInfoExpander}"
                   Foreground="{StaticResource titleColor3}">
                 <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
-                    <Grid Margin="25,5,0,0">
+                    <Grid Margin="3,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="150"/>
@@ -98,10 +98,12 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Version"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="{Binding InternetExplorer}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="0"
                                    Foreground="White"/>
@@ -114,7 +116,7 @@
                   Style="{StaticResource pcInfoExpander}"
                   Foreground="{StaticResource titleColor3}">
                 <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
-                    <Grid Margin="25,5,0,0">
+                    <Grid Margin="3,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="150"/>
@@ -125,10 +127,12 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Version"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="{Binding PowerShell}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="0"
                                    Foreground="White"/>
@@ -142,7 +146,7 @@
                   Foreground="{StaticResource titleColor3}">
                 
                 <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
-                    <Grid Margin="25,5,0,0">
+                    <Grid Margin="3,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="150"/>
@@ -154,18 +158,22 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="User Profile"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="{Binding UserProfile}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="System Root"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="1"/>
 
                         <TextBlock Text="{Binding SystemProfile}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="1"/>
                     </Grid>
@@ -201,7 +209,7 @@
                   Style="{StaticResource pcInfoExpander}"
                   Foreground="{StaticResource titleColor3}">
                 <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
-                    <Grid Margin="25,5,0,0">
+                    <Grid Margin="3,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="150"/>
@@ -217,42 +225,52 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Language"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
                         
                         <TextBlock Text="{Binding OperatingSystemLanguage}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="Location"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="1"/>
 
                         <TextBlock Text="{Binding OperatingSystemLocation}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="1"/>
 
                         <TextBlock Text="Time Zone"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="2"/>
 
                         <TextBlock Text="{Binding OperatingSystemTimeZone}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="2"/>
 
                         <TextBlock Text="Date Format"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="3"/>
 
                         <TextBlock Text="{Binding OperatingSystemDateFormat}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="3"/>
 
                         <TextBlock Text="Time Format"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="4"/>
                         
                         <TextBlock Text="{Binding OperatingSystemTimeFormat}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="4"/>
                         
@@ -265,7 +283,7 @@
                   Style="{StaticResource pcInfoExpander}"
                   Foreground="{StaticResource titleColor3}">
                 <StackPanel Width="auto" Height="auto"  HorizontalAlignment="Left">
-                    <Grid Margin="25,5,0,0">
+                    <Grid Margin="3,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="150"/>
@@ -276,10 +294,12 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Display Name"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="{Binding OperatingSystemAntivirus}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="0"/>
 
@@ -293,7 +313,7 @@
                   Style="{StaticResource pcInfoExpander}"
                   Foreground="{StaticResource titleColor3}">
                 <StackPanel>
-                    <Grid x:Name="uptimeGrid" Margin="25,5,0,0">
+                    <Grid x:Name="uptimeGrid" Margin="3,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="120"/>
                             <ColumnDefinition Width="200"/>
@@ -307,34 +327,42 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Current Time"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
                         <TextBlock x:Name="osCurrentTime"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="Current Uptime"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="1"/>
 
                         <TextBlock x:Name="osCurrentUptime"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="1"/>
 
                         <TextBlock Text="Last Boot Time"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="2"/>
 
                         <TextBlock Text="{Binding OperatingSystemLastBootTime}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="2"/>
-
                     </Grid>
+                    
                 </StackPanel>
+                
             </Expander>
 
         </StackPanel>
+        
     </ScrollViewer>
 
 </UserControl>

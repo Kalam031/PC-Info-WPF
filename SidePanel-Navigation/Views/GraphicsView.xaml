@@ -34,7 +34,7 @@
                             Height="auto"
                             HorizontalAlignment="Left">
 
-                    <Grid Margin="25,0,0,0">
+                    <Grid Margin="3,0,0,0">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="170"/>
@@ -55,98 +55,82 @@
 
                         <TextBlock Text="Monitor Name"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="0"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding MonitorName}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="0"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Monitor Width"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="1"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding MonitorWidth}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="1"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Monitor Height"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="2"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding MonitorHeight}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="2"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Work Resolution"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="3"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding MonitorResolution}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="3"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Current Resolution"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="4"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding MonitorResolution}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="4"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Monitor BPP"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="5"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding MonitorBitsPerPixel}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="5"
                                 Grid.Column="1"/>
 
 
                         <TextBlock Text="Monitor Max Frequency"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="6"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding MonitorFrequency}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="6"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Monitor Current Frequency"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="7"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding MonitorCurrentFrequency}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="7"
                                 Grid.Column="1"/>
 
@@ -182,49 +166,41 @@
 
                         <TextBlock Text="Manufacturer"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="0"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding InternalGraphicsManufacturer}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="0"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Model"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="1"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding InternalGraphicsModel}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="1"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Driver version"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="2"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding InternalGraphicsDriverVersion}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="2"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Date"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="3"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding InternalGraphicsDate}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="3"
                                 Grid.Column="1"/>
 

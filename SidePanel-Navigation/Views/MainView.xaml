@@ -385,13 +385,38 @@
 
                         <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
                                   Grid.Row="1">-->
-                            <ContentControl Content="{Binding CurrentChildView}"
+                        <ContentControl Content="{Binding CurrentChildView}"
                                     Grid.Row="1"/>
                         <!--</ScrollViewer>-->
-                        
+
                     </Grid>
                 </Border>
             </Grid>
+
+            <Border Grid.Row="3">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                        <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
+                        <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="170"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="1"
+                               Foreground="White"
+                               Margin="0,0,2,0"
+                               TextAlignment="Right"
+                               FontSize="14"
+                               FontStyle="Italic"
+                               Text="Developed by ATI Limited"/>
+                </Grid>
+
+            </Border>
         </Grid>
     </Border>
 </Window>

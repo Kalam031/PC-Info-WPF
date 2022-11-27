@@ -14,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SidePanel_Navigation.Views
 {
@@ -42,21 +41,29 @@ namespace SidePanel_Navigation.Views
             if (PcInfoViewModel.Userdnsserver != null)
             {
                 TextBlock textblockdns3 = new TextBlock();
+                textblockdns3.TextAlignment = TextAlignment.Center;
+                textblockdns3.Foreground = new SolidColorBrush(Colors.White);
                 textblockdns3.Text = "Preferred DNS Server";
                 Grid.SetColumn(textblockdns3, 0);
                 Grid.SetRow(textblockdns3, 3);
 
                 TextBlock textblockdns3val = new TextBlock();
+                textblockdns3val.Margin = new Thickness(20,3,0,0);
+                textblockdns3val.Foreground = new SolidColorBrush(Colors.White);
                 textblockdns3val.Text = PcInfoViewModel.Userdnsserver[0];
                 Grid.SetColumn(textblockdns3val, 1);
                 Grid.SetRow(textblockdns3val, 3);
 
                 TextBlock textblockdns4 = new TextBlock();
+                textblockdns4.TextAlignment = TextAlignment.Center;
+                textblockdns4.Foreground = new SolidColorBrush(Colors.White);
                 textblockdns4.Text = "Alternate DNS Server";
                 Grid.SetColumn(textblockdns4, 0);
                 Grid.SetRow(textblockdns4, 5);
 
                 TextBlock textblockdns4val = new TextBlock();
+                textblockdns4val.Margin = new Thickness(20, 3, 0, 0);
+                textblockdns4val.Foreground = new SolidColorBrush(Colors.White);
                 textblockdns4val.Text = PcInfoViewModel.Userdnsserver[1];
                 Grid.SetColumn(textblockdns4val, 1);
                 Grid.SetRow(textblockdns4val, 5);
@@ -72,7 +79,7 @@ namespace SidePanel_Navigation.Views
                 adapterlistExpander.Name = "adapterlistExpand";
                 adapterlistExpander.Margin = new Thickness(25, 0, 0, 0);
                 adapterlistExpander.IsExpanded = true;
-                adapterlistExpander.Foreground = Brushes.White;
+                adapterlistExpander.Foreground = new SolidColorBrush(Color.FromRgb(188,190,224));
                 adapterlistExpander.Header = "Adapter List";
                 mainNetworkPanel.Children.Add(adapterlistExpander);
 
@@ -109,7 +116,7 @@ namespace SidePanel_Navigation.Views
             newExpander.Name = "newExpand";
             newExpander.Margin = new Thickness(25, 0, 0, 0);
             newExpander.IsExpanded = true;
-            newExpander.Foreground = Brushes.White;
+            newExpander.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
             newExpander.Header = nicname;
             stackPanel.Children.Add(newExpander);
 
@@ -118,7 +125,7 @@ namespace SidePanel_Navigation.Views
             newExpander.Content = grid;
 
             ColumnDefinition colDef1 = new ColumnDefinition();
-            colDef1.Width = new GridLength(160);
+            colDef1.Width = new GridLength(100);
             ColumnDefinition colDef2 = new ColumnDefinition();
             colDef2.Width = new GridLength(200);
             grid.ColumnDefinitions.Add(colDef1);
@@ -142,31 +149,37 @@ namespace SidePanel_Navigation.Views
             //grid.RowDefinitions.Add(rowDef8);
 
             TextBlock textblockmac = new TextBlock();
+            textblockmac.Foreground = new SolidColorBrush(Colors.White);
             textblockmac.Text = "Mac Address";
             Grid.SetColumn(textblockmac, 0);
             Grid.SetRow(textblockmac, 0);
 
             TextBlock textblockmacval = new TextBlock();
+            textblockmacval.Foreground = new SolidColorBrush(Colors.White);
             textblockmacval.Text = macaddress;
             Grid.SetColumn(textblockmacval, 1);
             Grid.SetRow(textblockmacval, 0);
 
             TextBlock textblockip = new TextBlock();
+            textblockip.Foreground = new SolidColorBrush(Colors.White);
             textblockip.Text = "IP";
             Grid.SetColumn(textblockip, 0);
             Grid.SetRow(textblockip, 1);
 
             TextBlock textblockipval = new TextBlock();
+            textblockipval.Foreground = new SolidColorBrush(Colors.White);
             textblockipval.Text = ip;
             Grid.SetColumn(textblockipval, 1);
             Grid.SetRow(textblockipval, 1);
 
             TextBlock textblocksubnetmask = new TextBlock();
+            textblocksubnetmask.Foreground = new SolidColorBrush(Colors.White);
             textblocksubnetmask.Text = "Subnet";
             Grid.SetColumn(textblocksubnetmask, 0);
             Grid.SetRow(textblocksubnetmask, 2);
 
             TextBlock textblocksubnetmaskval = new TextBlock();
+            textblocksubnetmaskval.Foreground = new SolidColorBrush(Colors.White);
             textblocksubnetmaskval.Text = subnetmask;
             Grid.SetColumn(textblocksubnetmaskval, 1);
             Grid.SetRow(textblocksubnetmaskval, 2);
@@ -179,11 +192,13 @@ namespace SidePanel_Navigation.Views
                 grid.RowDefinitions.Add(rowDef4);
 
                 TextBlock textblockgateway = new TextBlock();
+                textblockgateway.Foreground = new SolidColorBrush(Colors.White);
                 textblockgateway.Text = "Gateway";
                 Grid.SetColumn(textblockgateway, 0);
                 Grid.SetRow(textblockgateway, 3);
 
                 TextBlock textblockgatewayval = new TextBlock();
+                textblockgatewayval.Foreground = new SolidColorBrush(Colors.White);
                 textblockgatewayval.Text = gateway;
                 Grid.SetColumn(textblockgatewayval, 1);
                 Grid.SetRow(textblockgatewayval, 3);
@@ -203,21 +218,25 @@ namespace SidePanel_Navigation.Views
                 grid.RowDefinitions.Add(rowDef6);
 
                 TextBlock textblockdns1 = new TextBlock();
+                textblockdns1.Foreground = new SolidColorBrush(Colors.White);
                 textblockdns1.Text = "Dns server";
                 Grid.SetColumn(textblockdns1, 0);
                 Grid.SetRow(textblockdns1, 4);
 
                 TextBlock textblockdns1val = new TextBlock();
+                textblockdns1val.Foreground = new SolidColorBrush(Colors.White);
                 textblockdns1val.Text = lstdnsserver[0];
                 Grid.SetColumn(textblockdns1val, 1);
                 Grid.SetRow(textblockdns1val, 4);
 
                 TextBlock textblockdns2 = new TextBlock();
+                textblockdns2.Foreground = new SolidColorBrush(Colors.White);
                 textblockdns2.Text = "";
                 Grid.SetColumn(textblockdns2, 0);
                 Grid.SetRow(textblockdns2, 5);
 
                 TextBlock textblockdns2val = new TextBlock();
+                textblockdns2val.Foreground = new SolidColorBrush(Colors.White);
                 textblockdns2val.Text = lstdnsserver[1];
                 Grid.SetColumn(textblockdns2val, 1);
                 Grid.SetRow(textblockdns2val, 5);

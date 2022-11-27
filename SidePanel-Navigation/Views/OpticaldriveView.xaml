@@ -59,135 +59,113 @@
 
                         <TextBlock Text="Media Type"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="0"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="DVD Writer"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="0"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Name"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="1"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding OpticalDriveName}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="1"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Config Manager Error Code"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="2"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding OpticalDriveConfigManErrCode}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="2"
                                 Grid.Column="1"/>
 
 
                         <TextBlock Text="Config Manager User Config"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="3"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding OpticalDriveConfigManErrCode}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="3"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Drive"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="4"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding OpticalDriveVolume}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="4"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Media Loaded"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="5"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding OpticalDriveMediaLoaded}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="5"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="SCSI Bus"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="6"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding OpticalDriveSCSIbus}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="6"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="SCSI Logical Unit"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="7"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding OpticalDriveSCSILogicalUnit}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="7"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="SCSI Port"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="8"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding OpticalDriveSCSIport}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="8"
                                 Grid.Column="1"/>
 
 
                         <TextBlock Text="SCSI Target Id"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="9"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding OpticalDriveSCSItargetId}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="9"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Status"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="10"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding OpticalDriveStatus}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="10"
                                 Grid.Column="1"/>
 

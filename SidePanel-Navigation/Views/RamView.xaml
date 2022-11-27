@@ -34,10 +34,10 @@
                     Height="auto"
                     HorizontalAlignment="Left">
 
-                    <Grid Margin="25,5,0,0">
+                    <Grid Margin="3,0,0,0">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="110"/>
                             <ColumnDefinition Width="100"/>
 
                         </Grid.ColumnDefinitions>
@@ -51,35 +51,43 @@
                         </Grid.RowDefinitions>
 
                         <TextBlock Text="Type"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="0"/>
 
                         <TextBlock Text="{Binding RamType}"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="0"/>
 
 
                         <TextBlock Text="Memory Usage"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="1"/>
 
                         <TextBlock x:Name="memUsage"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="1"/>
 
                         <TextBlock Text="Total Size"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="2"/>
 
                         <TextBlock x:Name="memSize"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="2"/>
 
                         <TextBlock Text="Available"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="0"
                                    Grid.Row="3"/>
 
                         <TextBlock x:Name="memAvailable"
+                                   Style="{StaticResource pcInfoTextBlock}"
                                    Grid.Column="1"
                                    Grid.Row="3"/>
 

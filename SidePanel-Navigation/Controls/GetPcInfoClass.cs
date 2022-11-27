@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using LiteDB;
+using Microsoft.Win32;
 using OSVersionExtension;
 using SidePanel_Navigation.Log;
 using SidePanel_Navigation.Models;
@@ -8,15 +9,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Windows.Markup;
 using System.Windows.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using System.Xml.Linq;
 
 namespace SidePanel_Navigation.Controls
 {
@@ -37,6 +43,8 @@ namespace SidePanel_Navigation.Controls
         List<InputDeviceModel> listKeyboard = new List<InputDeviceModel>();
         List<PrinterModel> listPrinter = new List<PrinterModel>();
         List<AudioModel> listAudioDevice = new List<AudioModel>();
+
+        public string dbpath = Directory.GetParent(Assembly.GetExecutingAssembly().Location) + "\\hardwareinfo.db";
 
         SelectQuery Sq = new SelectQuery("Win32_DesktopMonitor");
 
@@ -82,31 +90,38 @@ namespace SidePanel_Navigation.Controls
 
         private void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            //CPU
-            double used = GetProcessorData();
-            double unused = 100 - used;
+            if (!backgroundWorker1.CancellationPending)
+            {
+                //CPU
+                double used = GetProcessorData();
+                double unused = 100 - used;
 
-            PcInfoViewModel.CpuUsed = used.ToString("F") + " %";
-            PcInfoViewModel.CpuUnused = unused.ToString("F") + " %";
+                PcInfoViewModel.CpuUsed = used.ToString("F") + " %";
+                PcInfoViewModel.CpuUnused = unused.ToString("F") + " %";
 
-            string formattedTimeSpan = string.Format("{0:D2} d, {1:D2} h, {2:D2} m , {3:D3} s", GetUpTime().Days, GetUpTime().Hours, GetUpTime().Minutes, GetUpTime().Seconds.ToString().Substring(0));
-            PcInfoViewModel.OperatingSystemCurrentUptime = formattedTimeSpan;
+                string formattedTimeSpan = string.Format("{0:D2} d, {1:D2} h, {2:D2} m , {3:D3} s", GetUpTime().Days, GetUpTime().Hours, GetUpTime().Minutes, GetUpTime().Seconds.ToString().Substring(0));
+                PcInfoViewModel.OperatingSystemCurrentUptime = formattedTimeSpan;
 
-            //Ram
+                //Ram
 
-            string s = _QueryComputerSystem("totalphysicalmemory");
-            double totalphysicalmemory = Convert.ToDouble(s);
-            double d = _GetCounterValue(_memoryCounter, "Memory", "Available Bytes", null);
+                string s = _QueryComputerSystem("totalphysicalmemory");
+                double totalphysicalmemory = Convert.ToDouble(s);
+                double d = _GetCounterValue(_memoryCounter, "Memory", "Available Bytes", null);
 
-            string trunctotal = Regex.Replace(FormatBytes(totalphysicalmemory), "[^0-9.]", "");
-            string truncused = Regex.Replace(FormatBytes(totalphysicalmemory - d), "[^0-9.]", "");
+                string trunctotal = Regex.Replace(FormatBytes(totalphysicalmemory), "[^0-9.]", "");
+                string truncused = Regex.Replace(FormatBytes(totalphysicalmemory - d), "[^0-9.]", "");
 
-            double mused = double.Parse(truncused) / double.Parse(trunctotal) * 100;
+                double mused = double.Parse(truncused) / double.Parse(trunctotal) * 100;
 
-            PcInfoViewModel.MemoryTotal = FormatBytes(totalphysicalmemory);
-            PcInfoViewModel.MemoryAvailable = FormatBytes(totalphysicalmemory - (totalphysicalmemory - d));
+                PcInfoViewModel.MemoryTotal = FormatBytes(totalphysicalmemory);
+                PcInfoViewModel.MemoryAvailable = FormatBytes(totalphysicalmemory - (totalphysicalmemory - d));
 
-            PcInfoViewModel.MemoryUsage = mused.ToString("F") + " %";
+                PcInfoViewModel.MemoryUsage = mused.ToString("F") + " %";
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         public double GetProcessorData()
@@ -147,22 +162,15 @@ namespace SidePanel_Navigation.Controls
 
         private void Bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            BackgroundWorker bg = (BackgroundWorker)sender;
-
-
         }
 
         private void Bg_DoWork(object sender, DoWorkEventArgs e)
         {
-            BackgroundWorker bg = (BackgroundWorker)sender;
-
-            if (!bg.CancellationPending)
+            if (!backgroundWorker.CancellationPending)
             {
                 try
                 {
                     VendorClass.vendorData();
-
-                    //Ram
 
                     string s = _QueryComputerSystem("totalphysicalmemory");
                     double totalphysicalmemory = Convert.ToDouble(s);
@@ -248,8 +256,8 @@ namespace SidePanel_Navigation.Controls
                         }
                         catch (Exception exp)
                         {
-                            Console.WriteLine(exp.Message);
-                            Console.WriteLine(exp.StackTrace);
+                            //Console.WriteLine(exp.Message);
+                            //Console.WriteLine(exp.StackTrace);
                             LogClass.LogWrite($"========== Get Operating System Name Exception ==========");
                             LogClass.LogWrite($"{exp.Message}");
                             LogClass.LogWrite($"{exp.StackTrace}");
@@ -274,11 +282,13 @@ namespace SidePanel_Navigation.Controls
                             if (wmi["Name"] != null)
                             {
                                 PcInfoViewModel.CpuName = wmi["Name"].ToString();
+                                localDb.cpuModel = wmi["Name"].ToString();
                             }
 
                             if (wmi["ProcessorID"] != null)
                             {
                                 PcInfoViewModel.CpuId = wmi["ProcessorID"].ToString();
+                                localDb.cpuID = wmi["ProcessorID"].ToString();
                             }
 
                             if (wmi["Manufacturer"] != null)
@@ -384,7 +394,27 @@ namespace SidePanel_Navigation.Controls
 
                         memoryInfoModel.Type = GetMemoryType(int.Parse(wmi["MemoryType"].ToString()));
                         memoryInfoModel.Size = Math.Ceiling(trunctotal / 2.0) + " GB";
-                        memoryInfoModel.Manufacturer = wmi["Manufacturer"].ToString();
+
+                        try
+                        {
+                            int result = 0;
+                            bool flag = int.TryParse(wmi["Manufacturer"].ToString(), out result);
+
+                            if (flag == true)
+                            {
+                                memoryInfoModel.Manufacturer = VendorClass.vendorInfo[wmi["Manufacturer"].ToString()];
+                            }
+                            else
+                            {
+                                memoryInfoModel.Manufacturer = wmi["Manufacturer"].ToString();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Console.WriteLine(ex.StackTrace);
+                        }
+
                         memoryInfoModel.SerialNo = wmi["SerialNumber"].ToString();
                         memoryInfoModel.Speed = wmi["Speed"].ToString() + " MHz";
 
@@ -406,7 +436,7 @@ namespace SidePanel_Navigation.Controls
                     foreach (ManagementObject wmi in mos.Get())
                     {
                         PcInfoViewModel.MotherboardManufacturer = wmi["Manufacturer"].ToString();
-                        PcInfoViewModel.MotherboardSerial = wmi["SerialNumber"].ToString();
+                        PcInfoViewModel.MotherboardSerial = Regex.Replace(wmi["SerialNumber"].ToString(),'/'.ToString(),string.Empty);
                         PcInfoViewModel.MotherboardModel = wmi["Product"].ToString();
                         PcInfoViewModel.MotherboardVersion = wmi["Version"].ToString();
                     }
@@ -592,7 +622,7 @@ namespace SidePanel_Navigation.Controls
                         inputDeviceModel.DeviceVendor = VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]];
 
                         //Console.WriteLine("Type: Mouse");
-                        Console.WriteLine(VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]]);
+                        //Console.WriteLine(VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]]);
                         //Console.WriteLine(wmi["Manufacturer"]);
                         listMouse.Add(inputDeviceModel);
                     }
@@ -610,7 +640,7 @@ namespace SidePanel_Navigation.Controls
 
                         //Console.WriteLine("Type: Mouse");
                         //Console.WriteLine(wmi["Name"]);
-                        Console.WriteLine(VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]]);
+                        //Console.WriteLine(VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]]);
                         //Console.WriteLine(wmi["Manufacturer"]);
                         listKeyboard.Add(inputDeviceModel);
                     }
@@ -728,6 +758,10 @@ namespace SidePanel_Navigation.Controls
                     LogClass.LogWrite($"{ex.StackTrace}");
                     LogClass.LogWrite($"========== Background Worker Exception ==========");
                 }
+            }
+            else
+            {
+                e.Cancel = true;
             }
         }
 

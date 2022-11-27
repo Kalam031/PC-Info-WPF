@@ -39,51 +39,43 @@
 
                 <TextBlock Text="Manufacturer"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"
                    Grid.Row="0"
                    Grid.Column="0"/>
 
                 <TextBlock Text="{Binding MotherboardManufacturer}"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"
                    Grid.Row="0"
                    Grid.Column="1"/>
 
 
                 <TextBlock Text="Model"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"
                    Grid.Row="1"
                    Grid.Column="0"/>
 
                 <TextBlock Text="{Binding MotherboardModel}"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"
                    Grid.Row="1"
                    Grid.Column="1"/>
 
 
                 <TextBlock Text="Version"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"
                    Grid.Row="2"
                    Grid.Column="0"/>
 
                 <TextBlock Text="{Binding MotherbaordVersion}"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"
                    Grid.Row="2"
                    Grid.Column="1"/>
 
                 <TextBlock Text="Serial"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"
                    Grid.Row="3"
                    Grid.Column="0"/>
 
                 <TextBlock Text="{Binding MotherboardSerial}"
                    Style="{StaticResource pcInfoTextBlock}"
-                   Foreground="{StaticResource titleColor2}"
                    Grid.Row="3"
                    Grid.Column="1"/>
 
@@ -115,51 +107,43 @@
 
                         <TextBlock Text="Brand"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="0"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding MotherboardManufacturer}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="0"
                                 Grid.Column="1"/>
 
 
                         <TextBlock Text="Version"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="1"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding BiosVersion}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="1"
                                 Grid.Column="1"/>
 
 
                         <TextBlock Text="Date"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="2"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding BiosDate}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="2"
                                 Grid.Column="1"/>
 
                         <TextBlock Text="Serial"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="3"
                                 Grid.Column="0"/>
 
                         <TextBlock Text="{Binding BiosSerial}"
                                 Style="{StaticResource pcInfoTextBlock}"
-                                Foreground="{StaticResource titleColor2}"
                                 Grid.Row="3"
                                 Grid.Column="1"/>
 

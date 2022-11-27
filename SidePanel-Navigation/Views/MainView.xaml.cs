@@ -1,9 +1,14 @@
-﻿using SidePanel_Navigation.Controls;
+﻿using LiteDB;
+using SidePanel_Navigation.Controls;
+using SidePanel_Navigation.Models;
 using SidePanel_Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,10 +29,17 @@ namespace SidePanel_Navigation.Views
     /// </summary>
     public partial class MainView : Window
     {
+        public string dbpath = Directory.GetParent(Assembly.GetExecutingAssembly().Location) + "\\hardwareinfo.db" ;
+
         public MainView()
         {
             InitializeComponent();
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+
+            Console.WriteLine(dbpath);
+
+
+
             GetPcInfoClass getPcInfoClass = new GetPcInfoClass();
             getPcInfoClass.GetInfo();
         }
@@ -53,8 +65,7 @@ namespace SidePanel_Navigation.Views
 
         private void btnMaximize_Click(object sender, RoutedEventArgs e)
         {
-            if (this.WindowState == WindowState.Normal)
-                this.WindowState = WindowState.Maximized;
+            if (this.WindowState == WindowState.Normal) this.WindowState = WindowState.Maximized;
             else this.WindowState = WindowState.Normal;
         }
 
