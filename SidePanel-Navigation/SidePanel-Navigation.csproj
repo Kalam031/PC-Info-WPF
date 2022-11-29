@@ -116,7 +116,7 @@
     <Compile Include="Controls\GetPcInfoClass.cs" />
     <Compile Include="Controls\ScreenInfo.cs" />
     <Compile Include="Controls\VendorClass.cs" />
-    <Compile Include="DB\SqliteDb.cs" />
+    <Compile Include="DB\SqliteDbClass.cs" />
     <Compile Include="Log\LogClass.cs" />
     <Compile Include="Models\AudioModel.cs" />
     <Compile Include="Models\DiskDriveModel.cs" />
@@ -124,6 +124,7 @@
     <Compile Include="Models\EnvironmentVariableItem.cs" />
     <Compile Include="Models\InputDeviceModel.cs" />
     <Compile Include="Models\LocalDbModel.cs" />
+    <Compile Include="Models\LocalSummaryDbModel.cs" />
     <Compile Include="Models\MemInfoModel.cs" />
     <Compile Include="Models\NetworkAdapterModel.cs" />
     <Compile Include="Models\PrinterModel.cs" />

@@ -1,5 +1,4 @@
-﻿using LiteDB;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using OSVersionExtension;
 using SidePanel_Navigation.Log;
 using SidePanel_Navigation.Models;
@@ -23,6 +22,8 @@ using System.Windows.Markup;
 using System.Windows.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using System.Xml.Linq;
+using SidePanel_Navigation.DB;
+using System.Data.SQLite;
 
 namespace SidePanel_Navigation.Controls
 {
@@ -45,6 +46,17 @@ namespace SidePanel_Navigation.Controls
         List<AudioModel> listAudioDevice = new List<AudioModel>();
 
         public string dbpath = Directory.GetParent(Assembly.GetExecutingAssembly().Location) + "\\hardwareinfo.db";
+        SqliteDbClass sqliteDbClass = new SqliteDbClass();
+        SQLiteConnection sqlConnection;
+
+        LocalDbModel genericModel = new LocalDbModel();
+        List<LocalDbModel> cpuInfoList = new List<LocalDbModel>();
+        List<LocalDbModel> ramInfoList = new List<LocalDbModel>();
+        List<LocalDbModel> motherboardInfoList = new List<LocalDbModel>();
+        List<LocalDbModel> monitorInfoList = new List<LocalDbModel>();
+        List<LocalDbModel> harddiskInfoList = new List<LocalDbModel>();
+        List<LocalDbModel> mouseInfoList = new List<LocalDbModel>();
+        List<LocalDbModel> keyboardInfoList = new List<LocalDbModel>();
 
         SelectQuery Sq = new SelectQuery("Win32_DesktopMonitor");
 
@@ -172,6 +184,8 @@ namespace SidePanel_Navigation.Controls
                 {
                     VendorClass.vendorData();
 
+                    //sqlConnection = sqliteDbClass.OpenConnection(dbpath);
+
                     string s = _QueryComputerSystem("totalphysicalmemory");
                     double totalphysicalmemory = Convert.ToDouble(s);
 
@@ -279,21 +293,24 @@ namespace SidePanel_Navigation.Controls
                     {
                         try
                         {
+                            LocalDbModel genercModel = new LocalDbModel();
+
                             if (wmi["Name"] != null)
                             {
                                 PcInfoViewModel.CpuName = wmi["Name"].ToString();
-                                localDb.cpuModel = wmi["Name"].ToString();
+                                genercModel.Model = wmi["Name"].ToString();
                             }
 
                             if (wmi["ProcessorID"] != null)
                             {
                                 PcInfoViewModel.CpuId = wmi["ProcessorID"].ToString();
-                                localDb.cpuID = wmi["ProcessorID"].ToString();
+                                genercModel.ID = wmi["ProcessorID"].ToString();
                             }
 
                             if (wmi["Manufacturer"] != null)
                             {
                                 PcInfoViewModel.CpuManufacturer = wmi["Manufacturer"].ToString();
+                                genercModel.Manufacturer = wmi["Manufacturer"].ToString();
                             }
 
                             if (wmi["AddressWidth"] != null)
@@ -365,6 +382,8 @@ namespace SidePanel_Navigation.Controls
                             PcInfoViewModel.CpuL2CacheSize = $"{l2 / 1024} Kbytes";
                             PcInfoViewModel.CpuL3CacheSize = $"{l3 / 1024} Kbytes";
 
+                            cpuInfoList.Add(genercModel);
+
                         }
                         catch (Exception exp)
                         {
@@ -388,11 +407,14 @@ namespace SidePanel_Navigation.Controls
 
                     foreach (ManagementObject wmi in mos.Get())
                     {
+                        LocalDbModel genModel = new LocalDbModel();
                         PcInfoViewModel.MemoryType = GetMemoryType(int.Parse(wmi["MemoryType"].ToString()));
-
                         MemInfoModel memoryInfoModel = new MemInfoModel();
 
                         memoryInfoModel.Type = GetMemoryType(int.Parse(wmi["MemoryType"].ToString()));
+
+                        genModel.Model = GetMemoryType(int.Parse(wmi["MemoryType"].ToString()));
+
                         memoryInfoModel.Size = Math.Ceiling(trunctotal / 2.0) + " GB";
 
                         try
@@ -403,19 +425,24 @@ namespace SidePanel_Navigation.Controls
                             if (flag == true)
                             {
                                 memoryInfoModel.Manufacturer = VendorClass.vendorInfo[wmi["Manufacturer"].ToString()];
+                                genModel.Manufacturer = VendorClass.vendorInfo[wmi["Manufacturer"].ToString()];
                             }
                             else
                             {
                                 memoryInfoModel.Manufacturer = wmi["Manufacturer"].ToString();
+                                genModel.Manufacturer = wmi["Manufacturer"].ToString();
                             }
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine(ex.Message);
-                            Console.WriteLine(ex.StackTrace);
+                            //Console.WriteLine(ex.Message);
+                            //Console.WriteLine(ex.StackTrace);
                         }
 
                         memoryInfoModel.SerialNo = wmi["SerialNumber"].ToString();
+
+                        genModel.ID = wmi["SerialNumber"].ToString();
+
                         memoryInfoModel.Speed = wmi["Speed"].ToString() + " MHz";
 
                         //Console.WriteLine(memoryInfoModel.Type);
@@ -425,6 +452,7 @@ namespace SidePanel_Navigation.Controls
                         //Console.WriteLine(memoryInfoModel.Speed);
 
                         listMemInfo.Add(memoryInfoModel);
+                        ramInfoList.Add(genModel);
                     }
 
                     PcInfoViewModel.ListMemInfo = listMemInfo;
@@ -435,10 +463,17 @@ namespace SidePanel_Navigation.Controls
 
                     foreach (ManagementObject wmi in mos.Get())
                     {
+                        LocalDbModel gModel = new LocalDbModel();
                         PcInfoViewModel.MotherboardManufacturer = wmi["Manufacturer"].ToString();
                         PcInfoViewModel.MotherboardSerial = Regex.Replace(wmi["SerialNumber"].ToString(),'/'.ToString(),string.Empty);
                         PcInfoViewModel.MotherboardModel = wmi["Product"].ToString();
                         PcInfoViewModel.MotherboardVersion = wmi["Version"].ToString();
+
+                        gModel.Manufacturer = wmi["Manufacturer"].ToString();
+                        gModel.Model = wmi["Product"].ToString();
+                        gModel.ID = Regex.Replace(wmi["SerialNumber"].ToString(), '/'.ToString(), string.Empty);
+
+                        motherboardInfoList.Add(gModel);
                     }
 
                     mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_BIOS");
@@ -453,6 +488,18 @@ namespace SidePanel_Navigation.Controls
                     //Graphics
 
                     PcInfoViewModel.MonitorName = Screen.PrimaryScreen.DeviceFriendlyName();
+
+                    LocalDbModel genericModel = new LocalDbModel();
+                    genericModel.Manufacturer = Screen.PrimaryScreen.DeviceFriendlyName().Split(' ')[0];
+                    //Console.WriteLine(Screen.PrimaryScreen.DeviceFriendlyName().Split(' ')[0]);
+                    int length = Screen.PrimaryScreen.DeviceFriendlyName().Split(' ')[0].Length;
+                    genericModel.Model = Screen.PrimaryScreen.DeviceFriendlyName().Substring(length + 1);
+                    genericModel.ID = "";
+
+                    monitorInfoList.Add(genericModel);
+                    //Console.WriteLine(length);
+                    //Console.WriteLine(Screen.PrimaryScreen.DeviceFriendlyName().Substring(length+1));
+
 
                     //mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM DisplayMonitor");
 
@@ -480,9 +527,9 @@ namespace SidePanel_Navigation.Controls
                         string manufac = val[0];
                         string modelName = "";
 
-                        for (int i = 1; i < val.Count(); i++)
+                        for (int j= 1; j< val.Count(); j++)
                         {
-                            modelName += $"{(val[i])} ";
+                            modelName += $"{(val[j])} ";
                         }
 
                         PcInfoViewModel.InternalGraphicsManufacturer = manufac;
@@ -513,20 +560,33 @@ namespace SidePanel_Navigation.Controls
 
                     foreach (ManagementObject wmi in mos.Get())
                     {
+                        genericModel = new LocalDbModel();
                         DiskDriveModel diskDriveModel = new DiskDriveModel();
 
                         diskDriveModel.DiskName = wmi["Caption"].ToString();
                         diskDriveModel.DiskManufacturer = wmi["Caption"].ToString().Split(' ')[0];
+
+                        genericModel.Manufacturer = wmi["Caption"].ToString().Split(' ')[0];
+
+                        int lngth = wmi["Caption"].ToString().Split(' ')[0].Length;
+
+                        genericModel.Model = wmi["Caption"].ToString().Substring(lngth + 1);
+                        //Console.WriteLine(wmi["Caption"].ToString().Substring(lngth + 1));
+
                         diskDriveModel.Heads = wmi["TotalHeads"].ToString();
                         diskDriveModel.Cylinders = wmi["TotalCylinders"].ToString();
                         diskDriveModel.Tracks = wmi["TotalTracks"].ToString();
                         diskDriveModel.Sectors = wmi["TotalSectors"].ToString();
                         diskDriveModel.Serial = wmi["SerialNumber"].ToString().Trim();
+
+                        genericModel.ID = wmi["SerialNumber"].ToString().Trim();
+
                         diskDriveModel.Capacity = FormatBytes(double.Parse(wmi["Size"].ToString()));
                         diskDriveModel.RealSize = wmi["Size"].ToString();
                         diskDriveModel.Status = wmi["Status"].ToString();
 
                         listDiskInfo.Add(diskDriveModel);
+                        harddiskInfoList.Add(genericModel);
                     }
                     PcInfoViewModel.ListDiskDriveInfo = listDiskInfo;
 
@@ -615,14 +675,21 @@ namespace SidePanel_Navigation.Controls
 
                     foreach (ManagementObject wmi in mos.Get())
                     {
+                        LocalDbModel genecModel = new LocalDbModel();
                         InputDeviceModel inputDeviceModel = new InputDeviceModel();
 
                         inputDeviceModel.DeviceType = "Mouse";
                         inputDeviceModel.DeviceName = wmi["Name"].ToString();
                         inputDeviceModel.DeviceVendor = VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]];
 
+                        genecModel.Manufacturer = VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]];
+                        genecModel.Model = "";
+                        genecModel.ID = "";
+                        mouseInfoList.Add(genecModel);
+
                         //Console.WriteLine("Type: Mouse");
                         //Console.WriteLine(VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]]);
+                        //Console.WriteLine(wmi["DeviceID"]);
                         //Console.WriteLine(wmi["Manufacturer"]);
                         listMouse.Add(inputDeviceModel);
                     }
@@ -633,14 +700,22 @@ namespace SidePanel_Navigation.Controls
                     foreach (ManagementObject wmi in mos.Get())
                     {
                         InputDeviceModel inputDeviceModel = new InputDeviceModel();
+                        LocalDbModel gnModel = new LocalDbModel();
 
                         inputDeviceModel.DeviceType = "Keyboard";
                         inputDeviceModel.DeviceName = wmi["Name"].ToString();
                         inputDeviceModel.DeviceVendor = VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]];
 
+                        gnModel.Manufacturer = VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]];
+                        gnModel.Model = "";
+                        gnModel.ID = "";
+
+                        keyboardInfoList.Add(gnModel);
+
                         //Console.WriteLine("Type: Mouse");
                         //Console.WriteLine(wmi["Name"]);
                         //Console.WriteLine(VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]]);
+                        //Console.WriteLine(wmi["DeviceID"]);
                         //Console.WriteLine(wmi["Manufacturer"]);
                         listKeyboard.Add(inputDeviceModel);
                     }
@@ -750,6 +825,40 @@ namespace SidePanel_Navigation.Controls
                             }
                         }
                     }
+
+                    sqliteDbClass.OpenConnection(dbpath);
+                    sqlConnection = sqliteDbClass.OpenConnection(dbpath);
+
+                    if (cpuInfoList != null && cpuInfoList.Count() > 0)
+                    {
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, cpuInfoList, 1);
+                    }
+                    if (ramInfoList != null && ramInfoList.Count() > 0)
+                    {
+                        //sqliteDbClass.ReadHardwareInfoData(sqlConnection, 2);
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, ramInfoList, 2);
+                    }
+                    if (motherboardInfoList != null && motherboardInfoList.Count() > 0)
+                    {
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, motherboardInfoList, 3);
+                    }
+                    if (monitorInfoList != null && monitorInfoList.Count() > 0)
+                    {
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, monitorInfoList, 4);
+                    }
+                    if (harddiskInfoList != null && harddiskInfoList.Count() > 0)
+                    {
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, harddiskInfoList, 5);
+                    }
+                    if (mouseInfoList != null && mouseInfoList.Count() > 0)
+                    {
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, mouseInfoList, 6);
+                    }
+                    if (keyboardInfoList != null && keyboardInfoList.Count() > 0)
+                    {
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, keyboardInfoList, 7);
+                    }
+                    sqlConnection.Close();
                 }
                 catch (Exception ex)
                 {

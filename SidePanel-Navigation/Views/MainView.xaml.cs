@@ -1,9 +1,11 @@
-﻿using LiteDB;
-using SidePanel_Navigation.Controls;
+﻿using SidePanel_Navigation.Controls;
+using SidePanel_Navigation.DB;
 using SidePanel_Navigation.Models;
 using SidePanel_Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -30,15 +32,63 @@ namespace SidePanel_Navigation.Views
     public partial class MainView : Window
     {
         public string dbpath = Directory.GetParent(Assembly.GetExecutingAssembly().Location) + "\\hardwareinfo.db" ;
+        SqliteDbClass sqliteDbClass = new SqliteDbClass();
+        SQLiteConnection sqlConnection;
 
         public MainView()
         {
             InitializeComponent();
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
 
-            Console.WriteLine(dbpath);
+            //Console.WriteLine(dbpath);
 
+            sqliteDbClass.OpenConnection(dbpath);
+            sqlConnection = sqliteDbClass.OpenConnection(dbpath);
 
+            if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Component_Title"))
+            {
+                sqliteDbClass.CreateComponentTitleTable(sqlConnection);
+
+                try
+                {
+                    SQLiteCommand sqlite_cmd;
+                    sqlite_cmd = sqlConnection.CreateCommand();
+                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO COMPONENT_TITLE(ID, COMPONENT)\r\nVALUES (1,'CPU'), (2,'RAM'), (3,'MOTHERBOARD'), (4, 'MONITOR'), (5, 'HARDDISK'), (6, 'MOUSE'), (7, 'KEYBOARD');";
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
+                }
+            }
+            else
+            {
+                try
+                {
+                    SQLiteCommand sqlite_cmd;
+                    sqlite_cmd = sqlConnection.CreateCommand();
+                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO COMPONENT_TITLE(ID, COMPONENT)\r\nVALUES (1,'CPU'), (2,'RAM'), (3,'MOTHERBOARD'), (4, 'MONITOR'), (5, 'HARDDISK'), (6, 'MOUSE'), (7, 'KEYBOARD');";
+                    sqlite_cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
+                }
+            }
+
+            if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Component"))
+            {
+                sqliteDbClass.CreateComponentTable(sqlConnection);
+            }
+
+            if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Summary"))
+            {
+                sqliteDbClass.CreateSummaryTable(sqlConnection);
+            }
+
+            sqlConnection.Close();
 
             GetPcInfoClass getPcInfoClass = new GetPcInfoClass();
             getPcInfoClass.GetInfo();

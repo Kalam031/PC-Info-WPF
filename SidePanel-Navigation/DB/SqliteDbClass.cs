@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using
 using System.Data.SQLite;
 using SidePanel_Navigation.Models;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using System.Windows.Markup;
 using System.Xml.Linq;
+using System.Diagnostics;
+using System.Windows.Documents;
 
 namespace SidePanel_Navigation.DB
 {
-    public class SqliteDb : IDisposable
+    public class SqliteDbClass : IDisposable
     {
         bool disposed;
 
@@ -35,7 +36,7 @@ namespace SidePanel_Navigation.DB
             GC.SuppressFinalize(this);
         }
 
-        ~SqliteDb()
+        ~SqliteDbClass()
         {
             Dispose(false);
         }
@@ -87,26 +88,70 @@ namespace SidePanel_Navigation.DB
             }
         }
 
+        public void CreateComponentTitleTable(SQLiteConnection conn)
+        {
+            SQLiteCommand sqlite_cmd;
+            string Createsql = "CREATE TABLE \"Component_Title\" (\r\n\t\"ID\"\tINTEGER,\r\n\t\"Component\"\tTEXT,\r\n\tCONSTRAINT \"component_sum_unique\" UNIQUE(\"Component\"),\r\n\tPRIMARY KEY(\"ID\")\r\n)";
+            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd.CommandText = Createsql;
+            Console.WriteLine(sqlite_cmd.CommandText);
+            sqlite_cmd.ExecuteNonQuery();
+        }
+
+        public void CreateComponentTable(SQLiteConnection conn)
+        {
+            SQLiteCommand sqlite_cmd;
+            string Createsql = "CREATE TABLE \"Component\" (\r\n\t\"INDEX\"\tINTEGER,\r\n\t\"TYPE_ID\"\tINTEGER,\r\n\t\"MANUFACTURER\"\tTEXT,\r\n\t\"MODEL\"\tTEXT,\r\n\t\"SERIAL\"\tTEXT,\r\n\t\"CTIME\"\tTEXT,\r\n\tFOREIGN KEY(\"TYPE_ID\") REFERENCES \"Component_Title\"(\"ID\"),\r\n\tCONSTRAINT \"PROPERTY_UNIQUE\" UNIQUE(\"SERIAL\",\"MANUFACTURER\",\"MODEL\"),\r\n\tPRIMARY KEY(\"INDEX\" AUTOINCREMENT)\r\n)";
+            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd.CommandText = Createsql;
+            Console.WriteLine(sqlite_cmd.CommandText);
+            sqlite_cmd.ExecuteNonQuery();
+        }
+
+        public void CreateSummaryTable(SQLiteConnection conn)
+        {
+            SQLiteCommand sqlite_cmd;
+            string Createsql = "CREATE TABLE \"Summary\" (\r\n\t\"OPERATING_SYSTEM\"\tTEXT,\r\n\t\"CPU\"\tTEXT,\r\n\t\"RAM\"\tTEXT,\r\n\t\"MOTHERBOARD\"\tTEXT,\r\n\t\"GRAPHICS\"\tTEXT,\r\n\t\"STORAGE\"\tTEXT\r\n)";
+            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd.CommandText = Createsql;
+            Console.WriteLine(sqlite_cmd.CommandText);
+            sqlite_cmd.ExecuteNonQuery();
+        }
+
         public void CreateHardwareInfoTable(SQLiteConnection conn)
         {
 
             SQLiteCommand sqlite_cmd;
-            string Createsql = "CREATE TABLE HITable (Col1 Text, Col2 Text, Col3 Text, Col4 Text, Col5 Text, Col6 Text, Col7 Text, Col8 Text, Col9 Text, Col10 Text, Col11 Text, Col12 Text, Col13 Text, Col14 Text, Col15 Text)";
+            string Createsql = "CREATE TABLE \"HITable\" (\r\n\t\"INDEX\"\tINTEGER,\r\n\t\"CPU_MODEL\"\tText,\r\n\t\"CPU_ID\"\tText,\r\n\t\"RAM_MAN_1\"\tText,\r\n\t\"RAM_SERIAL_1\"\tText,\r\n\t\"RAM_MAN_2\"\tText,\r\n\t\"RAM_SERIAL_2\"\tText,\r\n\t\"MBOARD_MAN\"\tText,\r\n\t\"MBOARD_SERIAL\"\tText,\r\n\t\"MONITOR_MODEL\"\tText,\r\n\t\"HDMODEL1\"\tText,\r\n\t\"HDSERIAL_1\"\tText,\r\n\t\"HDMODEL2\"\tText,\r\n\t\"HDSERIAL_2\"\tText,\r\n\t\"MOUSE_VENDOR\"\tText,\r\n\t\"KEYBOARD_VENDOR\"\tText,\r\n\t\"C_TIME\"\tTEXT,\r\n\tPRIMARY KEY(\"INDEX\" AUTOINCREMENT),\r\n\tCONSTRAINT \"ALL_UNIQUE\" UNIQUE(\"CPU_MODEL\",\"CPU_ID\",\"RAM_MAN_1\",\"RAM_SERIAL_1\",\"RAM_MAN_2\",\"RAM_SERIAL_2\",\"MBOARD_MAN\",\"MBOARD_SERIAL\",\"MONITOR_MODEL\",\"HDMODEL1\",\"HDSERIAL_1\",\"HDMODEL2\",\"HDSERIAL_2\",\"MOUSE_VENDOR\",\"KEYBOARD_VENDOR\")\r\n)";
             sqlite_cmd = conn.CreateCommand();
             sqlite_cmd.CommandText = Createsql;
+            Console.WriteLine(sqlite_cmd.CommandText);
             sqlite_cmd.ExecuteNonQuery();
 
         }
 
-        public void InsertHardwareInfoData(SQLiteConnection conn, List<LocalDbModel> hardwareList)
+        //public void CheckHardwareInfoData(SQLiteConnection conn, List<LocalDbModel> hardwareList)
+        //{
+        //    foreach (var v in hardwareList)
+        //    {
+        //        SQLiteCommand sqlite_cmd;
+        //        sqlite_cmd = conn.CreateCommand();
+        //        sqlite_cmd.CommandText = $"";
+        //        sqlite_cmd.ExecuteNonQuery();
+        //    }
+        //}
+
+        public void InsertHardwareInfoData(SQLiteConnection conn, List<LocalDbModel> hardwareList, int index)
         {
             try
             {
                 foreach (var v in hardwareList)
                 {
+                    //Console.WriteLine($"{index} {v.Manufacturer} {v.Model} {v.ID}");
+
                     SQLiteCommand sqlite_cmd;
                     sqlite_cmd = conn.CreateCommand();
-                    sqlite_cmd.CommandText = $"INSERT INTO HTable (Col1, Col2, Col3, Col4, Col5, Col6, Col7, Col8, Col9, Col10, Col11, Col12, Col13, Col14, Col15) VALUES('{v.cpuModel}', '{v.cpuID}', '{v.ramManufacturer1}', '{v.ramSerial1}', '{v.ramManufacturer2}', '{v.ramSerial2}', '{v.motherboardManufacturer}', '{v.motherboardSerial}', '{v.harddiskModel1}', '{v.harddiskSerial1}', '{v.harddiskModel2}', '{v.harddiskSerial2}', '{v.monitorModel}', '{v.mouseVendor}', '{v.keyboardVendor}')";
+                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO Component(TYPE_ID, MANUFACTURER, MODEL, SERIAL, CTIME)\r\nVALUES('{index}','{v.Manufacturer}','{v.Model}','{v.ID}', '{DateTime.Now.ToString("dd-MMM-yyyy HH:mm:ss")}')";
                     sqlite_cmd.ExecuteNonQuery();
                 }
             }
@@ -117,23 +162,34 @@ namespace SidePanel_Navigation.DB
             }
         }
 
-        //public void ReadHistoryData(SQLiteConnection conn)
-        //{
-        //    SQLiteDataReader sqlite_datareader;
-        //    SQLiteCommand sqlite_cmd;
-        //    sqlite_cmd = conn.CreateCommand();
-        //    sqlite_cmd.CommandText = "SELECT * FROM HTable";
+        public void ReadHardwareInfoData(SQLiteConnection conn, int typeid)
+        {
+            try
+            {
+                SQLiteDataReader sqlite_datareader;
+                SQLiteCommand sqlite_cmd;
+                sqlite_cmd = conn.CreateCommand();
+                sqlite_cmd.CommandText = "SELECT * FROM Component WHERE TYPE_ID = " + typeid;
 
-        //    sqlite_datareader = sqlite_cmd.ExecuteReader();
-        //    while (sqlite_datareader.Read())
-        //    {
-        //        string myreader = sqlite_datareader.GetString(0);
-        //        string myreader2 = sqlite_datareader.GetString(1);
-        //        string myreader3 = sqlite_datareader.GetString(2);
-        //    }
-        //    sqlite_datareader.Close();
-        //    conn.Close();
-        //}
+                sqlite_datareader = sqlite_cmd.ExecuteReader();
+                while (sqlite_datareader.Read())
+                {
+                    string Manufacturer = sqlite_datareader.GetString(2);
+                    string Model = sqlite_datareader.GetString(3);
+                    string Id = sqlite_datareader.GetString(4);
+                    DateTime dt = DateTime.Parse(sqlite_datareader.GetString(5));
+
+                    //Console.WriteLine($"{Manufacturer} {Model} {Id} {dt}");
+                }
+                sqlite_datareader.Close();
+                //conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
+        }
 
         //public void CreateUnsendTable(SQLiteConnection conn)
         //{
