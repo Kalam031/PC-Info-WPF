@@ -14,5 +14,7 @@ namespace SidePanel_Navigation.Models
         public string Motherboard { get; set; }
         public string Graphics { get; set; }
         public string Storage { get; set; }
+        public string OpticalDrive { get; set; }
+        public string Audio { get; set; }
     }
 }

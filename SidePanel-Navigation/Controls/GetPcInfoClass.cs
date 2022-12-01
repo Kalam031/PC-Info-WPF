@@ -50,6 +50,8 @@ namespace SidePanel_Navigation.Controls
         SQLiteConnection sqlConnection;
 
         LocalDbModel genericModel = new LocalDbModel();
+
+        List<LocalDbModel> osInfoList = new List<LocalDbModel>();
         List<LocalDbModel> cpuInfoList = new List<LocalDbModel>();
         List<LocalDbModel> ramInfoList = new List<LocalDbModel>();
         List<LocalDbModel> motherboardInfoList = new List<LocalDbModel>();
@@ -57,6 +59,10 @@ namespace SidePanel_Navigation.Controls
         List<LocalDbModel> harddiskInfoList = new List<LocalDbModel>();
         List<LocalDbModel> mouseInfoList = new List<LocalDbModel>();
         List<LocalDbModel> keyboardInfoList = new List<LocalDbModel>();
+        Dictionary<string,string> cpuPropertyInfoDict = new Dictionary<string, string>();
+        Dictionary<string,string> ramPropertyInfoDict = new Dictionary<string, string>();
+        Dictionary<string, string> harddiskPropertyInfoDict = new Dictionary<string, string>();
+        //List<LocalSummaryDbModel> summaryInfoList = new List<LocalSummaryDbModel>();
 
         SelectQuery Sq = new SelectQuery("Win32_DesktopMonitor");
 
@@ -196,7 +202,10 @@ namespace SidePanel_Navigation.Controls
                         ++unit;
                     }
 
+                    //genericExtModel.cpu
+
                     PcInfoViewModel.SummaryMemoryTotal = Math.Ceiling(totalphysicalmemory).ToString("F") + " " + ((Unit)unit).ToString();
+                    //localsummarymodel.RAM = Math.Ceiling(totalphysicalmemory).ToString("F") + " " + ((Unit)unit).ToString();
 
                     //Operating System
 
@@ -206,6 +215,8 @@ namespace SidePanel_Navigation.Controls
                     {
                         try
                         {
+                            LocalDbModel geModel = new LocalDbModel();
+
                             if (wmi["Caption"] != null)
                             {
                                 string bitcheck = "";
@@ -213,6 +224,12 @@ namespace SidePanel_Navigation.Controls
                                 else bitcheck = " 32-bit";
 
                                 PcInfoViewModel.OperatingSystemName = wmi["Caption"].ToString() + bitcheck;
+                                //localsummarymodel.OperatingSystem = wmi["Caption"].ToString() + bitcheck;
+
+                                geModel.Manufacturer = wmi["Caption"].ToString().Split(' ')[0];
+                                int lg = wmi["Caption"].ToString().Split(' ')[0].Length;
+                                geModel.Model = wmi["Caption"].ToString().Substring(lg);
+                                //Console.WriteLine(wmi["Caption"].ToString());
                             }
 
                             if (wmi["InstallDate"] != null)
@@ -229,6 +246,10 @@ namespace SidePanel_Navigation.Controls
                             PcInfoViewModel.OperatingSystemLanguage = ci.EnglishName;
 
                             PcInfoViewModel.OperatingSystemVersion = OSVersion.MajorVersion10Properties().DisplayVersion.ToString() ?? "(Unable to detect)";
+
+                            geModel.Version = OSVersion.MajorVersion10Properties().DisplayVersion.ToString() ?? "(Unable to detect)";
+                            //Console.WriteLine(OSVersion.MajorVersion10Properties().DisplayVersion.ToString() ?? "(Unable to detect)");
+
                             PcInfoViewModel.OperatingSystembuild = OSVersion.GetOSVersion().Version.Build.ToString();
 
                             RegistryKey localMachine = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
@@ -236,6 +257,8 @@ namespace SidePanel_Navigation.Controls
                             object productID = windowsNTKey.GetValue("ProductId");
 
                             PcInfoViewModel.OperatingSystemSerial = productID.ToString();
+
+                            geModel.ID = productID.ToString();
 
                             TimeZone localZone = TimeZone.CurrentTimeZone;
                             TimeZoneInfo localtimeZone = TimeZoneInfo.Local;
@@ -246,6 +269,8 @@ namespace SidePanel_Navigation.Controls
                             PcInfoViewModel.OperatingSystemDateFormat = sysDateFormat;
                             PcInfoViewModel.OperatingSystemTimeFormat = sysTimeFormat;
                             PcInfoViewModel.OperatingSystemLocation = localtimeZone.Id.Split(' ')[0];
+
+                            osInfoList.Add(geModel);
 
                             using (mos = new ManagementObjectSearcher(@"\\" + Environment.MachineName + @"\root\SecurityCenter2", "SELECT * FROM AntivirusProduct"))
                             {
@@ -299,6 +324,7 @@ namespace SidePanel_Navigation.Controls
                             {
                                 PcInfoViewModel.CpuName = wmi["Name"].ToString();
                                 genercModel.Model = wmi["Name"].ToString();
+                                //localsummarymodel.CPU = wmi["Name"].ToString();
                             }
 
                             if (wmi["ProcessorID"] != null)
@@ -342,6 +368,7 @@ namespace SidePanel_Navigation.Controls
                             if (wmi["MaxClockSpeed"] != null)
                             {
                                 PcInfoViewModel.CpuMaxClockSpeed = $"{wmi["MaxClockSpeed"]} MHz";
+                                cpuPropertyInfoDict.Add("CPU_ClockSpeed", $"{wmi["MaxClockSpeed"]} MHz");
                             }
 
                             if (wmi["ExtClock"] != null)
@@ -352,11 +379,13 @@ namespace SidePanel_Navigation.Controls
                             if (wmi["NumberOfCores"] != null)
                             {
                                 PcInfoViewModel.CpuCore = wmi["NumberOfCores"].ToString();
+                                cpuPropertyInfoDict.Add("CPU_Core", wmi["NumberOfCores"].ToString());
                             }
 
                             if (wmi["NumberOfLogicalProcessors"] != null)
                             {
                                 PcInfoViewModel.CpuThread = wmi["NumberOfLogicalProcessors"].ToString();
+                                cpuPropertyInfoDict.Add("CPU_Thread", wmi["NumberOfLogicalProcessors"].ToString());
                             }
 
                             if (wmi["SocketDesignation"] != null)
@@ -382,6 +411,7 @@ namespace SidePanel_Navigation.Controls
                             PcInfoViewModel.CpuL2CacheSize = $"{l2 / 1024} Kbytes";
                             PcInfoViewModel.CpuL3CacheSize = $"{l3 / 1024} Kbytes";
 
+                            genercModel.Version = "";
                             cpuInfoList.Add(genercModel);
 
                         }
@@ -397,11 +427,12 @@ namespace SidePanel_Navigation.Controls
                     }
 
                     //Physical Memory
-
                     mos = new ManagementObjectSearcher("root\\CIMV2", "select * from Win32_PhysicalMemory");
 
                     string s1 = _QueryComputerSystem("totalphysicalmemory");
                     double totalphysicalmemory1 = Convert.ToDouble(s1);
+
+                    ramPropertyInfoDict.Add("RAM_Size", FormatBytes(totalphysicalmemory1));
 
                     double trunctotal = double.Parse(Regex.Replace(FormatBytes(totalphysicalmemory1), "[^0-9.]", ""));
 
@@ -445,6 +476,11 @@ namespace SidePanel_Navigation.Controls
 
                         memoryInfoModel.Speed = wmi["Speed"].ToString() + " MHz";
 
+                        if (!ramPropertyInfoDict.ContainsKey("RAM_Speed"))
+                        {
+                            ramPropertyInfoDict.Add("RAM_Speed", wmi["Speed"].ToString() + " MHz");
+                        }
+
                         //Console.WriteLine(memoryInfoModel.Type);
                         //Console.WriteLine(memoryInfoModel.Size);
                         //Console.WriteLine(memoryInfoModel.Manufacturer);
@@ -452,6 +488,7 @@ namespace SidePanel_Navigation.Controls
                         //Console.WriteLine(memoryInfoModel.Speed);
 
                         listMemInfo.Add(memoryInfoModel);
+                        genModel.Version = "";
                         ramInfoList.Add(genModel);
                     }
 
@@ -469,10 +506,15 @@ namespace SidePanel_Navigation.Controls
                         PcInfoViewModel.MotherboardModel = wmi["Product"].ToString();
                         PcInfoViewModel.MotherboardVersion = wmi["Version"].ToString();
 
+                        gModel.Version = wmi["Version"].ToString();
+
+                        //Console.WriteLine(wmi["Version"].ToString());
+
                         gModel.Manufacturer = wmi["Manufacturer"].ToString();
                         gModel.Model = wmi["Product"].ToString();
                         gModel.ID = Regex.Replace(wmi["SerialNumber"].ToString(), '/'.ToString(), string.Empty);
 
+                        //localsummarymodel.Motherboard = $"{wmi["Manufacturer"].ToString()} {wmi["Product"].ToString()}";
                         motherboardInfoList.Add(gModel);
                     }
 
@@ -490,11 +532,13 @@ namespace SidePanel_Navigation.Controls
                     PcInfoViewModel.MonitorName = Screen.PrimaryScreen.DeviceFriendlyName();
 
                     LocalDbModel genericModel = new LocalDbModel();
+                    //localsummarymodel.Graphics = Screen.PrimaryScreen.DeviceFriendlyName();
                     genericModel.Manufacturer = Screen.PrimaryScreen.DeviceFriendlyName().Split(' ')[0];
                     //Console.WriteLine(Screen.PrimaryScreen.DeviceFriendlyName().Split(' ')[0]);
                     int length = Screen.PrimaryScreen.DeviceFriendlyName().Split(' ')[0].Length;
                     genericModel.Model = Screen.PrimaryScreen.DeviceFriendlyName().Substring(length + 1);
                     genericModel.ID = "";
+                    genericModel.Version = "";
 
                     monitorInfoList.Add(genericModel);
                     //Console.WriteLine(length);
@@ -543,6 +587,9 @@ namespace SidePanel_Navigation.Controls
                     foreach (ManagementObject wmi in mos.Get())
                     {
                         PcInfoViewModel.OpticalDriveName = wmi["Name"].ToString();
+
+                        //localsummarymodel.OpticalDrive = wmi["Name"].ToString();
+
                         PcInfoViewModel.OpticalDriveConfigManErrCode = wmi["ConfigManagerErrorCode"].ToString();
                         PcInfoViewModel.OpticalDriveConfigManUserConfig = wmi["ConfigManagerUserConfig"].ToString() == "False" ? "False" : "True";
                         PcInfoViewModel.OpticalDriveVolume = wmi["Drive"].ToString();
@@ -558,6 +605,8 @@ namespace SidePanel_Navigation.Controls
 
                     mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_DiskDrive");
 
+                    double hsize = 0;
+                    string totalHsize = "";
                     foreach (ManagementObject wmi in mos.Get())
                     {
                         genericModel = new LocalDbModel();
@@ -580,16 +629,23 @@ namespace SidePanel_Navigation.Controls
                         diskDriveModel.Serial = wmi["SerialNumber"].ToString().Trim();
 
                         genericModel.ID = wmi["SerialNumber"].ToString().Trim();
+                        genericModel.Version = "";
 
+                        hsize += double.Parse(wmi["Size"].ToString());
                         diskDriveModel.Capacity = FormatBytes(double.Parse(wmi["Size"].ToString()));
                         diskDriveModel.RealSize = wmi["Size"].ToString();
+
+                        //localsummarymodel.Storage = FormatBytes(double.Parse(wmi["Size"].ToString()));
+
                         diskDriveModel.Status = wmi["Status"].ToString();
 
                         listDiskInfo.Add(diskDriveModel);
                         harddiskInfoList.Add(genericModel);
                     }
+                    totalHsize = FormatBytes(hsize);
                     PcInfoViewModel.ListDiskDriveInfo = listDiskInfo;
 
+                    harddiskPropertyInfoDict.Add("Harddisk_Size", totalHsize);
 
                     String DiskName = "";
                     String PartState = "";
@@ -664,6 +720,8 @@ namespace SidePanel_Navigation.Controls
 
                         audioModel.DeviceName = wmi["Caption"].ToString();
 
+                        //localsummarymodel.Audio = wmi["Caption"].ToString();
+
                         listAudioDevice.Add(audioModel);
                         //Console.WriteLine(wmi["Caption"]);
                     }
@@ -685,6 +743,7 @@ namespace SidePanel_Navigation.Controls
                         genecModel.Manufacturer = VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]];
                         genecModel.Model = "";
                         genecModel.ID = "";
+                        genecModel.Version = "";
                         mouseInfoList.Add(genecModel);
 
                         //Console.WriteLine("Type: Mouse");
@@ -709,6 +768,7 @@ namespace SidePanel_Navigation.Controls
                         gnModel.Manufacturer = VendorClass.vendorInfo[wmi["DeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]];
                         gnModel.Model = "";
                         gnModel.ID = "";
+                        gnModel.Version = "";
 
                         keyboardInfoList.Add(gnModel);
 
@@ -826,38 +886,65 @@ namespace SidePanel_Navigation.Controls
                         }
                     }
 
+                    //summaryInfoList.Add(localsummarymodel);
+
                     sqliteDbClass.OpenConnection(dbpath);
                     sqlConnection = sqliteDbClass.OpenConnection(dbpath);
 
+                    if (osInfoList != null && osInfoList.Count() > 0)
+                    {
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, osInfoList, 1);
+                    }
+
                     if (cpuInfoList != null && cpuInfoList.Count() > 0)
                     {
-                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, cpuInfoList, 1);
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, cpuInfoList, 2);
                     }
                     if (ramInfoList != null && ramInfoList.Count() > 0)
                     {
                         //sqliteDbClass.ReadHardwareInfoData(sqlConnection, 2);
-                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, ramInfoList, 2);
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, ramInfoList, 3);
                     }
                     if (motherboardInfoList != null && motherboardInfoList.Count() > 0)
                     {
-                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, motherboardInfoList, 3);
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, motherboardInfoList, 4);
                     }
                     if (monitorInfoList != null && monitorInfoList.Count() > 0)
                     {
-                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, monitorInfoList, 4);
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, monitorInfoList, 5);
                     }
                     if (harddiskInfoList != null && harddiskInfoList.Count() > 0)
                     {
-                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, harddiskInfoList, 5);
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, harddiskInfoList, 6);
                     }
                     if (mouseInfoList != null && mouseInfoList.Count() > 0)
                     {
-                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, mouseInfoList, 6);
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, mouseInfoList, 7);
                     }
                     if (keyboardInfoList != null && keyboardInfoList.Count() > 0)
                     {
-                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, keyboardInfoList, 7);
+                        sqliteDbClass.InsertHardwareInfoData(sqlConnection, keyboardInfoList, 8);
                     }
+
+                    if (cpuPropertyInfoDict != null)
+                    {
+                        sqliteDbClass.InsertExtendInfoData(sqlConnection, cpuPropertyInfoDict, 2);
+                    }
+
+                    if (ramPropertyInfoDict != null)
+                    {
+                        sqliteDbClass.InsertExtendInfoData(sqlConnection, ramPropertyInfoDict, 3);
+                    }
+
+                    if (harddiskPropertyInfoDict != null)
+                    {
+                        sqliteDbClass.InsertExtendInfoData(sqlConnection, harddiskPropertyInfoDict, 6);
+                    }
+
+                    //if (summaryInfoList != null && summaryInfoList.Count() > 0)
+                    //{
+                    //    sqliteDbClass.InsertHardwareSummaryData(sqlConnection, summaryInfoList);
+                    //}
                     sqlConnection.Close();
                 }
                 catch (Exception ex)

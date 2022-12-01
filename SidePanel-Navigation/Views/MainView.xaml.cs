@@ -53,7 +53,7 @@ namespace SidePanel_Navigation.Views
                 {
                     SQLiteCommand sqlite_cmd;
                     sqlite_cmd = sqlConnection.CreateCommand();
-                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO COMPONENT_TITLE(ID, COMPONENT)\r\nVALUES (1,'CPU'), (2,'RAM'), (3,'MOTHERBOARD'), (4, 'MONITOR'), (5, 'HARDDISK'), (6, 'MOUSE'), (7, 'KEYBOARD');";
+                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO COMPONENT_TITLE(ID, COMPONENT)\r\nVALUES (1,'OS'), (2,'CPU'), (3,'RAM'), (4,'MOTHERBOARD'), (5, 'MONITOR'), (6, 'HARDDISK'), (7, 'MOUSE'), (8, 'KEYBOARD');";
                     sqlite_cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -68,7 +68,7 @@ namespace SidePanel_Navigation.Views
                 {
                     SQLiteCommand sqlite_cmd;
                     sqlite_cmd = sqlConnection.CreateCommand();
-                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO COMPONENT_TITLE(ID, COMPONENT)\r\nVALUES (1,'CPU'), (2,'RAM'), (3,'MOTHERBOARD'), (4, 'MONITOR'), (5, 'HARDDISK'), (6, 'MOUSE'), (7, 'KEYBOARD');";
+                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO COMPONENT_TITLE(ID, COMPONENT)\r\nVALUES (1,'OS'), (2,'CPU'), (3,'RAM'), (4,'MOTHERBOARD'), (5, 'MONITOR'), (6, 'HARDDISK'), (7, 'MOUSE'), (8, 'KEYBOARD');";
                     sqlite_cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -83,10 +83,15 @@ namespace SidePanel_Navigation.Views
                 sqliteDbClass.CreateComponentTable(sqlConnection);
             }
 
-            if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Summary"))
+            if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Component_Extend"))
             {
-                sqliteDbClass.CreateSummaryTable(sqlConnection);
+                sqliteDbClass.CreateComponentExtendTable(sqlConnection);
             }
+
+            //if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Summary"))
+            //{
+            //    sqliteDbClass.CreateSummaryTable(sqlConnection);
+            //}
 
             sqlConnection.Close();
 

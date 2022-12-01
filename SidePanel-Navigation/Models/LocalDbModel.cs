@@ -10,6 +10,7 @@ namespace SidePanel_Navigation.Models
     {
         public string Manufacturer { get; set; }
         public string Model { get; set; }
+        public string Version { get; set; }
         public string ID { get; set; }
     }
 }
