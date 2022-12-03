@@ -1,15 +1,7 @@
-﻿using System;
+﻿using SidePanel_Navigation.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SQLite;
-using SidePanel_Navigation.Models;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
-using System.Windows.Markup;
-using System.Xml.Linq;
-using System.Diagnostics;
-using System.Windows.Documents;
 
 namespace SidePanel_Navigation.DB
 {

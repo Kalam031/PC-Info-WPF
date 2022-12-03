@@ -1,11 +1,13 @@
 ﻿using Microsoft.Win32;
 using OSVersionExtension;
+using SidePanel_Navigation.DB;
 using SidePanel_Navigation.Log;
 using SidePanel_Navigation.Models;
 using SidePanel_Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -18,12 +20,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Windows.Markup;
 using System.Windows.Threading;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
-using System.Xml.Linq;
-using SidePanel_Navigation.DB;
-using System.Data.SQLite;
 
 namespace SidePanel_Navigation.Controls
 {
@@ -59,8 +56,8 @@ namespace SidePanel_Navigation.Controls
         List<LocalDbModel> harddiskInfoList = new List<LocalDbModel>();
         List<LocalDbModel> mouseInfoList = new List<LocalDbModel>();
         List<LocalDbModel> keyboardInfoList = new List<LocalDbModel>();
-        Dictionary<string,string> cpuPropertyInfoDict = new Dictionary<string, string>();
-        Dictionary<string,string> ramPropertyInfoDict = new Dictionary<string, string>();
+        Dictionary<string, string> cpuPropertyInfoDict = new Dictionary<string, string>();
+        Dictionary<string, string> ramPropertyInfoDict = new Dictionary<string, string>();
         Dictionary<string, string> harddiskPropertyInfoDict = new Dictionary<string, string>();
         //List<LocalSummaryDbModel> summaryInfoList = new List<LocalSummaryDbModel>();
 
@@ -417,8 +414,8 @@ namespace SidePanel_Navigation.Controls
                         }
                         catch (Exception exp)
                         {
-                            Console.WriteLine(exp.Message);
-                            Console.WriteLine(exp.StackTrace);
+                            //Console.WriteLine(exp.Message);
+                            //Console.WriteLine(exp.StackTrace);
                             LogClass.LogWrite($"========== Get CPU Exception ==========");
                             LogClass.LogWrite($"{exp.Message}");
                             LogClass.LogWrite($"{exp.StackTrace}");
@@ -502,7 +499,7 @@ namespace SidePanel_Navigation.Controls
                     {
                         LocalDbModel gModel = new LocalDbModel();
                         PcInfoViewModel.MotherboardManufacturer = wmi["Manufacturer"].ToString();
-                        PcInfoViewModel.MotherboardSerial = Regex.Replace(wmi["SerialNumber"].ToString(),'/'.ToString(),string.Empty);
+                        PcInfoViewModel.MotherboardSerial = Regex.Replace(wmi["SerialNumber"].ToString(), '/'.ToString(), string.Empty);
                         PcInfoViewModel.MotherboardModel = wmi["Product"].ToString();
                         PcInfoViewModel.MotherboardVersion = wmi["Version"].ToString();
 
@@ -571,7 +568,7 @@ namespace SidePanel_Navigation.Controls
                         string manufac = val[0];
                         string modelName = "";
 
-                        for (int j= 1; j< val.Count(); j++)
+                        for (int j = 1; j < val.Count(); j++)
                         {
                             modelName += $"{(val[j])} ";
                         }
