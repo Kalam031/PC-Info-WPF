@@ -443,33 +443,6 @@ namespace SidePanel_Navigation.Controls
 
                     //Physical Memory
 
-                    try
-                    {
-                        var pep = new ManagementObjectSearcher("select * from win32_memorydevices");
-                        foreach (ManagementObject d in pep.Get())
-                        {
-                            var deviceii = d.Properties["DeviceId"].Value;
-                            //Console.WriteLine("Device");
-                            //Console.WriteLine(d);
-                            var partitionQueryText = string.Format("associators of {{{0}}} where AssocClass = Win32_DiskDriveToDiskPartition", d.Path.RelativePath);
-
-                            string strQuery = "ASSOCIATORS OF {Win32_MemoryDevice.DeviceID=\"";
-                            strQuery += deviceii;
-                            strQuery += "\"} WHERE ResultClass = Win32_PhysicalMemory";
-
-                            var partitionQ = new ManagementObjectSearcher(strQuery);
-                            foreach (ManagementObject p in partitionQ.Get())
-                            {
-                                Console.WriteLine(p.Properties["Tag"].Value);
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        Console.WriteLine(ex.StackTrace);
-                    }
-
                     mos = new ManagementObjectSearcher("root\\CIMV2", "select * from Win32_PhysicalMemory");
 
                     string s1 = _QueryComputerSystem("totalphysicalmemory");
@@ -646,59 +619,98 @@ namespace SidePanel_Navigation.Controls
 
                     //Storage
 
-                    mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_DiskDrive");
+                    //mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_DiskDrive");
+
+                    //double hsize = 0;
+                    //string totalHsize = "";
+                    //foreach (ManagementObject wmi in mos.Get())
+                    //{
+                    //    genericModel = new LocalDbModel();
+                    //    DiskDriveModel diskDriveModel = new DiskDriveModel();
+
+                    //    diskDriveModel.DiskName = wmi["Caption"].ToString();
+                    //    diskDriveModel.DiskManufacturer = wmi["Caption"].ToString().Split(' ')[0];
+
+                    //    genericModel.Manufacturer = wmi["Caption"].ToString().Split(' ')[0];
+
+                    //    int lngth = wmi["Caption"].ToString().Split(' ')[0].Length;
+
+                    //    genericModel.Model = wmi["Caption"].ToString().Substring(lngth + 1);
+                    //    //Console.WriteLine(wmi["Caption"].ToString().Substring(lngth + 1));
+
+                    //    diskDriveModel.Heads = wmi["TotalHeads"].ToString();
+                    //    diskDriveModel.Cylinders = wmi["TotalCylinders"].ToString();
+                    //    diskDriveModel.Tracks = wmi["TotalTracks"].ToString();
+                    //    diskDriveModel.Sectors = wmi["TotalSectors"].ToString();
+                    //    diskDriveModel.Serial = wmi["SerialNumber"].ToString().Trim();
+
+                    //    genericModel.ID = wmi["SerialNumber"].ToString().Trim();
+                    //    genericModel.Version = "";
+
+                    //    hsize += double.Parse(wmi["Size"].ToString());
+                    //    diskDriveModel.Capacity = FormatBytes(double.Parse(wmi["Size"].ToString()));
+                    //    diskDriveModel.RealSize = wmi["Size"].ToString();
+
+                    //    //localsummarymodel.Storage = FormatBytes(double.Parse(wmi["Size"].ToString()));
+
+                    //    diskDriveModel.Status = wmi["Status"].ToString();
+
+                    //    listDiskInfo.Add(diskDriveModel);
+                    //    harddiskInfoList.Add(genericModel);
+                    //}
+                    //totalHsize = FormatBytes(hsize);
+                    //PcInfoViewModel.ListDiskDriveInfo = listDiskInfo;
+
+                    //harddiskPropertyInfoDict.Add("Harddisk_Size", totalHsize);
+
+                    //Disk Drive Logical Partition Info
 
                     double hsize = 0;
                     string totalHsize = "";
-                    foreach (ManagementObject wmi in mos.Get())
-                    {
-                        genericModel = new LocalDbModel();
-                        DiskDriveModel diskDriveModel = new DiskDriveModel();
-
-                        diskDriveModel.DiskName = wmi["Caption"].ToString();
-                        diskDriveModel.DiskManufacturer = wmi["Caption"].ToString().Split(' ')[0];
-
-                        genericModel.Manufacturer = wmi["Caption"].ToString().Split(' ')[0];
-
-                        int lngth = wmi["Caption"].ToString().Split(' ')[0].Length;
-
-                        genericModel.Model = wmi["Caption"].ToString().Substring(lngth + 1);
-                        //Console.WriteLine(wmi["Caption"].ToString().Substring(lngth + 1));
-
-                        diskDriveModel.Heads = wmi["TotalHeads"].ToString();
-                        diskDriveModel.Cylinders = wmi["TotalCylinders"].ToString();
-                        diskDriveModel.Tracks = wmi["TotalTracks"].ToString();
-                        diskDriveModel.Sectors = wmi["TotalSectors"].ToString();
-                        diskDriveModel.Serial = wmi["SerialNumber"].ToString().Trim();
-
-                        genericModel.ID = wmi["SerialNumber"].ToString().Trim();
-                        genericModel.Version = "";
-
-                        hsize += double.Parse(wmi["Size"].ToString());
-                        diskDriveModel.Capacity = FormatBytes(double.Parse(wmi["Size"].ToString()));
-                        diskDriveModel.RealSize = wmi["Size"].ToString();
-
-                        //localsummarymodel.Storage = FormatBytes(double.Parse(wmi["Size"].ToString()));
-
-                        diskDriveModel.Status = wmi["Status"].ToString();
-
-                        listDiskInfo.Add(diskDriveModel);
-                        harddiskInfoList.Add(genericModel);
-                    }
-                    totalHsize = FormatBytes(hsize);
-                    PcInfoViewModel.ListDiskDriveInfo = listDiskInfo;
-
-                    harddiskPropertyInfoDict.Add("Harddisk_Size", totalHsize);
-
-                    //Disk Drive Logical Partition Info
 
                     var driveQuery = new ManagementObjectSearcher("select * from Win32_DiskDrive");
                     foreach (ManagementObject d in driveQuery.Get())
                     {
+                        genericModel = new LocalDbModel();
+                        DiskDriveModel diskDriveModel = new DiskDriveModel();
+
+                        diskDriveModel.DiskName = d["Caption"].ToString();
+                        diskDriveModel.DiskManufacturer = d["Caption"].ToString().Split(' ')[0];
+
+                        genericModel.Manufacturer = d["Caption"].ToString().Split(' ')[0];
+
+                        int lngth = d["Caption"].ToString().Split(' ')[0].Length;
+
+                        genericModel.Model = d["Caption"].ToString().Substring(lngth + 1);
+                        //Console.WriteLine(wmi["Caption"].ToString().Substring(lngth + 1));
+
+                        diskDriveModel.Heads = d["TotalHeads"].ToString();
+                        diskDriveModel.Cylinders = d["TotalCylinders"].ToString();
+                        diskDriveModel.Tracks = d["TotalTracks"].ToString();
+                        diskDriveModel.Sectors = d["TotalSectors"].ToString();
+                        diskDriveModel.Serial = d["SerialNumber"].ToString().Trim();
+
+                        genericModel.ID = d["SerialNumber"].ToString().Trim();
+                        genericModel.Version = "";
+
+                        hsize += double.Parse(d["Size"].ToString());
+                        diskDriveModel.Capacity = FormatBytes(double.Parse(d["Size"].ToString()));
+                        diskDriveModel.RealSize = d["Size"].ToString();
+
+                        //localsummarymodel.Storage = FormatBytes(double.Parse(wmi["Size"].ToString()));
+
+                        diskDriveModel.Status = d["Status"].ToString();
+
+                        listDiskInfo.Add(diskDriveModel);
+                        harddiskInfoList.Add(genericModel);
+
                         var deviceId = d.Properties["DeviceId"].Value;
                         //Console.WriteLine("Device");
                         //Console.WriteLine(d);
                         var partitionQueryText = string.Format("associators of {{{0}}} where AssocClass = Win32_DiskDriveToDiskPartition", d.Path.RelativePath);
+
+                        //Console.WriteLine(partitionQueryText);
+
                         var partitionQuery = new ManagementObjectSearcher(partitionQueryText);
                         foreach (ManagementObject p in partitionQuery.Get())
                         {
@@ -772,6 +784,10 @@ namespace SidePanel_Navigation.Controls
                             }
                         }
                     }
+                    totalHsize = FormatBytes(hsize);
+                    PcInfoViewModel.ListDiskDriveInfo = listDiskInfo;
+
+                    harddiskPropertyInfoDict.Add("Harddisk_Size", totalHsize);
                     PcInfoViewModel.ListDiskDrivePartitionInfo = listDiskPartitionInfo;
 
                     //Audio
@@ -1080,16 +1096,13 @@ namespace SidePanel_Navigation.Controls
 
                 //Removable drive info
 
-                //foreach (DriveInfo drive in DriveInfo.GetDrives())
-                //{
-                //    if (drive.DriveType == DriveType.Removable)
-                //    {
-                //        Console.WriteLine("Test");
-                //        Console.WriteLine("\n\n\n\n");
-                //        Console.WriteLine(string.Format("({0}) {1}", drive.Name.Replace("\\", ""), drive.VolumeLabel));
-                //        Console.WriteLine("Test-2");
-                //    }
-                //}
+                foreach (DriveInfo drive in DriveInfo.GetDrives())
+                {
+                    if (drive.DriveType == DriveType.Removable)
+                    {
+                        Console.WriteLine(string.Format("({0}) {1}", drive.Name.Replace("\\", ""), drive.VolumeLabel));
+                    }
+                }
             }
             else
             {
