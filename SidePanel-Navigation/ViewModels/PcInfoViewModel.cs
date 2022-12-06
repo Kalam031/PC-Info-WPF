@@ -116,6 +116,7 @@ namespace SidePanel_Navigation.ViewModels
         //Peripherals
         static List<InputDeviceModel> mouse;
         static List<InputDeviceModel> keyboard;
+        static List<InputDeviceModel> cameraDevice;
         static List<PrinterModel> printer;
 
         //Network
@@ -234,6 +235,7 @@ namespace SidePanel_Navigation.ViewModels
 
         public static List<InputDeviceModel> Mouse { get => mouse; set => mouse = value; }
         public static List<InputDeviceModel> Keyboard { get => keyboard; set => keyboard = value; }
+        public static List<InputDeviceModel> CameraDevice { get => cameraDevice; set => cameraDevice = value; }
         public static List<PrinterModel> Printer { get => printer; set => printer = value; }
 
         //Audio

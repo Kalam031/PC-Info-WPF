@@ -39,6 +39,7 @@ namespace SidePanel_Navigation.Controls
         List<string> listdnsserver = new List<string>();
         List<InputDeviceModel> listMouse = new List<InputDeviceModel>();
         List<InputDeviceModel> listKeyboard = new List<InputDeviceModel>();
+        List<InputDeviceModel> listCamera = new List<InputDeviceModel>();
         List<PrinterModel> listPrinter = new List<PrinterModel>();
         List<AudioModel> listAudioDevice = new List<AudioModel>();
 
@@ -56,10 +57,10 @@ namespace SidePanel_Navigation.Controls
         List<LocalDbModel> harddiskInfoList = new List<LocalDbModel>();
         List<LocalDbModel> mouseInfoList = new List<LocalDbModel>();
         List<LocalDbModel> keyboardInfoList = new List<LocalDbModel>();
+        Dictionary<string, string> otherPeripherals = new Dictionary<string, string>();
         Dictionary<string, string> cpuPropertyInfoDict = new Dictionary<string, string>();
         Dictionary<string, string> ramPropertyInfoDict = new Dictionary<string, string>();
         Dictionary<string, string> harddiskPropertyInfoDict = new Dictionary<string, string>();
-        //List<LocalSummaryDbModel> summaryInfoList = new List<LocalSummaryDbModel>();
 
         SelectQuery Sq = new SelectQuery("Win32_DesktopMonitor");
 
@@ -100,6 +101,10 @@ namespace SidePanel_Navigation.Controls
             }
             else if (e.Error != null)
             {
+                LogClass.LogWrite($"========== Backgroundworker1 Exception ==========");
+                LogClass.LogWrite($"{e.Error.Message}");
+                LogClass.LogWrite($"{e.Error.StackTrace}");
+                LogClass.LogWrite($"========== Backgroundworker1 Exception ==========");
             }
         }
 
@@ -177,6 +182,19 @@ namespace SidePanel_Navigation.Controls
 
         private void Bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (!e.Cancelled && e.Error == null)
+            {
+            }
+            else if (e.Cancelled)
+            {
+            }
+            else if (e.Error != null)
+            {
+                LogClass.LogWrite($"========== Backgroundworker Exception ==========");
+                LogClass.LogWrite($"{e.Error.Message}");
+                LogClass.LogWrite($"{e.Error.StackTrace}");
+                LogClass.LogWrite($"========== Backgroundworker Exception ==========");
+            }
         }
 
         private void Bg_DoWork(object sender, DoWorkEventArgs e)
@@ -424,6 +442,34 @@ namespace SidePanel_Navigation.Controls
                     }
 
                     //Physical Memory
+
+                    try
+                    {
+                        var pep = new ManagementObjectSearcher("select * from win32_memorydevices");
+                        foreach (ManagementObject d in pep.Get())
+                        {
+                            var deviceii = d.Properties["DeviceId"].Value;
+                            //Console.WriteLine("Device");
+                            //Console.WriteLine(d);
+                            var partitionQueryText = string.Format("associators of {{{0}}} where AssocClass = Win32_DiskDriveToDiskPartition", d.Path.RelativePath);
+
+                            string strQuery = "ASSOCIATORS OF {Win32_MemoryDevice.DeviceID=\"";
+                            strQuery += deviceii;
+                            strQuery += "\"} WHERE ResultClass = Win32_PhysicalMemory";
+
+                            var partitionQ = new ManagementObjectSearcher(strQuery);
+                            foreach (ManagementObject p in partitionQ.Get())
+                            {
+                                Console.WriteLine(p.Properties["Tag"].Value);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine(ex.StackTrace);
+                    }
+
                     mos = new ManagementObjectSearcher("root\\CIMV2", "select * from Win32_PhysicalMemory");
 
                     string s1 = _QueryComputerSystem("totalphysicalmemory");
@@ -644,68 +690,89 @@ namespace SidePanel_Navigation.Controls
 
                     harddiskPropertyInfoDict.Add("Harddisk_Size", totalHsize);
 
-                    String DiskName = "";
-                    String PartState = "";
-                    String PartName = "";
-                    String PartFree = "";
-                    Int16 ObjCount = 0;
+                    //Disk Drive Logical Partition Info
 
-                    ManagementObjectSearcher hdd = new ManagementObjectSearcher("Select * from Win32_DiskDrive");
-                    foreach (ManagementObject objhdd in hdd.Get())
+                    var driveQuery = new ManagementObjectSearcher("select * from Win32_DiskDrive");
+                    foreach (ManagementObject d in driveQuery.Get())
                     {
-                        PartState = "";
-                        //DiskName = "Disk " + objhdd["Index"].ToString() + " : " + objhdd["Caption"].ToString().Replace(" ATA Device", "") +
-                        //    " (" + Math.Round(Convert.ToDouble(objhdd["Size"]) / 1073741824, 1) + " GB)";
-
-                        ObjCount = Convert.ToInt16(objhdd["Partitions"]);
-                        ManagementObjectSearcher partitions = new ManagementObjectSearcher(
-                            "Select * From Win32_DiskPartition Where DiskIndex='" + objhdd["Index"].ToString() + "'");
-                        foreach (ManagementObject part in partitions.Get())
+                        var deviceId = d.Properties["DeviceId"].Value;
+                        //Console.WriteLine("Device");
+                        //Console.WriteLine(d);
+                        var partitionQueryText = string.Format("associators of {{{0}}} where AssocClass = Win32_DiskDriveToDiskPartition", d.Path.RelativePath);
+                        var partitionQuery = new ManagementObjectSearcher(partitionQueryText);
+                        foreach (ManagementObject p in partitionQuery.Get())
                         {
-                            DiskDrivePartitionModel diskDrivePartitionModel = new DiskDrivePartitionModel();
-
-                            PartName = part["DeviceID"].ToString();
-                            if (part["Bootable"].ToString() == "True" && part["BootPartition"].ToString() == "True")
+                            //Console.WriteLine("Partition");
+                            //Console.WriteLine(p);
+                            var logicalDriveQueryText = string.Format("associators of {{{0}}} where AssocClass = Win32_LogicalDiskToPartition", p.Path.RelativePath);
+                            var logicalDriveQuery = new ManagementObjectSearcher(logicalDriveQueryText);
+                            foreach (ManagementObject ld in logicalDriveQuery.Get())
                             {
-                                PartState = FormatBytes(Convert.ToDouble(part["Size"].ToString()));
-                            }
-                            else
-                            {
-                                //ManagementObjectSearcher getdisks = new ManagementObjectSearcher
-                                //    ("Select * From Win32_LogicalDiskToPartition Where  ");
-                                PartState = GetPartName(PartName);
-                                PartFree = GetUsedSpace(PartState);
-                                PartState = "Local Disk (" + PartState + ")";
-                            }
+                                DiskDrivePartitionModel diskDrivePartitionModel = new DiskDrivePartitionModel();
+                                //Console.WriteLine("Logical drive");
+                                //Console.WriteLine(ld);
 
-                            if (!string.IsNullOrEmpty(PartState))
-                            {
-                                diskDrivePartitionModel.PartitionName = part["Index"].ToString();
-                                diskDrivePartitionModel.DriveName = PartState;
-                                diskDrivePartitionModel.TotalStorage = FormatBytes(Convert.ToDouble(part["Size"].ToString()));
-                                string[] val = PartFree.Split('*');
+                                //var physicalName = Convert.ToString(d.Properties["Name"].Value); // \\.\PHYSICALDRIVE2
+                                //var diskName = Convert.ToString(d.Properties["Caption"].Value); // WDC WD5001AALS-xxxxxx
+                                //var diskModel = Convert.ToString(d.Properties["Model"].Value); // WDC WD5001AALS-xxxxxx
+                                //var diskInterface = Convert.ToString(d.Properties["InterfaceType"].Value); // IDE
+                                //var capabilities = (UInt16[])d.Properties["Capabilities"].Value; // 3,4 - random access, supports writing
+                                //var mediaLoaded = Convert.ToBoolean(d.Properties["MediaLoaded"].Value); // bool
+                                //var mediaType = Convert.ToString(d.Properties["MediaType"].Value); // Fixed hard disk media
+                                //var mediaSignature = Convert.ToUInt32(d.Properties["Signature"].Value); // int32
+                                //var mediaStatus = Convert.ToString(d.Properties["Status"].Value); // OK
 
-                                if (!string.IsNullOrEmpty(val[0]))
-                                {
-                                    diskDrivePartitionModel.UsedSpace = val[0];
-                                }
+                                var driveName = Convert.ToString(ld.Properties["Name"].Value); // C:
+                                var driveId = Convert.ToString(ld.Properties["DeviceId"].Value); // C:
+                                var driveCompressed = Convert.ToBoolean(ld.Properties["Compressed"].Value);
+                                var driveType = Convert.ToUInt32(ld.Properties["DriveType"].Value); // C: - 3
+                                var fileSystem = Convert.ToString(ld.Properties["FileSystem"].Value); // NTFS
+                                var freeSpace = Convert.ToUInt64(ld.Properties["FreeSpace"].Value); // in bytes
+                                var totalSpace = Convert.ToUInt64(ld.Properties["Size"].Value); // in bytes
+                                var driveMediaType = Convert.ToUInt32(ld.Properties["MediaType"].Value); // c: 12
+                                var volumeName = Convert.ToString(ld.Properties["VolumeName"].Value); // System
+                                var volumeSerial = Convert.ToString(ld.Properties["VolumeSerialNumber"].Value); // 12345678
 
-                                if (!string.IsNullOrEmpty(val[0]))
-                                {
-                                    diskDrivePartitionModel.FreeSpace = val[1];
-                                }
+                                diskDrivePartitionModel.DriveName = driveName;
+                                diskDrivePartitionModel.FileSystem = fileSystem;
+                                diskDrivePartitionModel.SerialNumber = volumeSerial;
+                                diskDrivePartitionModel.TotalStorage = FormatBytes(totalSpace);
+                                var usedSpace = totalSpace - freeSpace;
+
+                                //Console.WriteLine(freeSpace);
+                                //Console.WriteLine(totalSpace);
+                                //Console.WriteLine(Math.Ceiling(double.Parse(freeSpace.ToString()) / double.Parse(totalSpace.ToString()) * 100));
+
+                                diskDrivePartitionModel.FreeSpace = FormatBytes(freeSpace) + $" ({Math.Ceiling(double.Parse(freeSpace.ToString()) / double.Parse(totalSpace.ToString()) * 100)} %)";
+                                diskDrivePartitionModel.UsedSpace = FormatBytes(usedSpace) + $" ({Math.Floor(double.Parse(usedSpace.ToString()) / double.Parse(totalSpace.ToString()) * 100)} %)";
+
+                                //Console.WriteLine("PhysicalName: {0}", physicalName);
+                                //Console.WriteLine("DiskName: {0}", diskName);
+                                //Console.WriteLine("DiskModel: {0}", diskModel);
+                                //Console.WriteLine("DiskInterface: {0}", diskInterface);
+                                //// Console.WriteLine("Capabilities: {0}", capabilities);
+                                //Console.WriteLine("MediaLoaded: {0}", mediaLoaded);
+                                //Console.WriteLine("MediaType: {0}", mediaType);
+                                //Console.WriteLine("MediaSignature: {0}", mediaSignature);
+                                //Console.WriteLine("MediaStatus: {0}", mediaStatus);
+
+                                //Console.WriteLine("DriveName: {0}", driveName);
+                                //Console.WriteLine("DriveId: {0}", driveId);
+                                //Console.WriteLine("DriveCompressed: {0}", driveCompressed);
+                                //Console.WriteLine("DriveType: {0}", driveType);
+                                //Console.WriteLine("FileSystem: {0}", fileSystem);
+                                //Console.WriteLine("FreeSpace: {0}", freeSpace);
+                                //Console.WriteLine("TotalSpace: {0}", totalSpace);
+                                //Console.WriteLine("DriveMediaType: {0}", driveMediaType);
+                                //Console.WriteLine("VolumeName: {0}", volumeName);
+                                //Console.WriteLine("VolumeSerial: {0}", volumeSerial);
+
+                                //Console.WriteLine(new string('-', 79));
+                                listDiskPartitionInfo.Add(diskDrivePartitionModel);
                             }
-                            else
-                            {
-                                diskDrivePartitionModel.PartitionName = part["Index"].ToString();
-                                diskDrivePartitionModel.TotalStorage = PartState;
-                            }
-
-                            listDiskPartitionInfo.Add(diskDrivePartitionModel);
                         }
-
-                        PcInfoViewModel.ListDiskDrivePartitionInfo = listDiskPartitionInfo;
                     }
+                    PcInfoViewModel.ListDiskDrivePartitionInfo = listDiskPartitionInfo;
 
                     //Audio
 
@@ -725,6 +792,8 @@ namespace SidePanel_Navigation.Controls
                     PcInfoViewModel.ListsoundDeviceInfo = listAudioDevice;
 
                     //Peripherals
+
+                    //Mouse
 
                     mos = new ManagementObjectSearcher("root\\CIMV2", "select * from win32_pnpentity where PNPClass = 'Mouse'");
 
@@ -750,6 +819,8 @@ namespace SidePanel_Navigation.Controls
                         listMouse.Add(inputDeviceModel);
                     }
                     PcInfoViewModel.Mouse = listMouse;
+
+                    //Keyboard
 
                     mos = new ManagementObjectSearcher("root\\CIMV2", "select * from win32_pnpentity where PNPClass = 'Keyboard'");
 
@@ -778,10 +849,41 @@ namespace SidePanel_Navigation.Controls
                     }
                     PcInfoViewModel.Keyboard = listKeyboard;
 
+                    //Cameras
+
+                    int i = 0;
+                    foreach (var v in GetAllConnectedCameras())
+                    {
+                        i++;
+                        InputDeviceModel inputDeviceModel = new InputDeviceModel();
+                        inputDeviceModel.DeviceName = v.DeviceName;
+                        inputDeviceModel.DeviceVendor = v.DeviceVendor;
+                        inputDeviceModel.DeviceType = "Web Cam";
+
+                        if (!otherPeripherals.ContainsKey($"WebCam-{i}"))
+                        {
+                            otherPeripherals.Add($"WebCam-{i}", v.DeviceVendor);
+                        }
+                        //Console.WriteLine(v.DeviceName);
+                        //Console.WriteLine(v.DeviceVendor);
+
+                        listCamera.Add(inputDeviceModel);
+                    }
+                    PcInfoViewModel.CameraDevice = listCamera;
+
+                    //Printer
+
                     mos = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_Printer");
 
+                    int k = 0;
                     foreach (ManagementObject wmi in mos.Get())
                     {
+                        k++;
+                        if (!otherPeripherals.ContainsKey($"Printer-{k}"))
+                        {
+                            otherPeripherals.Add($"Printer-{k}", wmi["Name"].ToString());
+                        }
+
                         PrinterModel printerModel = new PrinterModel();
 
                         printerModel.PrinterName = wmi["Name"].ToString();
@@ -938,11 +1040,35 @@ namespace SidePanel_Navigation.Controls
                         sqliteDbClass.InsertExtendInfoData(sqlConnection, harddiskPropertyInfoDict, 6);
                     }
 
+                    if (otherPeripherals != null)
+                    {
+                        sqliteDbClass.InsertExtendInfoData(sqlConnection, otherPeripherals, 9);
+                    }
+
                     //if (summaryInfoList != null && summaryInfoList.Count() > 0)
                     //{
                     //    sqliteDbClass.InsertHardwareSummaryData(sqlConnection, summaryInfoList);
                     //}
+
                     sqlConnection.Close();
+
+                    //ManagementObjectCollection mbsList = null;
+                    //ManagementObjectSearcher mbs = new ManagementObjectSearcher("Select * From Win32_USBHub");
+                    //mbsList = mbs.Get();
+
+                    //foreach (ManagementObject mo in mbsList)
+                    //{
+                    //    Console.WriteLine("USBHub device Friendly name:{0}", mo["Name"].ToString());
+                    //}
+
+                    //var usbDevices = GetUSBDevices();
+
+                    //foreach (var usbDevice in usbDevices)
+                    //{
+                    //    Console.WriteLine("Device ID: {0}, PNP Device ID: {1}, Description: {2}",
+                    //        usbDevice.DeviceID, usbDevice.PnpDeviceID, usbDevice.Description);
+                    //}
+
                 }
                 catch (Exception ex)
                 {
@@ -951,12 +1077,65 @@ namespace SidePanel_Navigation.Controls
                     LogClass.LogWrite($"{ex.StackTrace}");
                     LogClass.LogWrite($"========== Background Worker Exception ==========");
                 }
+
+                //Removable drive info
+
+                //foreach (DriveInfo drive in DriveInfo.GetDrives())
+                //{
+                //    if (drive.DriveType == DriveType.Removable)
+                //    {
+                //        Console.WriteLine("Test");
+                //        Console.WriteLine("\n\n\n\n");
+                //        Console.WriteLine(string.Format("({0}) {1}", drive.Name.Replace("\\", ""), drive.VolumeLabel));
+                //        Console.WriteLine("Test-2");
+                //    }
+                //}
             }
             else
             {
                 e.Cancel = true;
             }
         }
+
+        public List<InputDeviceModel> GetAllConnectedCameras()
+        {
+            var cameraNames = new List<InputDeviceModel>();
+            using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"))
+            {
+                foreach (var wmi in searcher.Get())
+                {
+                    InputDeviceModel inputDeviceModel = new InputDeviceModel();
+
+                    inputDeviceModel.DeviceName = wmi["Caption"].ToString();
+                    inputDeviceModel.DeviceVendor = VendorClass.vendorInfo[wmi["PNPDeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]];
+                    //Console.WriteLine(wmi["Caption"]);
+                    //Console.WriteLine(VendorClass.vendorInfo[wmi["PNPDeviceID"].ToString().Split('&')[0].ToString().Split('_')[1]]);
+                    cameraNames.Add(inputDeviceModel);
+                }
+            }
+            return cameraNames;
+        }
+
+        //public List<USBDeviceInfo> GetUSBDevices()
+        //{
+        //    List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
+
+        //    ManagementObjectCollection collection;
+        //    using (var searcher = new ManagementObjectSearcher("root\\CIMV2",@"SELECT * FROM Win32_PnPEntity where DeviceID Like ""USB%"""))
+        //        collection = searcher.Get();
+
+        //    foreach (var device in collection)
+        //    {
+        //        devices.Add(new USBDeviceInfo(
+        //        (string)device.GetPropertyValue("DeviceID"),
+        //        (string)device.GetPropertyValue("PNPDeviceID"),
+        //        (string)device.GetPropertyValue("Description")
+        //        ));
+        //    }
+
+        //    collection.Dispose();
+        //    return devices;
+        //}
 
         private String GetUsedSpace(String inp)
         {

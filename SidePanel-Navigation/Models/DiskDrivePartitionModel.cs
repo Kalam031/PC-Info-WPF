@@ -9,9 +9,11 @@ namespace SidePanel_Navigation.Models
     public class DiskDrivePartitionModel
     {
         public string PartitionName { get; set; }
+        public string FileSystem { get; set; }
         public string DriveName { get; set; }
         public string UsedSpace { get; set; }
         public string FreeSpace { get; set; }
         public string TotalStorage { get; set; }
+        public string SerialNumber { get; set; }
     }
 }

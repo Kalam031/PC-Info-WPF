@@ -1,4 +1,5 @@
-﻿using SidePanel_Navigation.ViewModels;
+﻿using SidePanel_Navigation.Log;
+using SidePanel_Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -82,16 +83,25 @@ namespace SidePanel_Navigation.Views
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-
-            cpuUsedRate.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            try
             {
-                cpuUsedRate.Text = PcInfoViewModel.CpuUsed;
-            }));
+                cpuUsedRate.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                {
+                    cpuUsedRate.Text = PcInfoViewModel.CpuUsed;
+                }));
 
-            cpuUnusedRate.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                cpuUnusedRate.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                {
+                    cpuUnusedRate.Text = PcInfoViewModel.CpuUnused;
+                }));
+            }
+            catch (Exception ex)
             {
-                cpuUnusedRate.Text = PcInfoViewModel.CpuUnused;
-            }));
+                LogClass.LogWrite("--- CPU Rate data calculation exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- CPU Rate data calculation exception ---");
+            }
         }
 
         //public void RunBackgroundTask()

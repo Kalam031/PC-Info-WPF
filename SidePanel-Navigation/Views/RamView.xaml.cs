@@ -1,4 +1,5 @@
-﻿using SidePanel_Navigation.ViewModels;
+﻿using SidePanel_Navigation.Log;
+using SidePanel_Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,13 +38,23 @@ namespace SidePanel_Navigation.Views
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
 
-            int count = 0;
-            if (PcInfoViewModel.ListMemInfo != null)
+            try
             {
-                foreach (var v in PcInfoViewModel.ListMemInfo)
+                int count = 0;
+                if (PcInfoViewModel.ListMemInfo != null)
                 {
-                    CreateControl($"slot-{++count}", v.Type, v.Size, v.Manufacturer, v.SerialNo, v.Speed);
+                    foreach (var v in PcInfoViewModel.ListMemInfo)
+                    {
+                        CreateControl($"slot-{++count}", v.Type, v.Size, v.Manufacturer, v.SerialNo, v.Speed);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogClass.LogWrite("--- Ram dynamic module creation exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- Ram dynamic module creation exception ---");
             }
         }
 
@@ -159,20 +170,30 @@ namespace SidePanel_Navigation.Views
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            memSize.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            try
             {
-                memSize.Text = PcInfoViewModel.MemoryTotal;
-            }));
+                memSize.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                {
+                    memSize.Text = PcInfoViewModel.MemoryTotal;
+                }));
 
-            memAvailable.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-            {
-                memAvailable.Text = PcInfoViewModel.MemoryAvailable;
-            }));
+                memAvailable.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                {
+                    memAvailable.Text = PcInfoViewModel.MemoryAvailable;
+                }));
 
-            memUsage.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                memUsage.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                {
+                    memUsage.Text = PcInfoViewModel.MemoryUsage;
+                }));
+            }
+            catch (Exception ex)
             {
-                memUsage.Text = PcInfoViewModel.MemoryUsage;
-            }));
+                LogClass.LogWrite("--- Memory usage data exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- Memory usage data exception ---");
+            }
         }
     }
 }

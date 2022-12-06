@@ -33,7 +33,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
                                 Icon="Windows"
-                                Foreground="{StaticResource color1}"
+                                Foreground="{StaticResource color11}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
                             <TextBlock Text="Operating System"
                                        Foreground="{StaticResource color1}"
@@ -42,7 +42,7 @@
                         
                         <TextBlock Text="{Binding OperatingSystem, UpdateSourceTrigger=PropertyChanged}"
                                    Margin="80,2,0,0"
-                                   Foreground="{StaticResource titleColor2}"/>
+                                   Foreground="{StaticResource color11}"/>
                     </StackPanel>
 
                     <StackPanel DockPanel.Dock="Top"
@@ -52,7 +52,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
                                 Icon="Microchip"
-                                Foreground="{StaticResource color1}"
+                                Foreground="{StaticResource color11}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
                             <TextBlock Text="CPU"
                                        Foreground="{StaticResource color1}"
@@ -61,7 +61,7 @@
 
                         <TextBlock Text="{Binding CpuName}"
                                    Margin="80,2,0,0"
-                                   Foreground="{StaticResource titleColor2}"/>
+                                   Foreground="{StaticResource color11}"/>
                     </StackPanel>
 
                     <StackPanel DockPanel.Dock="Top"
@@ -71,7 +71,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
                                 Icon="Memory"
-                                Foreground="{StaticResource color1}"
+                                Foreground="{StaticResource color11}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
                             <TextBlock Text="RAM"
                                        Foreground="{StaticResource color1}"
@@ -80,7 +80,7 @@
 
                         <TextBlock Text="{Binding RamInfo, UpdateSourceTrigger=PropertyChanged}"
                                    Margin="80,2,0,0"
-                                   Foreground="{StaticResource titleColor2}"/>
+                                   Foreground="{StaticResource color11}"/>
                     </StackPanel>
 
                     <StackPanel DockPanel.Dock="Top"
@@ -90,7 +90,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
                                 Icon="Keyboard"
-                                Foreground="{StaticResource color1}"
+                                Foreground="{StaticResource color11}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
                             <TextBlock Text="Motherboard"
                                        Foreground="{StaticResource color1}"
@@ -99,7 +99,7 @@
 
                         <TextBlock Text="{Binding MotherboardInfo}"
                                    Margin="80,2,0,0"
-                                   Foreground="{StaticResource titleColor2}"/>
+                                   Foreground="{StaticResource color11}"/>
                     </StackPanel>
 
                     <StackPanel
@@ -111,7 +111,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
                                 Icon="Desktop"
-                                Foreground="{StaticResource color1}"
+                                Foreground="{StaticResource color11}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
                             <TextBlock Text="Graphics"
                                        Foreground="{StaticResource color1}"
@@ -129,7 +129,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
                                 Icon="HardDrive"
-                                Foreground="{StaticResource color1}"
+                                Foreground="{StaticResource color11}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
                             <TextBlock Text="Storage"
                                        Foreground="{StaticResource color1}"
@@ -145,7 +145,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
                                 Icon="CompactDisc"
-                                Foreground="{StaticResource color1}"
+                                Foreground="{StaticResource color11}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
                             <TextBlock Text="Optical drive"
                                        Foreground="{StaticResource color1}"
@@ -154,7 +154,7 @@
 
                         <TextBlock Text="{Binding OpticalDrive}"
                                    Margin="80,2,0,0"
-                                   Foreground="{StaticResource titleColor2}"/>
+                                   Foreground="{StaticResource color11}"/>
                     </StackPanel>
 
                     <StackPanel
@@ -166,7 +166,7 @@
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage
                                 Icon="VolumeHigh"
-                                Foreground="{StaticResource color1}"
+                                Foreground="{StaticResource color11}"
                                 Style="{StaticResource cpaneliconBtnIcon}"/>
                             <TextBlock Text="Audio"
                                        Foreground="{StaticResource color1}"

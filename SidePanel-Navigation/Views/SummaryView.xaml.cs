@@ -1,4 +1,5 @@
-﻿using SidePanel_Navigation.ViewModels;
+﻿using SidePanel_Navigation.Log;
+using SidePanel_Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,51 +28,85 @@ namespace SidePanel_Navigation.Views
         {
             InitializeComponent();
 
-            if (summaryViewModel.Liststorage != null)
+            try
             {
-                foreach (var v in summaryViewModel.Liststorage)
+                if (summaryViewModel.Liststorage != null)
                 {
-                    TextBlock textblockstorage = new TextBlock();
-                    textblockstorage.Text = $"{v.Capacity} {v.DiskName}";
-                    textblockstorage.Margin = new Thickness(80,2,0,0);
-                    textblockstorage.Foreground = new SolidColorBrush(Color.FromArgb(255,214,209,245));
+                    foreach (var v in summaryViewModel.Liststorage)
+                    {
+                        TextBlock textblockstorage = new TextBlock();
+                        textblockstorage.Text = $"{v.Capacity} {v.DiskName}";
+                        textblockstorage.Margin = new Thickness(80, 2, 0, 0);
+                        //textblockstorage.Foreground = new SolidColorBrush(Color.FromArgb(255,214,209,245));
+                        textblockstorage.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
 
-                    storageStackPanel.Children.Add(textblockstorage);
+                        storageStackPanel.Children.Add(textblockstorage);
+                    }
                 }
             }
-
-            if (summaryViewModel.Listaudio != null)
+            catch (Exception ex)
             {
-                foreach (var v in summaryViewModel.Listaudio)
-                {
-                    TextBlock textblockaudio = new TextBlock();
-                    textblockaudio.Text = $"{v.DeviceName}";
-                    textblockaudio.Margin = new Thickness(80, 2, 0, 0);
-                    textblockaudio.Foreground = new SolidColorBrush(Color.FromArgb(255, 214, 209, 245));
+                LogClass.LogWrite("--- Storage summary exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- Storage summary exception ---");
+            }
 
-                    audioStackPanel.Children.Add(textblockaudio);
+            try
+            {
+                if (summaryViewModel.Listaudio != null)
+                {
+                    foreach (var v in summaryViewModel.Listaudio)
+                    {
+                        TextBlock textblockaudio = new TextBlock();
+                        textblockaudio.Text = $"{v.DeviceName}";
+                        textblockaudio.Margin = new Thickness(80, 2, 0, 0);
+                        //textblockaudio.Foreground = new SolidColorBrush(Color.FromArgb(255, 214, 209, 245));
+                        textblockaudio.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+
+                        audioStackPanel.Children.Add(textblockaudio);
+                    }
                 }
             }
-
-            if (summaryViewModel.Display != null)
+            catch (Exception ex)
             {
-                TextBlock textblockdisplay = new TextBlock();
-                textblockdisplay.Text = $"Monitor ({summaryViewModel.Display})";
-                textblockdisplay.Margin = new Thickness(80, 2, 0, 0);
-                textblockdisplay.Foreground = new SolidColorBrush(Color.FromArgb(255, 214, 209, 245));
-
-                graphicsStackPanel.Children.Add(textblockdisplay);
+                LogClass.LogWrite("--- Audio summary exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- Audio summary exception ---");
             }
 
-            if (summaryViewModel.Graphics != null)
+            try
             {
-                TextBlock textblockgraphics = new TextBlock();
-                textblockgraphics.Text = $"{summaryViewModel.Graphics}";
-                textblockgraphics.Margin = new Thickness(80, 2, 0, 0);
-                textblockgraphics.Foreground = new SolidColorBrush(Color.FromArgb(255, 214, 209, 245));
+                if (summaryViewModel.Display != null)
+                {
+                    TextBlock textblockdisplay = new TextBlock();
+                    textblockdisplay.Text = $"Monitor ({summaryViewModel.Display})";
+                    textblockdisplay.Margin = new Thickness(80, 2, 0, 0);
+                    //textblockdisplay.Foreground = new SolidColorBrush(Color.FromArgb(255, 214, 209, 245));
+                    textblockdisplay.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
 
-                graphicsStackPanel.Children.Add(textblockgraphics);
+                    graphicsStackPanel.Children.Add(textblockdisplay);
+                }
             }
+            catch (Exception ex)
+            {
+                LogClass.LogWrite("--- Display summary exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- Display summary exception ---");
+            }
+
+            //if (summaryViewModel.Graphics != null)
+            //{
+            //    TextBlock textblockgraphics = new TextBlock();
+            //    textblockgraphics.Text = $"{summaryViewModel.Graphics}";
+            //    textblockgraphics.Margin = new Thickness(80, 2, 0, 0);
+            //    textblockgraphics.Foreground = new SolidColorBrush(Color.FromArgb(255, 214, 209, 245));
+            //    //textblockgraphics.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+
+            //    graphicsStackPanel.Children.Add(textblockgraphics);
+            //}
         }
     }
 }

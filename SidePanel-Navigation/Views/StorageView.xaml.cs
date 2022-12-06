@@ -1,4 +1,5 @@
-﻿using SidePanel_Navigation.ViewModels;
+﻿using SidePanel_Navigation.Log;
+using SidePanel_Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,16 +27,26 @@ namespace SidePanel_Navigation.Views
         {
             InitializeComponent();
 
-            if (storageViewModel.ListDiskDriveInfo != null)
+            try
             {
-                foreach (var v in storageViewModel.ListDiskDriveInfo)
+                if (storageViewModel.ListDiskDriveInfo != null)
                 {
-                    CreateControl(v.DiskName, v.DiskManufacturer, v.Heads, v.Cylinders, v.Tracks, v.Sectors, v.Serial, v.Capacity, v.RealSize, v.Status);
+                    foreach (var v in storageViewModel.ListDiskDriveInfo)
+                    {
+                        CreateControl(v.DiskName, v.DiskManufacturer, v.Heads, v.Cylinders, v.Tracks, v.Sectors, v.Serial, v.Capacity, v.RealSize, v.Status);
+                    }
+                }
+                else
+                {
+                    CreateControl("Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                CreateControl("Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..", "Processing..");
+                LogClass.LogWrite("--- Storage view module creation exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- Storage view module creation exception ---");
             }
         }
 
@@ -242,141 +253,130 @@ namespace SidePanel_Navigation.Views
             {
                 foreach (var v in storageViewModel.ListDiskPartionInfo)
                 {
-                    if (v.PartitionName.Contains("0"))
-                    {
-                        Expander hardSubExpander1 = new Expander();
-                        hardSubExpander1.Name = "hardSubExpand";
-                        hardSubExpander1.Margin = new Thickness(25, 0, 0, 0);
-                        hardSubExpander1.IsExpanded = true;
-                        hardSubExpander1.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
-                        hardSubExpander1.Header = $"Partition {v.PartitionName}";
-                        stackPanel2.Children.Add(hardSubExpander1);
+                    Expander hardSubExpander2 = new Expander();
+                    hardSubExpander2.Name = "hardSubExpand";
+                    hardSubExpander2.Margin = new Thickness(25, 0, 0, 0);
+                    hardSubExpander2.IsExpanded = true;
+                    hardSubExpander2.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
+                    hardSubExpander2.Header = $"Partition {v.PartitionName}";
+                    stackPanel2.Children.Add(hardSubExpander2);
 
-                        Grid grid1 = new Grid();
-                        grid1.Margin = new Thickness(25, 0, 0, 0);
-                        hardSubExpander1.Content = grid1;
+                    Grid grid2 = new Grid();
+                    grid2.Margin = new Thickness(25, 0, 0, 0);
+                    hardSubExpander2.Content = grid2;
 
-                        ColumnDefinition colDef201 = new ColumnDefinition();
-                        colDef201.Width = new GridLength(90);
-                        ColumnDefinition colDef202 = new ColumnDefinition();
-                        colDef202.Width = new GridLength(200);
+                    ColumnDefinition colDef301 = new ColumnDefinition();
+                    colDef301.Width = new GridLength(90);
+                    ColumnDefinition colDef302 = new ColumnDefinition();
+                    colDef302.Width = new GridLength(200);
 
-                        grid1.ColumnDefinitions.Add(colDef201);
-                        grid1.ColumnDefinitions.Add(colDef202);
+                    grid2.ColumnDefinitions.Add(colDef301);
+                    grid2.ColumnDefinitions.Add(colDef302);
 
-                        RowDefinition rowDef201 = new RowDefinition();
-                        rowDef201.Height = new GridLength(20);
+                    RowDefinition rowDef301 = new RowDefinition();
+                    rowDef301.Height = new GridLength(20);
+                    RowDefinition rowDef302 = new RowDefinition();
+                    rowDef302.Height = new GridLength(20);
+                    RowDefinition rowDef303 = new RowDefinition();
+                    rowDef303.Height = new GridLength(20);
+                    RowDefinition rowDef304 = new RowDefinition();
+                    rowDef304.Height = new GridLength(20);
+                    RowDefinition rowDef305 = new RowDefinition();
+                    rowDef305.Height = new GridLength(20);
+                    RowDefinition rowDef306 = new RowDefinition();
+                    rowDef306.Height = new GridLength(20);
 
-                        grid1.RowDefinitions.Add(rowDef201);
+                    grid2.RowDefinitions.Add(rowDef301);
+                    grid2.RowDefinitions.Add(rowDef302);
+                    grid2.RowDefinitions.Add(rowDef303);
+                    grid2.RowDefinitions.Add(rowDef304);
+                    grid2.RowDefinitions.Add(rowDef305);
+                    grid2.RowDefinitions.Add(rowDef306);
 
-                        TextBlock textblockbootPartitionName = new TextBlock();
-                        textblockbootPartitionName.Foreground = new SolidColorBrush(Colors.White);
-                        textblockbootPartitionName.Text = "Size";
-                        Grid.SetColumn(textblockbootPartitionName, 0);
-                        Grid.SetRow(textblockbootPartitionName, 0);
+                    TextBlock textblockbootPartitionDriveName = new TextBlock();
+                    textblockbootPartitionDriveName.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionDriveName.Text = "Drive";
+                    Grid.SetColumn(textblockbootPartitionDriveName, 0);
+                    Grid.SetRow(textblockbootPartitionDriveName, 0);
 
-                        TextBlock textblockbootPartitionNameval = new TextBlock();
-                        textblockbootPartitionNameval.Foreground = new SolidColorBrush(Colors.White);
-                        textblockbootPartitionNameval.Text = v.TotalStorage;
-                        Grid.SetColumn(textblockbootPartitionNameval, 1);
-                        Grid.SetRow(textblockbootPartitionNameval, 0);
+                    TextBlock textblockbootPartitionDriveval = new TextBlock();
+                    textblockbootPartitionDriveval.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionDriveval.Text = v.DriveName;
+                    Grid.SetColumn(textblockbootPartitionDriveval, 1);
+                    Grid.SetRow(textblockbootPartitionDriveval, 0);
 
-                        grid1.Children.Add(textblockbootPartitionName);
-                        grid1.Children.Add(textblockbootPartitionNameval);
-                    }
-                    else
-                    {
-                        Expander hardSubExpander2 = new Expander();
-                        hardSubExpander2.Name = "hardSubExpand";
-                        hardSubExpander2.Margin = new Thickness(25, 0, 0, 0);
-                        hardSubExpander2.IsExpanded = true;
-                        hardSubExpander2.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
-                        hardSubExpander2.Header = $"Partition {v.PartitionName}";
-                        stackPanel2.Children.Add(hardSubExpander2);
+                    TextBlock textblockbootPartitionDriveFileSystem = new TextBlock();
+                    textblockbootPartitionDriveFileSystem.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionDriveFileSystem.Text = "File System";
+                    Grid.SetColumn(textblockbootPartitionDriveFileSystem, 0);
+                    Grid.SetRow(textblockbootPartitionDriveFileSystem, 1);
 
-                        Grid grid2 = new Grid();
-                        grid2.Margin = new Thickness(25, 0, 0, 0);
-                        hardSubExpander2.Content = grid2;
+                    TextBlock textblockbootPartitionDriveFileSystemval = new TextBlock();
+                    textblockbootPartitionDriveFileSystemval.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionDriveFileSystemval.Text = v.FileSystem;
+                    Grid.SetColumn(textblockbootPartitionDriveFileSystemval, 1);
+                    Grid.SetRow(textblockbootPartitionDriveFileSystemval, 1);
 
-                        ColumnDefinition colDef301 = new ColumnDefinition();
-                        colDef301.Width = new GridLength(90);
-                        ColumnDefinition colDef302 = new ColumnDefinition();
-                        colDef302.Width = new GridLength(200);
+                    TextBlock textblockbootPartitionDriveSerialNum = new TextBlock();
+                    textblockbootPartitionDriveSerialNum.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionDriveSerialNum.Text = "Volume Serial";
+                    Grid.SetColumn(textblockbootPartitionDriveSerialNum, 0);
+                    Grid.SetRow(textblockbootPartitionDriveSerialNum, 2);
 
-                        grid2.ColumnDefinitions.Add(colDef301);
-                        grid2.ColumnDefinitions.Add(colDef302);
+                    TextBlock textblockbootPartitionDriveSerialNumval = new TextBlock();
+                    textblockbootPartitionDriveSerialNumval.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionDriveSerialNumval.Text = v.SerialNumber;
+                    Grid.SetColumn(textblockbootPartitionDriveSerialNumval, 1);
+                    Grid.SetRow(textblockbootPartitionDriveSerialNumval, 2);
 
-                        RowDefinition rowDef301 = new RowDefinition();
-                        rowDef301.Height = new GridLength(20);
-                        RowDefinition rowDef302 = new RowDefinition();
-                        rowDef302.Height = new GridLength(20);
-                        RowDefinition rowDef303 = new RowDefinition();
-                        rowDef303.Height = new GridLength(20);
-                        RowDefinition rowDef304 = new RowDefinition();
-                        rowDef304.Height = new GridLength(20);
+                    TextBlock textblockbootPartitionSize = new TextBlock();
+                    textblockbootPartitionSize.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionSize.Text = "Size";
+                    Grid.SetColumn(textblockbootPartitionSize, 0);
+                    Grid.SetRow(textblockbootPartitionSize, 3);
 
-                        grid2.RowDefinitions.Add(rowDef301);
-                        grid2.RowDefinitions.Add(rowDef302);
-                        grid2.RowDefinitions.Add(rowDef303);
-                        grid2.RowDefinitions.Add(rowDef304);
+                    TextBlock textblockbootPartitionSizeval = new TextBlock();
+                    textblockbootPartitionSizeval.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionSizeval.Text = v.TotalStorage;
+                    Grid.SetColumn(textblockbootPartitionSizeval, 1);
+                    Grid.SetRow(textblockbootPartitionSizeval, 3);
 
-                        TextBlock textblockbootPartitionDriveName = new TextBlock();
-                        textblockbootPartitionDriveName.Foreground = new SolidColorBrush(Colors.White);
-                        textblockbootPartitionDriveName.Text = "Drive";
-                        Grid.SetColumn(textblockbootPartitionDriveName, 0);
-                        Grid.SetRow(textblockbootPartitionDriveName, 0);
+                    TextBlock textblockbootPartitionUsedSpace = new TextBlock();
+                    textblockbootPartitionUsedSpace.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionUsedSpace.Text = "Used Space";
+                    Grid.SetColumn(textblockbootPartitionUsedSpace, 0);
+                    Grid.SetRow(textblockbootPartitionUsedSpace, 4);
 
-                        TextBlock textblockbootPartitionDriveval = new TextBlock();
-                        textblockbootPartitionDriveval.Foreground = new SolidColorBrush(Colors.White);
-                        textblockbootPartitionDriveval.Text = v.DriveName;
-                        Grid.SetColumn(textblockbootPartitionDriveval, 1);
-                        Grid.SetRow(textblockbootPartitionDriveval, 0);
+                    TextBlock textblockbootPartitionUsedSpaceval = new TextBlock();
+                    textblockbootPartitionUsedSpaceval.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionUsedSpaceval.Text = v.UsedSpace;
+                    Grid.SetColumn(textblockbootPartitionUsedSpaceval, 1);
+                    Grid.SetRow(textblockbootPartitionUsedSpaceval, 4);
 
-                        TextBlock textblockbootPartitionSize = new TextBlock();
-                        textblockbootPartitionSize.Foreground = new SolidColorBrush(Colors.White);
-                        textblockbootPartitionSize.Text = "Size";
-                        Grid.SetColumn(textblockbootPartitionSize, 0);
-                        Grid.SetRow(textblockbootPartitionSize, 1);
+                    TextBlock textblockbootPartitionFreeSpace = new TextBlock();
+                    textblockbootPartitionFreeSpace.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionFreeSpace.Text = "Free Space";
+                    Grid.SetColumn(textblockbootPartitionFreeSpace, 0);
+                    Grid.SetRow(textblockbootPartitionFreeSpace, 5);
 
-                        TextBlock textblockbootPartitionSizeval = new TextBlock();
-                        textblockbootPartitionSizeval.Foreground = new SolidColorBrush(Colors.White);
-                        textblockbootPartitionSizeval.Text = v.TotalStorage;
-                        Grid.SetColumn(textblockbootPartitionSizeval, 1);
-                        Grid.SetRow(textblockbootPartitionSizeval, 1);
+                    TextBlock textblockbootPartitionFreeSpaceval = new TextBlock();
+                    textblockbootPartitionFreeSpaceval.Foreground = new SolidColorBrush(Colors.White);
+                    textblockbootPartitionFreeSpaceval.Text = v.FreeSpace;
+                    Grid.SetColumn(textblockbootPartitionFreeSpaceval, 1);
+                    Grid.SetRow(textblockbootPartitionFreeSpaceval, 5);
 
-                        TextBlock textblockbootPartitionUsedSpace = new TextBlock();
-                        textblockbootPartitionUsedSpace.Foreground = new SolidColorBrush(Colors.White);
-                        textblockbootPartitionUsedSpace.Text = "Used Space";
-                        Grid.SetColumn(textblockbootPartitionUsedSpace, 0);
-                        Grid.SetRow(textblockbootPartitionUsedSpace, 2);
-
-                        TextBlock textblockbootPartitionUsedSpaceval = new TextBlock();
-                        textblockbootPartitionUsedSpaceval.Foreground = new SolidColorBrush(Colors.White);
-                        textblockbootPartitionUsedSpaceval.Text = v.UsedSpace;
-                        Grid.SetColumn(textblockbootPartitionUsedSpaceval, 1);
-                        Grid.SetRow(textblockbootPartitionUsedSpaceval, 2);
-
-                        TextBlock textblockbootPartitionFreeSpace = new TextBlock();
-                        textblockbootPartitionFreeSpace.Foreground = new SolidColorBrush(Colors.White);
-                        textblockbootPartitionFreeSpace.Text = "Free Space";
-                        Grid.SetColumn(textblockbootPartitionFreeSpace, 0);
-                        Grid.SetRow(textblockbootPartitionFreeSpace, 3);
-
-                        TextBlock textblockbootPartitionFreeSpaceval = new TextBlock();
-                        textblockbootPartitionFreeSpaceval.Foreground = new SolidColorBrush(Colors.White);
-                        textblockbootPartitionFreeSpaceval.Text = v.FreeSpace;
-                        Grid.SetColumn(textblockbootPartitionFreeSpaceval, 1);
-                        Grid.SetRow(textblockbootPartitionFreeSpaceval, 3);
-
-                        grid2.Children.Add(textblockbootPartitionDriveName);
-                        grid2.Children.Add(textblockbootPartitionDriveval);
-                        grid2.Children.Add(textblockbootPartitionSize);
-                        grid2.Children.Add(textblockbootPartitionSizeval);
-                        grid2.Children.Add(textblockbootPartitionUsedSpace);
-                        grid2.Children.Add(textblockbootPartitionUsedSpaceval);
-                        grid2.Children.Add(textblockbootPartitionFreeSpace);
-                        grid2.Children.Add(textblockbootPartitionFreeSpaceval);
-                    }
+                    grid2.Children.Add(textblockbootPartitionDriveName);
+                    grid2.Children.Add(textblockbootPartitionDriveval);
+                    grid2.Children.Add(textblockbootPartitionDriveFileSystem);
+                    grid2.Children.Add(textblockbootPartitionDriveFileSystemval);
+                    grid2.Children.Add(textblockbootPartitionDriveSerialNum);
+                    grid2.Children.Add(textblockbootPartitionDriveSerialNumval);
+                    grid2.Children.Add(textblockbootPartitionSize);
+                    grid2.Children.Add(textblockbootPartitionSizeval);
+                    grid2.Children.Add(textblockbootPartitionUsedSpace);
+                    grid2.Children.Add(textblockbootPartitionUsedSpaceval);
+                    grid2.Children.Add(textblockbootPartitionFreeSpace);
+                    grid2.Children.Add(textblockbootPartitionFreeSpaceval);
                 }
             }
         }

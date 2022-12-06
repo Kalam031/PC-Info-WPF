@@ -11,6 +11,7 @@ namespace SidePanel_Navigation.ViewModels
     {
         List<InputDeviceModel> mouse;
         List<InputDeviceModel> keyboard;
+        List<InputDeviceModel> cameraDevice;
         List<PrinterModel> printer;
 
         public List<InputDeviceModel> Mouse
@@ -40,6 +41,16 @@ namespace SidePanel_Navigation.ViewModels
             {
                 printer = value;
                 OnPropertyChanged(nameof(Printer));
+            }
+        }
+
+        public List<InputDeviceModel> CameraDevice
+        {
+            get => PcInfoViewModel.CameraDevice;
+            set
+            {
+                cameraDevice = value;
+                OnPropertyChanged(nameof(CameraDevice));
             }
         }
     }

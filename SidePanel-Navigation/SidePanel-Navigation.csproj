@@ -128,6 +128,7 @@
     <Compile Include="Models\MemInfoModel.cs" />
     <Compile Include="Models\NetworkAdapterModel.cs" />
     <Compile Include="Models\PrinterModel.cs" />
+    <Compile Include="Models\USBDeviceInfo.cs" />
     <Compile Include="ViewModels\AudioViewModel.cs" />
     <Compile Include="ViewModels\CpuViewModel.cs" />
     <Compile Include="ViewModels\GraphicsViewModel.cs" />

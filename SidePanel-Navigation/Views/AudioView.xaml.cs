@@ -1,4 +1,5 @@
-﻿using SidePanel_Navigation.ViewModels;
+﻿using SidePanel_Navigation.Log;
+using SidePanel_Navigation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,40 +28,50 @@ namespace SidePanel_Navigation.Views
         {
             InitializeComponent();
 
-            if (audioViewModel.ListAudioDevice != null)
+            try
             {
-                foreach (var v in audioViewModel.ListAudioDevice)
+                if (audioViewModel.ListAudioDevice != null)
                 {
-                    Expander newExpander = new Expander();
-                    newExpander.Name = "newExpand3";
-                    newExpander.Margin = new Thickness(25, 0, 0, 0);
-                    newExpander.IsExpanded = true;
-                    newExpander.Foreground = new SolidColorBrush(Color.FromRgb(188,190,224));
-                    newExpander.Header = "Sound Card";
-                    mainAudioPanel.Children.Add(newExpander);
+                    foreach (var v in audioViewModel.ListAudioDevice)
+                    {
+                        Expander newExpander = new Expander();
+                        newExpander.Name = "newExpand3";
+                        newExpander.Margin = new Thickness(25, 0, 0, 0);
+                        newExpander.IsExpanded = true;
+                        newExpander.Foreground = new SolidColorBrush(Color.FromRgb(188, 190, 224));
+                        newExpander.Header = "Sound Card";
+                        mainAudioPanel.Children.Add(newExpander);
 
-                    Grid grid = new Grid();
-                    grid.Margin = new Thickness(25, 0, 0, 0);
-                    newExpander.Content = grid;
+                        Grid grid = new Grid();
+                        grid.Margin = new Thickness(25, 0, 0, 0);
+                        newExpander.Content = grid;
 
-                    ColumnDefinition colDef1 = new ColumnDefinition();
-                    colDef1.Width = new GridLength(160);
+                        ColumnDefinition colDef1 = new ColumnDefinition();
+                        colDef1.Width = new GridLength(160);
 
-                    grid.ColumnDefinitions.Add(colDef1);
+                        grid.ColumnDefinitions.Add(colDef1);
 
-                    RowDefinition rowDef1 = new RowDefinition();
-                    rowDef1.Height = new GridLength(20);
+                        RowDefinition rowDef1 = new RowDefinition();
+                        rowDef1.Height = new GridLength(20);
 
-                    grid.RowDefinitions.Add(rowDef1);
+                        grid.RowDefinitions.Add(rowDef1);
 
-                    TextBlock textblockprinterport = new TextBlock();
-                    textblockprinterport.Foreground = Brushes.White;
-                    textblockprinterport.Text = v.DeviceName;
-                    Grid.SetColumn(textblockprinterport, 0);
-                    Grid.SetRow(textblockprinterport, 0);
+                        TextBlock textblockprinterport = new TextBlock();
+                        textblockprinterport.Foreground = Brushes.White;
+                        textblockprinterport.Text = v.DeviceName;
+                        Grid.SetColumn(textblockprinterport, 0);
+                        Grid.SetRow(textblockprinterport, 0);
 
-                    grid.Children.Add(textblockprinterport);
+                        grid.Children.Add(textblockprinterport);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogClass.LogWrite("--- Audio view exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- Audio view exception ---");
             }
         }
     }

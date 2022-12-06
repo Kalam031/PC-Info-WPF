@@ -1,5 +1,6 @@
 ﻿using SidePanel_Navigation.Controls;
 using SidePanel_Navigation.DB;
+using SidePanel_Navigation.Log;
 using System;
 using System.Data.SQLite;
 using System.IO;
@@ -27,61 +28,71 @@ namespace SidePanel_Navigation.Views
 
             //Console.WriteLine(dbpath);
 
-            sqliteDbClass.OpenConnection(dbpath);
-            sqlConnection = sqliteDbClass.OpenConnection(dbpath);
-
-            if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Component_Title"))
+            try
             {
-                sqliteDbClass.CreateComponentTitleTable(sqlConnection);
+                sqliteDbClass.OpenConnection(dbpath);
+                sqlConnection = sqliteDbClass.OpenConnection(dbpath);
 
-                try
+                if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Component_Title"))
                 {
-                    SQLiteCommand sqlite_cmd;
-                    sqlite_cmd = sqlConnection.CreateCommand();
-                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO COMPONENT_TITLE(ID, COMPONENT)\r\nVALUES (1,'OS'), (2,'CPU'), (3,'RAM'), (4,'MOTHERBOARD'), (5, 'MONITOR'), (6, 'HARDDISK'), (7, 'MOUSE'), (8, 'KEYBOARD');";
-                    sqlite_cmd.ExecuteNonQuery();
+                    sqliteDbClass.CreateComponentTitleTable(sqlConnection);
+
+                    try
+                    {
+                        SQLiteCommand sqlite_cmd;
+                        sqlite_cmd = sqlConnection.CreateCommand();
+                        sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO COMPONENT_TITLE(ID, COMPONENT)\r\nVALUES (1,'OS'), (2,'CPU'), (3,'RAM'), (4,'MOTHERBOARD'), (5, 'MONITOR'), (6, 'HARDDISK'), (7, 'MOUSE'), (8, 'KEYBOARD'), (9, 'OTHER_PERIPHERALS');";
+                        sqlite_cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        //Console.WriteLine(ex.Message);
+                        //Console.WriteLine(ex.StackTrace);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine(ex.StackTrace);
+                    try
+                    {
+                        SQLiteCommand sqlite_cmd;
+                        sqlite_cmd = sqlConnection.CreateCommand();
+                        sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO COMPONENT_TITLE(ID, COMPONENT)\r\nVALUES (1,'OS'), (2,'CPU'), (3,'RAM'), (4,'MOTHERBOARD'), (5, 'MONITOR'), (6, 'HARDDISK'), (7, 'MOUSE'), (8, 'KEYBOARD'), (9, 'OTHER_PERIPHERALS');";
+                        sqlite_cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        //Console.WriteLine(ex.Message);
+                        //Console.WriteLine(ex.StackTrace);
+                    }
                 }
+
+                if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Component"))
+                {
+                    sqliteDbClass.CreateComponentTable(sqlConnection);
+                }
+
+                if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Component_Extend"))
+                {
+                    sqliteDbClass.CreateComponentExtendTable(sqlConnection);
+                }
+
+                //if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Summary"))
+                //{
+                //    sqliteDbClass.CreateSummaryTable(sqlConnection);
+                //}
+
+                sqlConnection.Close();
+
+                GetPcInfoClass getPcInfoClass = new GetPcInfoClass();
+                getPcInfoClass.GetInfo();
             }
-            else
+            catch (Exception ex)
             {
-                try
-                {
-                    SQLiteCommand sqlite_cmd;
-                    sqlite_cmd = sqlConnection.CreateCommand();
-                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO COMPONENT_TITLE(ID, COMPONENT)\r\nVALUES (1,'OS'), (2,'CPU'), (3,'RAM'), (4,'MOTHERBOARD'), (5, 'MONITOR'), (6, 'HARDDISK'), (7, 'MOUSE'), (8, 'KEYBOARD');";
-                    sqlite_cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine(ex.StackTrace);
-                }
+                LogClass.LogWrite("--- Main view exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- Main view exception ---");
             }
-
-            if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Component"))
-            {
-                sqliteDbClass.CreateComponentTable(sqlConnection);
-            }
-
-            if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Component_Extend"))
-            {
-                sqliteDbClass.CreateComponentExtendTable(sqlConnection);
-            }
-
-            //if (!sqliteDbClass.CheckIfTableExists(sqlConnection, "Summary"))
-            //{
-            //    sqliteDbClass.CreateSummaryTable(sqlConnection);
-            //}
-
-            sqlConnection.Close();
-
-            GetPcInfoClass getPcInfoClass = new GetPcInfoClass();
-            getPcInfoClass.GetInfo();
         }
 
         [DllImport("user32.dll")]

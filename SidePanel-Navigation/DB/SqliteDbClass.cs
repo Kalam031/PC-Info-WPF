@@ -1,4 +1,5 @@
-﻿using SidePanel_Navigation.Models;
+﻿using SidePanel_Navigation.Log;
+using SidePanel_Navigation.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -103,7 +104,7 @@ namespace SidePanel_Navigation.DB
         public void CreateComponentExtendTable(SQLiteConnection conn)
         {
             SQLiteCommand sqlite_cmd;
-            string Createsql = "CREATE TABLE \"Component_Extend\" (\r\n\t\"TYPE_ID\"\tINTEGER,\r\n\t\"PROPERTY_NAME\"\tTEXT,\r\n\t\"PROPERTY_VALUE\"\tTEXT,\r\n\tCONSTRAINT \"PROPERTY_NAME_VALUE_UNIQUE\" UNIQUE(\"PROPERTY_NAME\",\"PROPERTY_VALUE\")\r\n)";
+            string Createsql = "CREATE TABLE \"Component_Extend\" (\r\n\t\"TYPE_ID\"\tINTEGER,\r\n\t\"PROPERTY_NAME\"\tTEXT,\r\n\t\"PROPERTY_VALUE\"\tTEXT,\r\n\t\"CTIME\"\tTEXT,\r\n\tFOREIGN KEY(\"TYPE_ID\") REFERENCES \"Component_Title\"(\"ID\"),\r\n\tCONSTRAINT \"PROPERTY_NAME_VALUE_UNIQUE\" UNIQUE(\"PROPERTY_NAME\",\"PROPERTY_VALUE\")\r\n)";
             sqlite_cmd = conn.CreateCommand();
             sqlite_cmd.CommandText = Createsql;
             Console.WriteLine(sqlite_cmd.CommandText);
@@ -159,8 +160,12 @@ namespace SidePanel_Navigation.DB
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
+                LogClass.LogWrite("--- Hardware info data exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- Hardware info data exception ---");
+                //Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.StackTrace);
             }
         }
 
@@ -174,14 +179,18 @@ namespace SidePanel_Navigation.DB
 
                     SQLiteCommand sqlite_cmd;
                     sqlite_cmd = conn.CreateCommand();
-                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO Component_Extend(TYPE_ID, PROPERTY_NAME, PROPERTY_VALUE)\r\nVALUES('{index}','{v.Key}','{v.Value}')";
+                    sqlite_cmd.CommandText = $"INSERT OR IGNORE INTO Component_Extend(TYPE_ID, PROPERTY_NAME, PROPERTY_VALUE, CTIME)\r\nVALUES('{index}','{v.Key}','{v.Value}', '{DateTime.Now.ToString("dd-MMM-yyyy HH:mm:ss")}')";
                     sqlite_cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
+                LogClass.LogWrite("--- Extended data exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- Extended data exception ---");
+                //Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.StackTrace);
             }
         }
 

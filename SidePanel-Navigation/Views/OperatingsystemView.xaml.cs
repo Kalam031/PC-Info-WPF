@@ -21,6 +21,7 @@ using System.Windows.Forms;
 using Binding = System.Windows.Data.Binding;
 using UserControl = System.Windows.Controls.UserControl;
 using System.ComponentModel;
+using SidePanel_Navigation.Log;
 
 namespace SidePanel_Navigation.Views
 {
@@ -46,15 +47,25 @@ namespace SidePanel_Navigation.Views
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            osCurrentTime.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            try
             {
-                osCurrentTime.Text = $"{DateTime.Now.ToString("dd-MMM-yyyy HH:mm:ss")}";
-            }));
+                osCurrentTime.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                {
+                    osCurrentTime.Text = $"{DateTime.Now.ToString("dd-MMM-yyyy HH:mm:ss")}";
+                }));
 
-            osCurrentUptime.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                osCurrentUptime.Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+                {
+                    osCurrentUptime.Text = PcInfoViewModel.OperatingSystemCurrentUptime;
+                }));
+            }
+            catch (Exception ex)
             {
-                osCurrentUptime.Text = PcInfoViewModel.OperatingSystemCurrentUptime;
-            }));
+                LogClass.LogWrite("--- OS current time and current uptime calculation exception ---");
+                LogClass.LogWrite(ex.Message);
+                LogClass.LogWrite(ex.StackTrace);
+                LogClass.LogWrite("--- OS current time and current uptime calculation exception ---");
+            }
         }
 
     }
