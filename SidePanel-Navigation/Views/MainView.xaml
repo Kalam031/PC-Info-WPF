@@ -413,7 +413,7 @@
                                TextAlignment="Right"
                                FontSize="14"
                                FontStyle="Italic"
-                               Text="Developed by ATI Limited"/>
+                               Text="Developed by Kalam"/>
                 </Grid>
 
             </Border>
